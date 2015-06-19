@@ -1,0 +1,34 @@
+{
+  "name": "stackforge-murano",
+  "version": "1.0.0",
+  "author": "Red Hat and StackForge Contributors",
+  "summary": "Puppet module for OpenStack Murano",
+  "license": "Apache-2.0",
+  "source": "git://github.com/stackforge/puppet-murano.git",
+  "project_page": "https://launchpad.net/puppet-murano",
+  "issues_url": "https://bugs.launchpad.net/puppet-murano",
+  "requirements": [
+    { "name": "pe","version_requirement": "3.x" },
+    { "name": "puppet","version_requirement": "3.x" }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": ["20"]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": ["7"]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["8"]
+    }
+  ],
+  "description": "Installs and configures OpenStack Murano (Application Catalog).",
+  "dependencies": [
+    { "name": "stackforge/keystone", "version_requirement": ">=5.0.0 <6.0.0" },
+    { "name": "puppetlabs/inifile", "version_requirement": ">=5.0.0 <6.0.0" },
+    { "name": "puppetlabs/stdlib", "version_requirement": ">=4.0.0 <5.0.0" }
+  ]
+}
