@@ -4,7 +4,7 @@ describe 'get_ext_net_name' do
   let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
 
   it 'should exist' do
-    Puppet::Parser::Functions.function('get_ext_net_name').should == 'function_get_ext_net_name'
+    expect(Puppet::Parser::Functions.function('get_ext_net_name')).to eq('function_get_ext_net_name')
   end
 
   it 'should return the network name that has router_ext enabled' do
