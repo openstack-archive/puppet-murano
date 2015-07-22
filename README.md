@@ -15,8 +15,7 @@ murano
 Overview
 --------
 
-The Murano module itself is used to flexibly configure and manage the
-application catalog service for OpenStack.
+The Murano module is a part of [OpenStack](https://github.com/openstack), an effort by the Openstack infrastructure team to provide continuous integration testing and code review for Openstack and Openstack community projects as part of the core software. The module itself is used to flexibly configure and manage the application catalog service for OpenStack.
 
 Module Description
 ------------------
@@ -71,6 +70,10 @@ Development
 Developer documentation for the entire puppet-openstack project.
 
 * https://wiki.openstack.org/wiki/Puppet-openstack#Developer_documentation
+
+Contributors
+------------
+The github [contributor graph](https://github.com/openstack/puppet-murano/graphs/contributors).
 
 Release Notes
 -------------
