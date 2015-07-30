@@ -28,7 +28,7 @@ Setup
 
 **What the murano module affects:**
 
-* murano, the application catalog service for OpenStack.
+* [Murano](https://wiki.openstack.org/wiki/Murano), the application catalog service for OpenStack.
 
 ### Beginning with murano
 
@@ -36,8 +36,6 @@ To use the murano module's functionality you will need to declare multiple
 resources.  This is not an exhaustive list of all the components needed; we
 recommend you consult and understand the
 [core of openstack](http://docs.openstack.org) documentation.
-
-Examples of usage can be found in the *examples* directory.
 
 Implementation
 --------------
