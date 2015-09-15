@@ -5,6 +5,13 @@ fixtures:
       repo: 'git://github.com/puppetlabs/puppetlabs-concat.git'
       ref: '1.2.1'
     'stdlib': 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
+    'mysql': 'git://github.com/puppetlabs/puppetlabs-mysql.git'
+    'postgresql': 'git://github.com/puppetlabs/puppetlabs-postgresql.git'
     'sysctl': 'git://github.com/duritong/puppet-sysctl.git'
+    'keystone': 'git://github.com/openstack/puppet-keystone.git'
+    'openstacklib': 'git://github.com/openstack/puppet-openstacklib.git'
+    'rabbitmq':
+      repo: 'git://github.com/puppetlabs/puppetlabs-rabbitmq'
+      ref: 'origin/2.x'
   symlinks:
     'murano': "#{source_dir}"
