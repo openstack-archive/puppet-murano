@@ -54,6 +54,7 @@
 # === Examples
 #
 #  class { 'murano::keystone::auth':
+#    password     => 'secret',
 #    public_url   => 'https://10.0.0.10:8082',
 #    internal_url => 'https://10.0.0.11:8082',
 #    admin_url    => 'https://10.0.0.11:8082',
