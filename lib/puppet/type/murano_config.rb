@@ -16,4 +16,7 @@ Puppet::Type.newtype(:murano_config) do
     end
   end
 
+  autorequire(:package) do
+    'murano-common'
+  end
 end
