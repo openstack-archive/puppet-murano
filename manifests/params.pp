@@ -27,7 +27,7 @@ class murano::params {
       $common_package_name       = 'murano-common'
       $engine_package_name       = 'murano-engine'
       $pythonclient_package_name = 'python-muranoclient'
-      $dashboard_package_name    = 'murano-dashboard'
+      $dashboard_package_name    = 'python-murano-dashboard'
       $psycopg_package_name      = 'python-psycopg2'
       # service names
       $api_service_name          = 'murano-api'
