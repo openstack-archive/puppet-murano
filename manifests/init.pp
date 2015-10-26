@@ -10,23 +10,27 @@
 #
 # [*verbose*]
 #  (Optional) Should the service log verbose messages
-#  Defaults to false
+#  Defaults to undef
 #
 # [*debug*]
 #  (Optional) Should the service log debug messages
-#  Defaults to false
+#  Defaults to undef
 #
 # [*use_syslog*]
 #  (Optional) Should the service use Syslog
-#  Defaults to false
+#  Defaults to undef
+#
+# [*use_stderr*]
+#  (Optional) Should the service log to stderr
+#  Defaults to undef
 #
 # [*log_facility*]
 #  (Optional) Syslog facility to recieve logs
-#  Defaults to 'LOG_LOCAL0'
+#  Defaults to undef
 #
 # [*log_dir*]
 #  (Optional) Directory to store logs
-#  Defaults to '/var/log/murano'
+#  Defaults to undef
 #
 # [*data_dir*]
 #  (Optional) Directory to store data
@@ -184,11 +188,12 @@
 class murano(
   $admin_password,
   $package_ensure          = 'present',
-  $verbose                 = false,
-  $debug                   = false,
-  $use_syslog              = false,
-  $log_facility            = 'LOG_LOCAL0',
-  $log_dir                 = '/var/log/murano',
+  $verbose                 = undef,
+  $debug                   = undef,
+  $use_syslog              = undef,
+  $use_stderr              = undef,
+  $log_facility            = undef,
+  $log_dir                 = undef,
   $data_dir                = '/var/cache/murano',
   $notification_driver     = 'messagingv2',
   $rabbit_os_host          = '127.0.0.1',
@@ -229,6 +234,7 @@ class murano(
 ) {
 
   include ::murano::params
+  include ::murano::logging
   include ::murano::policy
   include ::murano::db
 
@@ -243,17 +249,6 @@ class murano(
   $service_protocol = $use_ssl ? {
     true    => 'https',
     default => 'http',
-  }
-
-  murano_config {
-    'DEFAULT/use_syslog' : value => $use_syslog;
-  }
-
-  if $use_syslog {
-    murano_config {
-      'DEFAULT/use_syslog_rfc_format' : value => true;
-      'DEFAULT/syslog_log_facility':    value => $log_facility;
-    }
   }
 
   if $use_neutron {
@@ -292,9 +287,6 @@ class murano(
   }
 
   murano_config {
-    'DEFAULT/verbose' :                        value => $verbose;
-    'DEFAULT/debug' :                          value => $debug;
-    'DEFAULT/log_dir' :                        value => $log_dir;
     'DEFAULT/notification_driver' :            value => $notification_driver;
 
     'murano/url' :                             value => "${service_protocol}://${service_host}:${service_port}";
