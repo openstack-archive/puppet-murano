@@ -21,11 +21,6 @@ describe 'murano' do
 
     it { is_expected.to contain_class('mysql::bindings::python') }
 
-    it { is_expected.to contain_murano_config('DEFAULT/use_syslog').with_value(false) }
-
-    it { is_expected.to contain_murano_config('DEFAULT/verbose').with_value(false) }
-    it { is_expected.to contain_murano_config('DEFAULT/debug').with_value(false) }
-    it { is_expected.to contain_murano_config('DEFAULT/log_dir').with_value('/var/log/murano') }
     it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('messagingv2') }
 
     it { is_expected.to contain_murano_config('murano/url').with_value('http://127.0.0.1:8082') }
@@ -69,12 +64,6 @@ describe 'murano' do
     let :params do {
       :admin_password          => 'secrete',
       :package_ensure          => 'latest',
-      :verbose                 => true,
-      :debug                   => true,
-      :use_syslog              => true,
-      :log_facility            => 'LOG_USER',
-      :log_dir                 => '/var/log/murano_logs',
-      :data_dir                => '/tmp/murano_data',
       :notification_driver     => 'messagingv1',
       :rabbit_os_host          => '10.255.0.1',
       :rabbit_os_port          => '5673',
@@ -123,14 +112,6 @@ describe 'murano' do
 
     it { is_expected.to contain_class('mysql::bindings::python') }
 
-    it { is_expected.to contain_murano_config('DEFAULT/use_syslog').with_value(true) }
-
-    it { is_expected.to contain_murano_config('DEFAULT/use_syslog_rfc_format').with_value(true) }
-    it { is_expected.to contain_murano_config('DEFAULT/syslog_log_facility').with_value('LOG_USER') }
-
-    it { is_expected.to contain_murano_config('DEFAULT/verbose').with_value(true) }
-    it { is_expected.to contain_murano_config('DEFAULT/debug').with_value(true) }
-    it { is_expected.to contain_murano_config('DEFAULT/log_dir').with_value('/var/log/murano_logs') }
     it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('messagingv1') }
 
     it { is_expected.to contain_murano_config('murano/url').with_value('https://10.255.0.3:8088') }
