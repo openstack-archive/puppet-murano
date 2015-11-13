@@ -55,6 +55,7 @@ describe 'basic murano' do
           }
           class { '::murano::api': }
           class { '::murano::engine': }
+          class { '::murano::cfapi': }
           class { '::murano::keystone::auth':
             password => 'a_big_secret',
           }
