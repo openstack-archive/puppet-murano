@@ -55,7 +55,7 @@ describe 'basic murano' do
           }
           class { '::murano::api': }
           class { '::murano::engine': }
-          class { '::murano::cfapi': 
+          class { '::murano::cfapi':
             tenant => 'admin',
           }
           class { '::murano::keystone::auth':
@@ -63,6 +63,12 @@ describe 'basic murano' do
           }
           class { '::murano::keystone::cfapi_auth':
             password => 'a_big_secret',
+          }
+          class { '::murano::client': }
+          murano_application { 'io.murano':
+            ensure       => present,
+            package_path => '/usr/share/murano-common/io.murano.zip',
+            category     => undef,
           }
         }
       }
