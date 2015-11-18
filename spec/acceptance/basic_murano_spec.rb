@@ -51,7 +51,7 @@ describe 'basic murano' do
             rabbit_own_user         => 'murano',
             rabbit_own_password     => 'an_even_bigger_secret',
             rabbit_own_vhost        => '/murano',
-            database_connection     => 'mysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
+            database_connection     => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
           }
           class { '::murano::api': }
           class { '::murano::engine': }
