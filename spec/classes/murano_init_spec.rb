@@ -21,33 +21,25 @@ describe 'murano' do
 
     it { is_expected.to contain_class('mysql::bindings::python') }
 
-    it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('messagingv2') }
+    it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('murano/url').with_value('http://127.0.0.1:8082') }
 
-    it { is_expected.to contain_murano_config('engine/use_trusts').with_value(false) }
-
-    it { is_expected.to contain_murano_config('database/connection').with_value('mysql://murano:secrete@localhost:3306/murano') }
-    it { is_expected.to contain_murano_config('database/idle_timeout').with_value('3600') }
-    it { is_expected.to contain_murano_config('database/min_pool_size').with_value('1') }
-    it { is_expected.to contain_murano_config('database/max_retries').with_value('10') }
-    it { is_expected.to contain_murano_config('database/retry_interval').with_value('10') }
-    it { is_expected.to contain_murano_config('database/max_pool_size').with_value('10') }
-    it { is_expected.to contain_murano_config('database/max_overflow').with_value('20') }
+    it { is_expected.to contain_murano_config('engine/use_trusts').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('guest') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('guest') }
-    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('127.0.0.1') }
-    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('5672') }
-    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(false) }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('rabbitmq/login').with_value('guest') }
     it { is_expected.to contain_murano_config('rabbitmq/password').with_value('guest') }
-    it { is_expected.to contain_murano_config('rabbitmq/host').with_value('127.0.0.1') }
-    it { is_expected.to contain_murano_config('rabbitmq/port').with_value('5672') }
+    it { is_expected.to contain_murano_config('rabbitmq/host').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('rabbitmq/port').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('rabbitmq/virtual_host').with_value('murano') }
 
-    it { is_expected.to contain_murano_config('networking/default_dns').with_value('[]') }
+    it { is_expected.to contain_murano_config('networking/default_dns').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000/v2.0/') }
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_user').with_value('admin') }
@@ -86,13 +78,6 @@ describe 'murano' do
       :default_router          => 'murano-router',
       :default_nameservers     => '["8.8.8.8"]',
       :use_trusts              => true,
-      :database_connection     => 'mysql://murano:murano@localhost/murano',
-      :database_idle_timeout   => '3601',
-      :database_min_pool_size  => '2',
-      :database_max_retries    => '11',
-      :database_retry_interval => '11',
-      :database_max_pool_size  => '11',
-      :database_max_overflow   => '21',
       :sync_db                 => false,
       :admin_user              => 'murano',
       :admin_tenant_name       => 'secrete',
@@ -117,14 +102,6 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('murano/url').with_value('https://10.255.0.3:8088') }
 
     it { is_expected.to contain_murano_config('engine/use_trusts').with_value(true) }
-
-    it { is_expected.to contain_murano_config('database/connection').with_value('mysql://murano:murano@localhost/murano') }
-    it { is_expected.to contain_murano_config('database/idle_timeout').with_value('3601') }
-    it { is_expected.to contain_murano_config('database/min_pool_size').with_value('2') }
-    it { is_expected.to contain_murano_config('database/max_retries').with_value('11') }
-    it { is_expected.to contain_murano_config('database/retry_interval').with_value('11') }
-    it { is_expected.to contain_murano_config('database/max_pool_size').with_value('11') }
-    it { is_expected.to contain_murano_config('database/max_overflow').with_value('21') }
 
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('os') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('ossecrete') }
@@ -161,10 +138,10 @@ describe 'murano' do
 
   context 'on Debian platforms' do
     let :facts do
-      {
+      @default_facts.merge({
         :osfamily => 'Debian',
         :operatingsystem => 'Debian'
-      }
+      })
     end
 
     it_configures 'with default parameters'
@@ -173,7 +150,7 @@ describe 'murano' do
 
   context 'on RedHat platforms' do
     let :facts do
-      { :osfamily => 'RedHat' }
+      @default_facts.merge({ :osfamily => 'RedHat' })
     end
 
     it_configures 'with default parameters'

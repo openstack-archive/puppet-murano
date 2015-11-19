@@ -195,28 +195,28 @@ class murano(
   $log_facility            = undef,
   $log_dir                 = undef,
   $data_dir                = '/var/cache/murano',
-  $notification_driver     = 'messagingv2',
-  $rabbit_os_host          = '127.0.0.1',
-  $rabbit_os_port          = '5672',
+  $notification_driver     = $::os_service_default,
+  $rabbit_os_host          = $::os_service_default,
+  $rabbit_os_port          = $::os_service_default,
   $rabbit_os_user          = 'guest',
   $rabbit_os_password      = 'guest',
-  $rabbit_ha_queues        = false,
-  $rabbit_own_host         = '127.0.0.1',
-  $rabbit_own_port         = '5672',
+  $rabbit_ha_queues        = $::os_service_default,
+  $rabbit_own_host         = $::os_service_default,
+  $rabbit_own_port         = $::os_service_default,
   $rabbit_own_user         = 'guest',
   $rabbit_own_password     = 'guest',
   $rabbit_own_vhost        = 'murano',
   $service_host            = '127.0.0.1',
   $service_port            = '8082',
   $use_ssl                 = false,
-  $cert_file               = undef,
-  $key_file                = undef,
-  $ca_file                 = undef,
+  $cert_file               = $::os_service_default,
+  $key_file                = $::os_service_default,
+  $ca_file                 = $::os_service_default,
   $use_neutron             = false,
   $external_network        = $::murano::params::default_external_network,
-  $default_router          = 'murano-default-router',
-  $default_nameservers     = '[]',
-  $use_trusts              = false,
+  $default_router          = $::os_service_default,
+  $default_nameservers     = $::os_service_default,
+  $use_trusts              = $::os_service_default,
   $database_connection     = undef,
   $database_max_retries    = undef,
   $database_idle_timeout   = undef,
@@ -251,38 +251,38 @@ class murano(
     default => 'http',
   }
 
+  murano_config {
+    'networking/router_name':   value => $default_router;
+    'networking/create_router': value => $use_neutron;
+  }
+
   if $use_neutron {
+    if is_service_default($default_router) {
+      fail('The default_router parameter is required when use_neutron is set to true')
+    }
     murano_config {
-      'networking/external_network' : value => $external_network;
-      'networking/router_name' :      value => $default_router;
-      'networking/create_router' :    value => true;
+      'networking/external_network': value => $external_network;
     }
   } else {
     murano_config {
-      'networking/external_network' : ensure => absent;
+      'networking/external_network': ensure => 'absent';
     }
   }
 
   if $use_ssl {
-    if !$ca_file {
+    if is_service_default($ca_file) {
       fail('The ca_file parameter is required when use_ssl is set to true')
     }
-    if !$cert_file {
+    if is_service_default($cert_file) {
       fail('The cert_file parameter is required when use_ssl is set to true')
     }
-    if !$key_file {
+    if is_service_default($key_file) {
       fail('The key_file parameter is required when use_ssl is set to true')
     }
     murano_config {
       'ssl/cert_file' : value => $cert_file;
       'ssl/key_file' :  value => $key_file;
       'ssl/ca_file' :   value => $ca_file;
-    }
-  } else {
-    murano_config {
-      'ssl/cert_file' : ensure => absent;
-      'ssl/key_file' :  ensure => absent;
-      'ssl/ca_file' :   ensure => absent;
     }
   }
 
