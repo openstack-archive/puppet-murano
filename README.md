@@ -1,6 +1,8 @@
 murano
 ======
 
+7.0.0 - 2015.2.0 - Liberty
+
 #### Table of Contents
 
 1. [Overview - What is the murano module?](#overview)
