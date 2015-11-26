@@ -18,11 +18,11 @@
 #
 # [*host*]
 #  (Optional) Host on which murano api should listen
-#  Defaults to '127.0.0.1'
+#  Defaults to $::os_service_default.
 #
 # [*port*]
 #  (Optional) Port on which murano api should listen
-#  Defaults to 8082
+#  Defaults to $::os_service_default.
 #
 # [*sync_db*]
 #  (Optional) Whether to sync database
@@ -32,8 +32,8 @@ class murano::api(
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
-  $host           = '127.0.0.1',
-  $port           = 8082,
+  $host           = $::os_service_default,
+  $port           = $::os_service_default,
   $sync_db        = true,
 ) {
 
