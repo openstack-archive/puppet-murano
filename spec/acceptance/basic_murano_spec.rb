@@ -58,8 +58,6 @@ describe 'basic murano' do
           class { '::murano::keystone::auth':
             password => 'a_big_secret',
           }
-
-          Class['::keystone'] -> Class['::murano::db::mysql']
         }
       }
       EOS
