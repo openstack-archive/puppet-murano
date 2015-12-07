@@ -163,7 +163,7 @@
 #
 # [*admin_user*]
 #  (Optional) Username for murano credentials
-#  Defaults to 'admin'
+#  Defaults to 'murano'
 #
 # [*admin_password*]
 #  (Required) Password for murano credentials
@@ -171,7 +171,7 @@
 #
 # [*admin_tenant_name*]
 #  (Optional) Tenant for admin_username
-#  Defaults to 'admin'
+#  Defaults to 'service'
 #
 # [*auth_uri*]
 #  (Optional) Public identity endpoint
@@ -226,8 +226,8 @@ class murano(
   $database_retry_interval = undef,
   $database_max_overflow   = undef,
   $sync_db                 = true,
-  $admin_user              = 'admin',
-  $admin_tenant_name       = 'admin',
+  $admin_user              = 'murano',
+  $admin_tenant_name       = 'service',
   $auth_uri                = 'http://127.0.0.1:5000/v2.0/',
   $identity_uri            = 'http://127.0.0.1:35357/',
   $signing_dir             = '/tmp/keystone-signing-muranoapi',
