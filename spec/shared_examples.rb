@@ -7,6 +7,10 @@ end
 shared_examples 'generic murano service' do |service|
 
   context 'with default parameters' do
+    let :context_params do
+      { }
+    end
+
     it 'installs package and service' do
       is_expected.to contain_package(service[:name]).with({
         :name   => service[:package_name],
@@ -24,9 +28,13 @@ shared_examples 'generic murano service' do |service|
   end
 
   context 'with overridden parameters' do
-    let :params do
+    let :context_params do
       { :enabled        => true,
         :package_ensure => '2014.2-1' }
+    end
+
+    let :params do
+      context_params.merge(service[:extra_params].nil? ? {} : service[:extra_params])
     end
 
     it 'installs package and service' do
@@ -46,9 +54,13 @@ shared_examples 'generic murano service' do |service|
   end
 
   context 'while not managing service state' do
-    let :params do
+    let :context_params do
       { :enabled        => false,
         :manage_service => false }
+    end
+
+    let :params do
+      context_params.merge(service[:extra_params].nil? ? {} : service[:extra_params])
     end
 
     it 'does not control service state' do

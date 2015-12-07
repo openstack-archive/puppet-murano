@@ -55,8 +55,13 @@ describe 'basic murano' do
           }
           class { '::murano::api': }
           class { '::murano::engine': }
-          class { '::murano::cfapi': }
+          class { '::murano::cfapi': 
+            tenant => 'admin',
+          }
           class { '::murano::keystone::auth':
+            password => 'a_big_secret',
+          }
+          class { '::murano::keystone::cfapi_auth':
             password => 'a_big_secret',
           }
         }

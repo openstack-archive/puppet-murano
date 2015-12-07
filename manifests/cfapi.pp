@@ -16,20 +16,29 @@
 #  (Optional) Ensure state for package
 #  Defaults to 'present'
 #
-# [*host*]
+# [*tenant*]
+#  (Required) Tenant for cloudfoundry api
+#
+# [*bind_host*]
 #  (Optional) Host on which murano cloudfoundry api should listen
 #  Defaults to $::os_service_default.
 #
-# [*port*]
+# [*bind_port*]
 #  (Optional) Port on which murano cloudfoundry api should listen
 #  Defaults to $::os_service_default.
 #
+# [*auth_url*]
+#  (Optional) Public identity endpoint
+#  Defaults to 'http://127.0.0.1:5000/v2.0/'.
+#
 class murano::cfapi(
+  $tenant,
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
-  $host           = $::os_service_default,
-  $port           = $::os_service_default,
+  $bind_host      = $::os_service_default,
+  $bind_port      = $::os_service_default,
+  $auth_url       = 'http://127.0.0.1:5000/v2.0/',
 ) {
 
   include ::murano::params
@@ -47,8 +56,10 @@ class murano::cfapi(
   }
 
   murano_config {
-    'DEFAULT/cfapi_bind_host': value => $host;
-    'DEFAULT/cfapi_bind_port': value => $port;
+    'cfapi/tenant':    value => $tenant;
+    'cfapi/bind_host': value => $bind_host;
+    'cfapi/bind_port': value => $bind_port;
+    'cfapi/auth_url':  value => $auth_url;
   }
 
   package { 'murano-cfapi':
