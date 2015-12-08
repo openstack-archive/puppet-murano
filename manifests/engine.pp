@@ -16,22 +16,27 @@
 #  (Optional) Ensure state for package
 #  Defaults to 'present'
 #
+# DEPRECATED PARAMETERS
+#
 # [*sync_db*]
 #  (Optional) Whether to sync database
-#  Defaults to true
+#  Defaults to undef
 #
 class murano::engine(
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
-  $sync_db        = true,
+  $sync_db        = undef,
 ) {
 
   include ::murano::params
   include ::murano::policy
 
+  if $sync_db {
+    warning('The sync_db parameter has no effect.')
+  }
+
   Murano_config<||> ~> Service['murano-engine']
-  Exec['murano-dbmanage'] -> Service['murano-engine']
   Class['murano::policy'] -> Service['murano-engine']
 
   if $manage_service {
@@ -58,7 +63,4 @@ class murano::engine(
 
   Package['murano-engine'] ~> Service['murano-engine']
 
-  if $sync_db {
-    include ::murano::db::sync
-  }
 }
