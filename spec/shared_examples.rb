@@ -11,12 +11,14 @@ shared_examples 'generic murano service' do |service|
       is_expected.to contain_package(service[:name]).with({
         :name   => service[:package_name],
         :ensure => 'present',
-        :notify => ["Service[#{service[:name]}]"]
+        :notify => ["Service[#{service[:name]}]"],
+        :tag    => [ 'openstack', 'murano-package'],
       })
       is_expected.to contain_service(service[:name]).with({
         :name   => service[:service_name],
         :ensure => 'running',
-        :enable => true
+        :enable => true,
+        :tag    => 'murano-service',
       })
     end
   end
@@ -31,12 +33,14 @@ shared_examples 'generic murano service' do |service|
       is_expected.to contain_package(service[:name]).with({
         :name   => service[:package_name],
         :ensure => '2014.2-1',
-        :notify => ["Service[#{service[:name]}]"]
+        :notify => ["Service[#{service[:name]}]"],
+        :tag    => [ 'openstack', 'murano-package'],
       })
       is_expected.to contain_service(service[:name]).with({
         :name   => service[:service_name],
         :ensure => 'running',
-        :enable => true
+        :enable => true,
+        :tag    => 'murano-service',
       })
     end
   end
