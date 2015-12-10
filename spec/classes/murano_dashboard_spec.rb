@@ -24,10 +24,10 @@ describe 'murano::dashboard' do
       :order  => 2,
     })}
 
-    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_API_URL = 'http:\/\/127.0.0.1:8082'/)}
+    it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_API_URL = /)}
     it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_REPO_URL = /)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MAX_FILE_SIZE_MB = '5'/)}
-    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/var\/cache\/muranodashboard-cache'/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/var\/cache\/murano-dashboard'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': \['syslog'\], 'level': 'DEBUG'\}/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': \['syslog'\], 'level': 'ERROR'\}/)}
 
