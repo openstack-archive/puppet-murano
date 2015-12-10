@@ -21,6 +21,7 @@ class murano::params {
       $engine_service_name       = 'murano-engine'
       # dashboard config file
       $local_settings_path       = '/etc/openstack-dashboard/local_settings'
+      $pymysql_package_name      = undef
     }
     'Debian': {
       # package names
@@ -36,6 +37,7 @@ class murano::params {
       $engine_service_name       = 'murano-engine'
       # dashboard config file
       $local_settings_path       = '/etc/openstack-dashboard/local_settings.py'
+      $pymysql_package_name      = 'python-pymysql'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}")

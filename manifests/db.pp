@@ -43,6 +43,8 @@ class murano::db (
   $database_max_overflow   = $::os_service_default,
 ) {
 
+  include ::murano::params
+
 # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
 # to use murano::<myparam> if murano::db::<myparam> isn't specified.
   $database_connection_real     = pick($::murano::database_connection, $database_connection)
@@ -53,13 +55,17 @@ class murano::db (
   $database_retry_interval_real = pick($::murano::database_retry_interval, $database_retry_interval)
   $database_max_overflow_real   = pick($::murano::database_max_overflow, $database_max_overflow)
 
-  validate_re($database_connection_real, '(mysql|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
+  validate_re($database_connection_real, '^(mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
 
   case $database_connection_real {
-    /^mysql:\/\//: {
-      $backend_package = false
+    /^mysql(\+pymysql)?:\/\//: {
       require mysql::bindings
       require mysql::bindings::python
+      if $database_connection_real =~ /^mysql\+pymysql/ {
+        $backend_package = $::murano::params::pymysql_package_name
+      } else {
+        $backend_package = false
+      }
     }
     /^postgresql:\/\//: {
       $backend_package = false

@@ -15,7 +15,7 @@ describe 'murano::db' do
 
     context 'with specific parameters' do
       let :params do
-        { :database_connection     => 'mysql://murano:murano@localhost/murano',
+        { :database_connection     => 'mysql+pymysql://murano:murano@localhost/murano',
           :database_idle_timeout   => '3601',
           :database_min_pool_size  => '2',
           :database_max_retries    => '11',
@@ -25,7 +25,7 @@ describe 'murano::db' do
         }
       end
 
-      it { is_expected.to contain_murano_config('database/connection').with_value('mysql://murano:murano@localhost/murano') }
+      it { is_expected.to contain_murano_config('database/connection').with_value('mysql+pymysql://murano:murano@localhost/murano') }
       it { is_expected.to contain_murano_config('database/idle_timeout').with_value('3601') }
       it { is_expected.to contain_murano_config('database/min_pool_size').with_value('2') }
       it { is_expected.to contain_murano_config('database/max_retries').with_value('11') }
@@ -45,9 +45,25 @@ describe 'murano::db' do
 
     end
 
+    context 'with MySQL-python library as backend package' do
+      let :params do
+        { :database_connection     => 'mysql://murano:murano@localhost/murano', }
+      end
+
+      it { is_expected.to contain_package('python-mysqldb').with(:ensure => 'present') }
+    end
+
     context 'with incorrect database_connection string' do
       let :params do
         { :database_connection     => 'sqlite://murano:murano@localhost/murano', }
+      end
+
+      it_raises 'a Puppet::Error', /validate_re/
+    end
+
+    context 'with incorrect pymysql database_connection string' do
+      let :params do
+        { :database_connection     => 'foo+pymysql://murano:murano@localhost/murano', }
       end
 
       it_raises 'a Puppet::Error', /validate_re/
@@ -63,6 +79,20 @@ describe 'murano::db' do
     end
 
     it_configures 'murano::db'
+
+    context 'using pymysql driver' do
+      let :params do
+        { :database_connection     => 'mysql+pymysql://murano:murano@localhost/murano', }
+      end
+
+      it 'install the proper backend package' do
+        is_expected.to contain_package('murano-backend-package').with(
+          :ensure => 'present',
+          :name   => 'python-pymysql',
+          :tag    => 'openstack'
+        )
+      end
+    end
   end
 
   context 'on Redhat platforms' do
@@ -73,6 +103,14 @@ describe 'murano::db' do
     end
 
     it_configures 'murano::db'
+
+    context 'using pymysql driver' do
+      let :params do
+        { :database_connection     => 'mysql+pymysql://murano:murano@localhost/murano', }
+      end
+
+      it { is_expected.not_to contain_package('murano-backend-package') }
+    end
   end
 
 end
