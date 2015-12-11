@@ -45,6 +45,7 @@ class murano::engine(
   package { 'murano-engine':
     ensure => $package_ensure,
     name   => $::murano::params::engine_package_name,
+    tag    => ['openstack', 'murano-package'],
   }
 
   service { 'murano-engine':
@@ -52,6 +53,7 @@ class murano::engine(
     name    => $::murano::params::engine_service_name,
     enable  => $enabled,
     require => Package['murano-engine'],
+    tag     => 'murano-service',
   }
 
   Package['murano-engine'] ~> Service['murano-engine']

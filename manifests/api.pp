@@ -60,6 +60,7 @@ class murano::api(
   package { 'murano-api':
     ensure => $package_ensure,
     name   => $::murano::params::api_package_name,
+    tag    => ['openstack', 'murano-package'],
   }
 
   service { 'murano-api':
@@ -67,6 +68,7 @@ class murano::api(
     name    => $::murano::params::api_service_name,
     enable  => $enabled,
     require => Package['murano-api'],
+    tag     => 'murano-service',
   }
 
   Package['murano-api'] ~> Service['murano-api']
