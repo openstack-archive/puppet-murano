@@ -22,13 +22,12 @@ describe 'murano::keystone::auth' do
                             :roles   => ['admin']
                         )}
 
-    it { is_expected.to contain_keystone_service('murano').with(
+    it { is_expected.to contain_keystone_service('murano::application_catalog').with(
                             :ensure      => 'present',
-                            :type        => 'application_catalog',
                             :description => 'Murano Application Catalog'
                         ) }
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/murano').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/murano::application_catalog').with(
                             :ensure       => 'present',
                             :public_url   => "http://127.0.0.1:8082",
                             :admin_url    => "http://127.0.0.1:8082",
@@ -44,7 +43,7 @@ describe 'murano::keystone::auth' do
         :admin_url    => 'http://10.10.10.12:81' }
     end
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/murano').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/murano::application_catalog').with(
                             :ensure       => 'present',
                             :public_url   => 'https://10.10.10.10:80',
                             :internal_url => 'http://10.10.10.11:81',
@@ -60,7 +59,7 @@ describe 'murano::keystone::auth' do
 
     it { is_expected.to contain_keystone_user('muranoy') }
     it { is_expected.to contain_keystone_user_role('muranoy@services') }
-    it { is_expected.to contain_keystone_service('muranoy') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy') }
+    it { is_expected.to contain_keystone_service('muranoy::application_catalog') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy::application_catalog') }
   end
 end
