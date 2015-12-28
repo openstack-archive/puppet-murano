@@ -56,6 +56,7 @@ describe 'murano::dashboard' do
       :collect_static_script => '/bin/openstack-dashboard/manage.py',
       :metadata_dir          => '/tmp/muranodashboard-cache',
       :max_file_size         => '5',
+      :sync_db               => false,
     }
     end
 
@@ -96,7 +97,7 @@ describe 'murano::dashboard' do
       :command => '/bin/openstack-dashboard/manage.py compress --force'
     })}
 
-    it { is_expected.to contain_exec('django_syncdb').with({
+    it { is_expected.to_not contain_exec('django_syncdb').with({
       :command => '/bin/openstack-dashboard/manage.py syncdb --noinput'
     })}
   end
