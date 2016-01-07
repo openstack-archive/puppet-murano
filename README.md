@@ -32,6 +32,10 @@ Setup
 
 * [Murano](https://wiki.openstack.org/wiki/Murano), the application catalog service for OpenStack.
 
+### Installing murano
+
+    puppet module install openstack/murano
+
 ### Beginning with murano
 
 To use the murano module's functionality you will need to declare multiple
