@@ -9,8 +9,9 @@
 #  Defaults to 'present'
 #
 # [*api_url*]
-#  (Optional) API url for murano-dashboard
-#  Defaults to 'http://127.0.0.1:8082'
+#  (Optional) DEPRECATED: Use murano::keystone::auth to configure keystone::endpoint for Murano API instead
+#  API url for murano-dashboard
+#  Defaults to 'undef'
 #
 # [*repo_url*]
 #  (Optional) Application repository URL for murano-dashboard
@@ -22,7 +23,7 @@
 #
 # [*metadata_dir*]
 #  (Optional) Directory to store murano dashboard metadata cache
-#  Defaults to '/var/cache/muranodashboard-cache'
+#  Defaults to '/var/cache/murano-dashboard'
 #
 # [*max_file_size*]
 #  (Optional) Maximum allowed filesize to upload
@@ -38,16 +39,21 @@
 #
 class murano::dashboard(
   $package_ensure        = 'present',
-  $api_url               = 'http://127.0.0.1:8082',
   $repo_url              = undef,
   $collect_static_script = '/usr/share/openstack-dashboard/manage.py',
-  $metadata_dir          = '/var/cache/muranodashboard-cache',
+  $metadata_dir          = '/var/cache/murano-dashboard',
   $max_file_size         = '5',
   $dashboard_debug_level = 'DEBUG',
   $client_debug_level    = 'ERROR',
+  # DEPRECATED PARAMETERS
+  $api_url               = undef,
 ) {
 
   include ::murano::params
+
+  if $api_url {
+    warning('Usage of api_url is deprecated. Use murano::keystone::auth to configure keystone::endpoint for Murano API instead.')
+  }
 
   package { 'murano-dashboard':
     ensure => $package_ensure,
