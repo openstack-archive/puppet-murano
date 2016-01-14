@@ -37,6 +37,10 @@
 #  (Optional) Murano client logging level
 #  Defaults to 'ERROR'
 #
+# [*sync_db*]
+#  (Optional) Whether to sync database
+#  Default to 'true'
+#
 class murano::dashboard(
   $package_ensure        = 'present',
   $repo_url              = undef,
@@ -45,6 +49,7 @@ class murano::dashboard(
   $max_file_size         = '5',
   $dashboard_debug_level = 'DEBUG',
   $client_debug_level    = 'ERROR',
+  $sync_db               = true,
   # DEPRECATED PARAMETERS
   $api_url               = undef,
 ) {
@@ -99,13 +104,19 @@ class murano::dashboard(
     refreshonly => true,
   }
 
-  exec { 'django_syncdb':
-    command     => "${collect_static_script} syncdb --noinput",
-    environment => [
-      "APACHE_USER=${::apache::params::user}",
-      "APACHE_GROUP=${::apache::params::group}",
-    ],
-    refreshonly => true,
+  if $sync_db {
+    exec { 'django_syncdb':
+      command     => "${collect_static_script} syncdb --noinput",
+      environment => [
+        "APACHE_USER=${::apache::params::user}",
+        "APACHE_GROUP=${::apache::params::group}",
+      ],
+      refreshonly => true,
+    }
+
+    Exec['django_compressstatic'] ~>
+      Exec['django_syncdb'] ~>
+        Service <| title == 'httpd' |>
   }
 
   Package['murano-dashboard'] ->
@@ -116,6 +127,5 @@ class murano::dashboard(
   Package['murano-dashboard'] ~>
     Exec['django_collectstatic'] ~>
       Exec['django_compressstatic'] ~>
-        Exec['django_syncdb'] ~>
-          Service <| title == 'httpd' |>
+        Service <| title == 'httpd' |>
 }
