@@ -218,7 +218,6 @@ class murano(
   $default_nameservers     = $::os_service_default,
   $use_trusts              = $::os_service_default,
   $database_connection     = undef,
-  $database_max_retries    = undef,
   $database_idle_timeout   = undef,
   $database_min_pool_size  = undef,
   $database_max_pool_size  = undef,
