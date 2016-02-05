@@ -17,7 +17,7 @@ murano
 Overview
 --------
 
-The Murano module is a part of [OpenStack](https://github.com/openstack), an effort by the Openstack infrastructure team to provide continuous integration testing and code review for Openstack and Openstack community projects as part of the core software. The module itself is used to flexibly configure and manage the application catalog service for OpenStack.
+The Murano module is a part of [OpenStack](https://github.com/openstack), an effort by the OpenStack infrastructure team to provide continuous integration testing and code review for OpenStack and OpenStack community projects as part of the core software. The module itself is used to flexibly configure and manage the application catalog service for OpenStack.
 
 Module Description
 ------------------
