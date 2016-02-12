@@ -41,12 +41,12 @@ describe 'murano' do
 
     it { is_expected.to contain_murano_config('networking/default_dns').with_value('<SERVICE DEFAULT>') }
 
-    it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000/v2.0/') }
+    it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000') }
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_user').with_value('murano') }
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_tenant_name').with_value('service') }
     it { is_expected.to contain_murano_config('keystone_authtoken/signing_dir').with_value('/tmp/keystone-signing-muranoapi') }
-    it { is_expected.to contain_murano_config('keystone_authtoken/identity_uri').with_value('http://127.0.0.1:35357/') }
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_password').with_value('secrete') }
+    it { is_expected.not_to contain_murano_config('keystone_authtoken/identity_uri').with_value('http://10.255.0.1:35357/') }
 
     it { is_expected.to contain_exec('murano-dbmanage') }
 

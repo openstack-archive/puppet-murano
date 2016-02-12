@@ -175,15 +175,17 @@
 #
 # [*auth_uri*]
 #  (Optional) Public identity endpoint
-#  Defaults to 'http://127.0.0.1:5000/v2.0/'
-#
-# [*identity_uri*]
-#  (Optional) Admin identity endpoint
-#  Defaults to 'http://127.0.0.1:35357/'#
+#  Defaults to 'http://127.0.0.1:5000'
 #
 # [*signing_dir*]
 #  (Optional) Directory used to cache files related to PKI tokens
 #  Defaults to '/tmp/keystone-signing-muranoapi'
+#
+# === Deprecated Parameters
+#
+# [*identity_uri*]
+#  (Optional) Admin identity endpoint
+#  Defaults to 'http://127.0.0.1:35357/'
 #
 class murano(
   $admin_password,
@@ -227,7 +229,7 @@ class murano(
   $sync_db                 = true,
   $admin_user              = 'murano',
   $admin_tenant_name       = 'service',
-  $auth_uri                = 'http://127.0.0.1:5000/v2.0/',
+  $auth_uri                = 'http://127.0.0.1:5000',
   $identity_uri            = 'http://127.0.0.1:35357/',
   $signing_dir             = '/tmp/keystone-signing-muranoapi',
 ) {
@@ -308,8 +310,8 @@ class murano(
     'keystone_authtoken/admin_user' :        value => $admin_user;
     'keystone_authtoken/admin_tenant_name' : value => $admin_tenant_name;
     'keystone_authtoken/signing_dir' :       value => $signing_dir;
-    'keystone_authtoken/identity_uri' :      value => $identity_uri;
     'keystone_authtoken/admin_password' :    value => $admin_password;
+    'keystone_authtoken/identity_uri' :      value => $identity_uri;
 
     'networking/default_dns':                value => $default_nameservers;
   }
