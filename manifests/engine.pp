@@ -16,7 +16,11 @@
 #  (Optional) Ensure state for package
 #  Defaults to 'present'
 #
-# DEPRECATED PARAMETERS
+# [*workers*]
+#  (Optional) Number of workers for Murano Engine
+#  Defaults to $::os_service_default
+#
+# DEPRECATED  PARAMETERS
 #
 # [*sync_db*]
 #  (Optional) Whether to sync database
@@ -26,6 +30,7 @@ class murano::engine(
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
+  $workers        = $::os_service_default,
   $sync_db        = undef,
 ) {
 
@@ -45,6 +50,10 @@ class murano::engine(
     } else {
       $service_ensure = 'stopped'
     }
+  }
+
+  murano_config {
+    'engine/workers': value => $workers;
   }
 
   package { 'murano-engine':
