@@ -29,7 +29,7 @@
 #
 # [*service_type*]
 #   (Optional) Type of service.
-#   Defaults to 'service_broker'.
+#   Defaults to 'service-broker'.
 #
 # [*service_description*]
 #   (Optional) Description of service.
@@ -66,7 +66,7 @@ class murano::keystone::cfapi_auth(
   $auth_name           = 'murano-cfapi',
   $email               = 'murano@localhost',
   $tenant              = 'services',
-  $service_type        = 'service_broker',
+  $service_type        = 'service-broker',
   $service_description = 'Murano Service Broker API',
   $configure_endpoint  = true,
   $region              = 'RegionOne',

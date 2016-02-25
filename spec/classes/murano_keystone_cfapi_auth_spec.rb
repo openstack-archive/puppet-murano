@@ -12,12 +12,12 @@ describe 'murano::keystone::cfapi_auth' do
         :tenant   => 'foobar' }
     end
 
-    it { is_expected.to contain_keystone_service('murano-cfapi::service_broker').with(
+    it { is_expected.to contain_keystone_service('murano-cfapi::service-broker').with(
                             :ensure      => 'present',
                             :description => 'Murano Service Broker API'
                         ) }
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/murano-cfapi::service_broker').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/murano-cfapi::service-broker').with(
                             :ensure       => 'present',
                             :public_url   => "http://127.0.0.1:8083",
                             :admin_url    => "http://127.0.0.1:8083",
@@ -33,7 +33,7 @@ describe 'murano::keystone::cfapi_auth' do
         :admin_url    => 'http://10.10.10.12:81' }
     end
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/murano-cfapi::service_broker').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/murano-cfapi::service-broker').with(
                             :ensure       => 'present',
                             :public_url   => 'https://10.10.10.10:80',
                             :internal_url => 'http://10.10.10.11:81',
@@ -47,7 +47,7 @@ describe 'murano::keystone::cfapi_auth' do
         :auth_name => 'muranoy' }
     end
 
-    it { is_expected.to contain_keystone_service('muranoy::service_broker') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy::service_broker') }
+    it { is_expected.to contain_keystone_service('muranoy::service-broker') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy::service-broker') }
   end
 end

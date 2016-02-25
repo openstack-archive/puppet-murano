@@ -66,7 +66,7 @@ class murano::keystone::auth(
   $auth_name           = 'murano',
   $email               = 'murano@localhost',
   $tenant              = 'services',
-  $service_type        = 'application_catalog',
+  $service_type        = 'application-catalog',
   $service_description = 'Murano Application Catalog',
   $configure_endpoint  = true,
   $region              = 'RegionOne',
