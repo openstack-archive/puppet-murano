@@ -106,7 +106,7 @@ class murano::dashboard(
 
   if $sync_db {
     exec { 'django_syncdb':
-      command     => "${collect_static_script} syncdb --noinput",
+      command     => "${collect_static_script} migrate --noinput",
       environment => [
         "APACHE_USER=${::apache::params::user}",
         "APACHE_GROUP=${::apache::params::group}",

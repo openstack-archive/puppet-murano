@@ -45,7 +45,7 @@ describe 'murano::dashboard' do
     })}
 
     it { is_expected.to contain_exec('django_syncdb').with({
-      :command => '/usr/share/openstack-dashboard/manage.py syncdb --noinput'
+      :command => '/usr/share/openstack-dashboard/manage.py migrate --noinput'
     })}
   end
 
