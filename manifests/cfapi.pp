@@ -29,7 +29,7 @@
 #
 # [*auth_url*]
 #  (Optional) Public identity endpoint
-#  Defaults to 'http://127.0.0.1:5000/v2.0/'.
+#  Defaults to 'http://127.0.0.1:5000'.
 #
 class murano::cfapi(
   $tenant,
@@ -38,7 +38,7 @@ class murano::cfapi(
   $package_ensure = 'present',
   $bind_host      = $::os_service_default,
   $bind_port      = $::os_service_default,
-  $auth_url       = 'http://127.0.0.1:5000/v2.0/',
+  $auth_url       = 'http://127.0.0.1:5000',
 ) {
 
   include ::murano::params
