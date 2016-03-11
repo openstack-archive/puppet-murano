@@ -124,6 +124,10 @@
 #  (Optional) Whether to use trust token instead of user token
 #  Defaults to false
 #
+# [*packages_service*]
+#  (Optional) The service to store murano packages.
+#  Defaults to $::os_service_default.
+#
 # == database configuration options
 #
 # [*database_connection*]
@@ -219,6 +223,7 @@ class murano(
   $default_router          = $::os_service_default,
   $default_nameservers     = $::os_service_default,
   $use_trusts              = $::os_service_default,
+  $packages_service        = $::os_service_default,
   $database_connection     = undef,
   $database_idle_timeout   = undef,
   $database_min_pool_size  = undef,
@@ -314,6 +319,8 @@ class murano(
     'keystone_authtoken/identity_uri' :      value => $identity_uri;
 
     'networking/default_dns':                value => $default_nameservers;
+
+    'packages_opts/packages_service':        value => $packages_service,
   }
 
   if $sync_db {

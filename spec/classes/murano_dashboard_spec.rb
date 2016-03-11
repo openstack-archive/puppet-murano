@@ -30,6 +30,7 @@ describe 'murano::dashboard' do
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/var\/cache\/murano-dashboard'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': \['syslog'\], 'level': 'DEBUG'\}/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': \['syslog'\], 'level': 'ERROR'\}/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_USE_GLARE = False/)}
 
     it { is_expected.to contain_exec('clean_horizon_config').with({
       :command => 'sed -e \'/^## MURANO_CONFIG_BEGIN/,/^## MURANO_CONFIG_END ##/ d\' -i /etc/openstack-dashboard/local_settings.py',
@@ -53,6 +54,7 @@ describe 'murano::dashboard' do
     let :params do {
       :api_url               => 'http://127.0.0.1:8083',
       :repo_url              => 'http://storage.apps.openstack.com',
+      :enable_glare          => true,
       :collect_static_script => '/bin/openstack-dashboard/manage.py',
       :metadata_dir          => '/tmp/muranodashboard-cache',
       :max_file_size         => '5',
@@ -83,6 +85,7 @@ describe 'murano::dashboard' do
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/tmp\/muranodashboard-cache'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': \['syslog'\], 'level': 'DEBUG'\}/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': \['syslog'\], 'level': 'ERROR'\}/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_USE_GLARE = True/)}
 
     it { is_expected.to contain_exec('clean_horizon_config').with({
       :command => 'sed -e \'/^## MURANO_CONFIG_BEGIN/,/^## MURANO_CONFIG_END ##/ d\' -i /etc/openstack-dashboard/local_settings.py',

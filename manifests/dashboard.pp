@@ -17,6 +17,10 @@
 #  (Optional) Application repository URL for murano-dashboard
 #  Defaults to 'undef'
 #
+# [*enable_glare*]
+#  (Optional) Whether Murano to use Glare API (ex Glance v3 API)
+#  Defaults to false
+#
 # [*collect_static_script*]
 #  (Optional) Path to horizon manage utility
 #  Defaults to '/usr/share/openstack-dashboard/manage.py'
@@ -44,6 +48,7 @@
 class murano::dashboard(
   $package_ensure        = 'present',
   $repo_url              = undef,
+  $enable_glare          = false,
   $collect_static_script = '/usr/share/openstack-dashboard/manage.py',
   $metadata_dir          = '/var/cache/murano-dashboard',
   $max_file_size         = '5',
