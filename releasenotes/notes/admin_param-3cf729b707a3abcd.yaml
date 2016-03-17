@@ -1,0 +1,5 @@
+---
+fixes:
+  - Change default admin_user and admin_tenant_name.
+    To match with other modules change admin_user to murano and admin_tenant_name to
+    service.

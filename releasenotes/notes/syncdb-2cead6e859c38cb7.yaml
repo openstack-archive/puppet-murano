@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Replace deprecated syncdb command to use migrate for Dashboard database.
