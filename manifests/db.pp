@@ -43,8 +43,6 @@ class murano::db (
   $database_max_overflow   = $::os_service_default,
 ) {
 
-  include ::murano::params
-
 # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
 # to use murano::<myparam> if murano::db::<myparam> isn't specified.
   $database_connection_real     = pick($::murano::database_connection, $database_connection)
@@ -57,41 +55,14 @@ class murano::db (
 
   validate_re($database_connection_real, '^(mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
 
-  case $database_connection_real {
-    /^mysql(\+pymysql)?:\/\//: {
-      require mysql::bindings
-      require mysql::bindings::python
-      if $database_connection_real =~ /^mysql\+pymysql/ {
-        $backend_package = $::murano::params::pymysql_package_name
-      } else {
-        $backend_package = false
-      }
-    }
-    /^postgresql:\/\//: {
-      $backend_package = false
-      require postgresql::lib::python
-    }
-    default: {
-      fail('Unsupported db backend configured')
-    }
-  }
-
-  if $backend_package and !defined(Package[$backend_package]) {
-    package {'murano-backend-package':
-      ensure => present,
-      name   => $backend_package,
-      tag    => 'openstack',
-    }
-  }
-
-  murano_config {
-    'database/connection':     value => $database_connection_real;
-    'database/idle_timeout':   value => $database_idle_timeout_real;
-    'database/min_pool_size':  value => $database_min_pool_size_real;
-    'database/max_retries':    value => $database_max_retries_real;
-    'database/retry_interval': value => $database_retry_interval_real;
-    'database/max_pool_size':  value => $database_max_pool_size_real;
-    'database/max_overflow':   value => $database_max_overflow_real;
+  oslo::db { 'murano_config':
+    connection     => $database_connection_real,
+    idle_timeout   => $database_idle_timeout_real,
+    min_pool_size  => $database_min_pool_size_real,
+    max_pool_size  => $database_max_pool_size_real,
+    max_retries    => $database_max_retries_real,
+    retry_interval => $database_retry_interval_real,
+    max_overflow   => $database_max_overflow_real,
   }
 
 }

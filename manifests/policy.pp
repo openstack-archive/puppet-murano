@@ -24,5 +24,5 @@ class murano::policy (
   }
 
   create_resources('openstacklib::policy::base', $policies)
-
+  oslo::policy { 'murano_config': policy_file => $policy_path }
 }

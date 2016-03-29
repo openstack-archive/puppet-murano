@@ -21,7 +21,7 @@ describe 'murano' do
 
     it { is_expected.to contain_class('mysql::bindings::python') }
 
-    it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('messagingv2') }
+    it { is_expected.to contain_murano_config('oslo_messaging_notifications/driver').with_value('messagingv2') }
 
     it { is_expected.to contain_murano_config('murano/url').with_value('http://127.0.0.1:8082') }
 
@@ -30,9 +30,11 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('guest') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('guest') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('rabbitmq/login').with_value('guest') }
     it { is_expected.to contain_murano_config('rabbitmq/password').with_value('guest') }
@@ -103,7 +105,7 @@ describe 'murano' do
 
     it { is_expected.to contain_class('mysql::bindings::python') }
 
-    it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('messagingv1') }
+    it { is_expected.to contain_murano_config('oslo_messaging_notifications/driver').with_value('messagingv1') }
 
     it { is_expected.to contain_murano_config('murano/url').with_value('https://10.255.0.3:8088') }
 
@@ -111,7 +113,7 @@ describe 'murano' do
 
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('os') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('ossecrete') }
-    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('10.255.0.1') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_host').with_value('10.255.0.1') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('5673') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true) }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true) }

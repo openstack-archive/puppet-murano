@@ -42,11 +42,15 @@
 #
 # [*rabbit_os_host*]
 #  (Optional) Host for openstack rabbit server
-#  Defaults to '127.0.0.1'
+#  Defaults to $::os_service_default
+#
+# [*rabbit_os_hosts*]
+#  (Optional) Hosts for openstack rabbit server
+#  Defaults to $::os_service_default
 #
 # [*rabbit_os_port*]
 #  (Optional) Port for openstack rabbit server
-#  Defaults to '5672'
+#  Defaults to $::os_service_default
 #
 # [*rabbit_os_user*]
 #  (Optional) Username for openstack rabbit server
@@ -58,19 +62,41 @@
 #
 # [*rabbit_ha_queues*]
 #  (Optional) Should murano api use ha queues
-#  Defaults to false
+#  Defaults to $::os_service_default
 #
 # [*rabbit_os_use_ssl*]
 #   (Optional) Connect over SSL for openstack RabbitMQ.
 #   Defaults to $::os_service_default.
 #
+# [*rabbit_os_virtual_host*]
+#   (optional) The RabbitMQ virtual host.
+#   Defaults to $::os_service_default
+#
+# [*kombu_ssl_ca_certs*]
+#   (optional) SSL certification authority file (valid only if SSL enabled).
+#   Defaults to $::os_service_default
+#
+# [*kombu_ssl_certfile*]
+#   (optional) SSL cert file (valid only if SSL enabled).
+#   Defaults to $::os_service_default
+#
+# [*kombu_ssl_keyfile*]
+#   (optional) SSL key file (valid only if SSL enabled).
+#   Defaults to $::os_service_default
+#
+# [*kombu_ssl_version*]
+#   (optional) SSL version to use (valid only if SSL enabled).
+#   Valid values are TLSv1, SSLv23 and SSLv3. SSLv2 may be
+#   available on some distributions.
+#   Defaults to $::os_service_default
+#
 # [*rabbit_own_host*]
 #  (Optional) Host for murano rabbit server
-#  Defaults to '127.0.0.1'
+#  Defaults to $::os_service_default
 #
 # [*rabbit_own_port*]
 #  (Optional) Port for murano rabbit server
-#  Defaults to '5672'
+#  Defaults to $::os_service_default
 #
 # [*rabbit_own_user*]
 #  (Optional) Username for murano rabbit server
@@ -88,9 +114,14 @@
 #   (Optional) Connect over SSL for Murano RabbitMQ.
 #   Defaults to $::os_service_default.
 #
+# [*rabbit_own_ca_certs*]
+#   (optional) SSL certification authority file (valid only if SSL enabled)
+#   for murano rabbit server.
+#   Defaults to $::os_service_default
+#
 # [*service_host*]
 #  (Optional) Host for murano to listen on
-#  Defaults to '0.0.0.0'
+#  Defaults to '127.0.0.1'
 #
 # [*service_port*]
 #  (Optional) Port for murano to listen on
@@ -102,15 +133,15 @@
 #
 # [*cert_file*]
 #   (optinal) Certificate file to use when starting API server securely
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*key_file*]
 #   (optional) Private key file to use when starting API server securely
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*ca_file*]
 #   (optional) CA certificate file to use to verify connecting clients
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*use_neutron*]
 #  (Optional) Whether to use neutron
@@ -118,19 +149,19 @@
 #
 # [*external_network*]
 #  (Optional) Name of the external Neutron network which will be used
-#  Defaults to undef
+#  Defaults to $::murano::params::default_external_network
 #
 # [*default_router*]
 #  (Optional) Router name for Murano networks
-#  Defaults to 'murano-default-router'
+#  Defaults to $::os_service_default
 #
 # [*default_nameservers*]
 #  (Optional) Domain Name Servers to use in Murano networks
-#  Defaults to '[]'
+#  Defaults to $::os_service_default
 #
 # [*use_trusts*]
 #  (Optional) Whether to use trust token instead of user token
-#  Defaults to false
+#  Defaults to $::os_service_default
 #
 # [*packages_service*]
 #  (Optional) The service to store murano packages.
@@ -179,7 +210,6 @@
 #
 # [*admin_password*]
 #  (Required) Password for murano credentials
-#  Defaults to false
 #
 # [*admin_tenant_name*]
 #  (Optional) Tenant for admin_username
@@ -212,9 +242,15 @@ class murano(
   $notification_driver     = 'messagingv2',
   $rabbit_os_host          = $::os_service_default,
   $rabbit_os_port          = $::os_service_default,
+  $rabbit_os_hosts         = $::os_service_default,
   $rabbit_os_user          = 'guest',
   $rabbit_os_password      = 'guest',
   $rabbit_os_use_ssl       = $::os_service_default,
+  $rabbit_os_virtual_host  = $::os_service_default,
+  $kombu_ssl_ca_certs      = $::os_service_default,
+  $kombu_ssl_certfile      = $::os_service_default,
+  $kombu_ssl_keyfile       = $::os_service_default,
+  $kombu_ssl_version       = $::os_service_default,
   $rabbit_ha_queues        = $::os_service_default,
   $rabbit_own_host         = $::os_service_default,
   $rabbit_own_port         = $::os_service_default,
@@ -222,6 +258,7 @@ class murano(
   $rabbit_own_password     = 'guest',
   $rabbit_own_vhost        = 'murano',
   $rabbit_own_use_ssl      = $::os_service_default,
+  $rabbit_own_ca_certs     = $::os_service_default,
   $service_host            = '127.0.0.1',
   $service_port            = '8082',
   $use_ssl                 = false,
@@ -300,25 +337,17 @@ class murano(
   }
 
   murano_config {
-    'DEFAULT/notification_driver' :            value => $notification_driver;
+    'murano/url' :                           value => "${service_protocol}://${service_host}:${service_port}";
 
-    'murano/url' :                             value => "${service_protocol}://${service_host}:${service_port}";
+    'engine/use_trusts' :                    value => $use_trusts;
 
-    'engine/use_trusts' :                      value => $use_trusts;
-
-    'oslo_messaging_rabbit/rabbit_userid' :    value => $rabbit_os_user;
-    'oslo_messaging_rabbit/rabbit_password' :  value => $rabbit_os_password;
-    'oslo_messaging_rabbit/rabbit_hosts' :     value => $rabbit_os_host;
-    'oslo_messaging_rabbit/rabbit_port' :      value => $rabbit_os_port;
-    'oslo_messaging_rabbit/rabbit_ha_queues' : value => $rabbit_ha_queues;
-    'oslo_messaging_rabbit/rabbit_use_ssl' :   value => $rabbit_os_use_ssl;
-
-    'rabbitmq/login' :                         value => $rabbit_own_user;
-    'rabbitmq/password' :                      value => $rabbit_own_password;
-    'rabbitmq/host' :                          value => $rabbit_own_host;
-    'rabbitmq/port' :                          value => $rabbit_own_port;
-    'rabbitmq/virtual_host' :                  value => $rabbit_own_vhost;
-    'rabbitmq/ssl' :                           value => $rabbit_own_use_ssl;
+    'rabbitmq/login' :                       value => $rabbit_own_user;
+    'rabbitmq/password' :                    value => $rabbit_own_password;
+    'rabbitmq/host' :                        value => $rabbit_own_host;
+    'rabbitmq/port' :                        value => $rabbit_own_port;
+    'rabbitmq/virtual_host' :                value => $rabbit_own_vhost;
+    'rabbitmq/ssl' :                         value => $rabbit_own_use_ssl;
+    'rabbitmq/ca_certs' :                    value => $rabbit_own_ca_certs;
 
     'keystone_authtoken/auth_uri' :          value => $auth_uri;
     'keystone_authtoken/admin_user' :        value => $admin_user;
@@ -330,6 +359,25 @@ class murano(
     'networking/default_dns':                value => $default_nameservers;
 
     'packages_opts/packages_service':        value => $packages_service,
+  }
+
+  oslo::messaging::rabbit { 'murano_config':
+    kombu_ssl_version   => $kombu_ssl_version,
+    kombu_ssl_keyfile   => $kombu_ssl_keyfile,
+    kombu_ssl_certfile  => $kombu_ssl_certfile,
+    kombu_ssl_ca_certs  => $kombu_ssl_ca_certs,
+    rabbit_host         => $rabbit_os_host,
+    rabbit_port         => $rabbit_os_port,
+    rabbit_hosts        => $rabbit_os_hosts,
+    rabbit_use_ssl      => $rabbit_os_use_ssl,
+    rabbit_userid       => $rabbit_os_user,
+    rabbit_password     => $rabbit_os_password,
+    rabbit_ha_queues    => $rabbit_ha_queues,
+    rabbit_virtual_host => $rabbit_os_virtual_host,
+  }
+
+  oslo::messaging::notifications { 'murano_config':
+    driver => $notification_driver,
   }
 
   if $sync_db {
