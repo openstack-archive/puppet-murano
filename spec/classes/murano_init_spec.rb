@@ -21,7 +21,7 @@ describe 'murano' do
 
     it { is_expected.to contain_class('mysql::bindings::python') }
 
-    it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('DEFAULT/notification_driver').with_value('messagingv2') }
 
     it { is_expected.to contain_murano_config('murano/url').with_value('http://127.0.0.1:8082') }
 

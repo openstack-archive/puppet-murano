@@ -201,7 +201,7 @@ class murano(
   $log_facility            = undef,
   $log_dir                 = undef,
   $data_dir                = '/var/cache/murano',
-  $notification_driver     = $::os_service_default,
+  $notification_driver     = 'messagingv2',
   $rabbit_os_host          = $::os_service_default,
   $rabbit_os_port          = $::os_service_default,
   $rabbit_os_user          = 'guest',
