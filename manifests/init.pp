@@ -276,9 +276,6 @@ class murano(
   }
 
   if $use_ssl {
-    if is_service_default($ca_file) {
-      fail('The ca_file parameter is required when use_ssl is set to true')
-    }
     if is_service_default($cert_file) {
       fail('The cert_file parameter is required when use_ssl is set to true')
     }
