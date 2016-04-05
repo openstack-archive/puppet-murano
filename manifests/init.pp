@@ -60,6 +60,10 @@
 #  (Optional) Should murano api use ha queues
 #  Defaults to false
 #
+# [*rabbit_os_use_ssl*]
+#   (Optional) Connect over SSL for openstack RabbitMQ.
+#   Defaults to $::os_service_default.
+#
 # [*rabbit_own_host*]
 #  (Optional) Host for murano rabbit server
 #  Defaults to '127.0.0.1'
@@ -79,6 +83,10 @@
 # [*rabbit_own_vhost*]
 #  (Optional) Virtual host for murano rabbit server
 #  Defaults to 'murano'
+#
+# [*rabbit_own_use_ssl*]
+#   (Optional) Connect over SSL for Murano RabbitMQ.
+#   Defaults to $::os_service_default.
 #
 # [*service_host*]
 #  (Optional) Host for murano to listen on
@@ -206,12 +214,14 @@ class murano(
   $rabbit_os_port          = $::os_service_default,
   $rabbit_os_user          = 'guest',
   $rabbit_os_password      = 'guest',
+  $rabbit_os_use_ssl       = $::os_service_default,
   $rabbit_ha_queues        = $::os_service_default,
   $rabbit_own_host         = $::os_service_default,
   $rabbit_own_port         = $::os_service_default,
   $rabbit_own_user         = 'guest',
   $rabbit_own_password     = 'guest',
   $rabbit_own_vhost        = 'murano',
+  $rabbit_own_use_ssl      = $::os_service_default,
   $service_host            = '127.0.0.1',
   $service_port            = '8082',
   $use_ssl                 = false,
@@ -301,12 +311,14 @@ class murano(
     'oslo_messaging_rabbit/rabbit_hosts' :     value => $rabbit_os_host;
     'oslo_messaging_rabbit/rabbit_port' :      value => $rabbit_os_port;
     'oslo_messaging_rabbit/rabbit_ha_queues' : value => $rabbit_ha_queues;
+    'oslo_messaging_rabbit/rabbit_use_ssl' :   value => $rabbit_os_use_ssl;
 
     'rabbitmq/login' :                         value => $rabbit_own_user;
     'rabbitmq/password' :                      value => $rabbit_own_password;
     'rabbitmq/host' :                          value => $rabbit_own_host;
     'rabbitmq/port' :                          value => $rabbit_own_port;
     'rabbitmq/virtual_host' :                  value => $rabbit_own_vhost;
+    'rabbitmq/ssl' :                           value => $rabbit_own_use_ssl;
 
     'keystone_authtoken/auth_uri' :          value => $auth_uri;
     'keystone_authtoken/admin_user' :        value => $admin_user;

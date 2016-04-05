@@ -32,12 +32,14 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('rabbitmq/login').with_value('guest') }
     it { is_expected.to contain_murano_config('rabbitmq/password').with_value('guest') }
     it { is_expected.to contain_murano_config('rabbitmq/host').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('rabbitmq/port').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('rabbitmq/virtual_host').with_value('murano') }
+    it { is_expected.to contain_murano_config('rabbitmq/ssl').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('networking/default_dns').with_value('<SERVICE DEFAULT>') }
 
@@ -63,11 +65,13 @@ describe 'murano' do
       :rabbit_os_user          => 'os',
       :rabbit_os_password      => 'ossecrete',
       :rabbit_ha_queues        => true,
+      :rabbit_os_use_ssl       => true,
       :rabbit_own_host         => '10.255.0.2',
       :rabbit_own_port         => '5674',
       :rabbit_own_user         => 'murano',
       :rabbit_own_password     => 'secrete',
       :rabbit_own_vhost        => 'murano_vhost',
+      :rabbit_own_use_ssl      => true,
       :service_host            => '10.255.0.3',
       :service_port            => '8088',
       :packages_service        => 'glare',
@@ -110,12 +114,14 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('10.255.0.1') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('5673') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true) }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true) }
 
     it { is_expected.to contain_murano_config('rabbitmq/login').with_value('murano') }
     it { is_expected.to contain_murano_config('rabbitmq/password').with_value('secrete') }
     it { is_expected.to contain_murano_config('rabbitmq/host').with_value('10.255.0.2') }
     it { is_expected.to contain_murano_config('rabbitmq/port').with_value('5674') }
     it { is_expected.to contain_murano_config('rabbitmq/virtual_host').with_value('murano_vhost') }
+    it { is_expected.to contain_murano_config('rabbitmq/ssl').with_value(true) }
 
     it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://10.255.0.1:5000/v2.0/') }
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_user').with_value('muranoy') }
