@@ -25,7 +25,6 @@ describe 'murano::logging' do
             'amqp'       => 'WARN',
             'amqplib'    => 'WARN',
             'boto'       => 'WARN',
-            'qpid'       => 'WARN',
             'sqlalchemy' => 'WARN',
             'suds'       => 'INFO',
             'iso8601'    => 'WARN',
@@ -106,7 +105,7 @@ describe 'murano::logging' do
       is_expected.to contain_murano_config('DEFAULT/log_config_append').with_value('/etc/murano/logging.conf')
       is_expected.to contain_murano_config('DEFAULT/publish_errors').with_value(true)
       is_expected.to contain_murano_config('DEFAULT/default_log_levels').with_value(
-                         'amqp=WARN,amqplib=WARN,boto=WARN,iso8601=WARN,qpid=WARN,requests.packages.urllib3.connectionpool=WARN,sqlalchemy=WARN,suds=INFO')
+                         'amqp=WARN,amqplib=WARN,boto=WARN,iso8601=WARN,requests.packages.urllib3.connectionpool=WARN,sqlalchemy=WARN,suds=INFO')
 
       is_expected.to contain_murano_config('DEFAULT/fatal_deprecations').with_value(true)
       is_expected.to contain_murano_config('DEFAULT/instance_format').with_value('[instance: %(uuid)s] ')
