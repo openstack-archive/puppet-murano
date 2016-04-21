@@ -1,7 +1,7 @@
 require 'puppet'
 require 'spec_helper'
 require 'puppet/provider/murano'
-require 'rspec/mocks'
+require 'tempfile'
 
 describe Puppet::Provider::Murano do
 
@@ -65,6 +65,51 @@ describe Puppet::Provider::Murano do
         :OS_ENDPOINT_TYPE => 'internalURL',
       }
       klass.expects(:get_murano_credentials).with().returns(credential_hash)
+      klass.expects(:withenv).with(authenv)
+      klass.auth_murano('test_retries')
+    end
+
+    it 'should read auth credentials with specified package service' do
+      mock = {
+        'keystone_authtoken' => {
+          'auth_uri'          => 'https://192.168.56.210:35357',
+          'admin_tenant_name' => 'admin_tenant',
+          'admin_user'        => 'admin',
+          'admin_password'    => 'password',
+        },
+        'packages_opts' => {
+          'packages_service' => 'glance',
+        }
+      }
+      creds = {
+         'auth_uri'          => 'https://192.168.56.210:35357',
+         'admin_tenant_name' => 'admin_tenant',
+         'admin_user'        => 'admin',
+         'admin_password'    => 'password',
+         'packages_service'  => 'glance',
+      }
+      Puppet::Util::IniConfig::File.expects(:new).returns(mock)
+      mock.expects(:read).with('/etc/murano/murano.conf')
+      expect(klass.murano_credentials).to eq(creds)
+    end
+
+    it 'should set auth env credentials with specified package service' do
+      creds = {
+         'auth_uri'          => 'https://192.168.56.210:35357',
+         'admin_tenant_name' => 'admin_tenant',
+         'admin_user'        => 'admin',
+         'admin_password'    => 'password',
+         'packages_service'  => 'glance',
+      }
+      authenv = {
+        :OS_AUTH_URL             => creds['auth_uri'],
+        :OS_USERNAME             => creds['admin_user'],
+        :OS_TENANT_NAME          => creds['admin_tenant_name'],
+        :OS_PASSWORD             => creds['admin_password'],
+        :OS_ENDPOINT_TYPE        => 'internalURL',
+        :MURANO_PACKAGES_SERVICE => creds['packages_service'],
+      }
+      klass.expects(:get_murano_credentials).with().returns(creds)
       klass.expects(:withenv).with(authenv)
       klass.auth_murano('test_retries')
     end

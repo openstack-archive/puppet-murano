@@ -15,7 +15,7 @@ Puppet::Type.type(:murano_application).provide(
   def exists?
     packages = auth_murano('package-list')
     return packages.split("\n")[1..-1].detect do |n|
-      n =~ /^(\S+)\s+(#{resource[:name]})/
+      n =~ /\b(#{resource[:name]})\b/
     end
   end
 
