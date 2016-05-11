@@ -41,7 +41,11 @@ class Puppet::Provider::Murano < Puppet::Provider
     conf = murano_conf
     if conf and conf['keystone_authtoken'] and
         auth_keys.all?{|k| !conf['keystone_authtoken'][k].nil?}
-      return Hash[ auth_keys.map { |k| [k, conf['keystone_authtoken'][k].strip] } ]
+      creds = Hash[ auth_keys.map { |k| [k, conf['keystone_authtoken'][k].strip] } ]
+      if conf['packages_opts'] and !conf['packages_opts']['packages_service'].nil?
+        creds['packages_service'] = conf['packages_opts']['packages_service'].strip
+      end
+      return creds
     else
       raise(Puppet::Error, "File: #{conf_filename} does not contain all " +
                              'required sections. Murano types will not work if murano is not ' +
@@ -58,6 +62,9 @@ class Puppet::Provider::Murano < Puppet::Provider
         :OS_PASSWORD      => m['admin_password'],
         :OS_ENDPOINT_TYPE => 'internalURL'
     }
+    if m.key?('packages_service')
+      authenv[:MURANO_PACKAGES_SERVICE] = m['packages_service']
+    end
     begin
       withenv authenv do
         murano(args)
