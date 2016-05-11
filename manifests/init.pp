@@ -213,7 +213,7 @@
 #
 # [*admin_tenant_name*]
 #  (Optional) Tenant for admin_username
-#  Defaults to 'service'
+#  Defaults to 'services'
 #
 # [*auth_uri*]
 #  (Optional) Public identity endpoint
@@ -280,7 +280,7 @@ class murano(
   $database_max_overflow   = undef,
   $sync_db                 = true,
   $admin_user              = 'murano',
-  $admin_tenant_name       = 'service',
+  $admin_tenant_name       = 'services',
   $auth_uri                = 'http://127.0.0.1:5000',
   $identity_uri            = 'http://127.0.0.1:35357/',
   $signing_dir             = '/tmp/keystone-signing-muranoapi',
