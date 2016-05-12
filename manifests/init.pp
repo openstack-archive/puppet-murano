@@ -90,6 +90,23 @@
 #   available on some distributions.
 #   Defaults to $::os_service_default
 #
+# [*kombu_reconnect_delay*]
+#   (Optional) How long to wait before reconnecting in response
+#   to an AMQP consumer cancel notification. (floating point value)
+#   Defaults to $::os_service_default
+#
+# [*kombu_failover_strategy*]
+#   (Optional) Determines how the next RabbitMQ node is chosen in case the one
+#   we are currently connected to becomes unavailable. Takes effect only if
+#   more than one RabbitMQ node is provided in config. (string value)
+#   Defaults to $::os_service_default
+#
+# [*kombu_compression*]
+#   (optional) Possible values are: gzip, bz2. If not set compression will not
+#   be used. This option may notbe available in future versions. EXPERIMENTAL.
+#   (string value)
+#   Defaults to $::os_service_default
+#
 # [*rabbit_own_host*]
 #  (Optional) Host for murano rabbit server
 #  Defaults to $::os_service_default
@@ -251,6 +268,9 @@ class murano(
   $kombu_ssl_certfile      = $::os_service_default,
   $kombu_ssl_keyfile       = $::os_service_default,
   $kombu_ssl_version       = $::os_service_default,
+  $kombu_reconnect_delay   = $::os_service_default,
+  $kombu_failover_strategy = $::os_service_default,
+  $kombu_compression       = $::os_service_default,
   $rabbit_ha_queues        = $::os_service_default,
   $rabbit_own_host         = $::os_service_default,
   $rabbit_own_port         = $::os_service_default,
@@ -362,18 +382,21 @@ class murano(
   }
 
   oslo::messaging::rabbit { 'murano_config':
-    kombu_ssl_version   => $kombu_ssl_version,
-    kombu_ssl_keyfile   => $kombu_ssl_keyfile,
-    kombu_ssl_certfile  => $kombu_ssl_certfile,
-    kombu_ssl_ca_certs  => $kombu_ssl_ca_certs,
-    rabbit_host         => $rabbit_os_host,
-    rabbit_port         => $rabbit_os_port,
-    rabbit_hosts        => $rabbit_os_hosts,
-    rabbit_use_ssl      => $rabbit_os_use_ssl,
-    rabbit_userid       => $rabbit_os_user,
-    rabbit_password     => $rabbit_os_password,
-    rabbit_ha_queues    => $rabbit_ha_queues,
-    rabbit_virtual_host => $rabbit_os_virtual_host,
+    kombu_ssl_version       => $kombu_ssl_version,
+    kombu_ssl_keyfile       => $kombu_ssl_keyfile,
+    kombu_ssl_certfile      => $kombu_ssl_certfile,
+    kombu_ssl_ca_certs      => $kombu_ssl_ca_certs,
+    kombu_reconnect_delay   => $kombu_reconnect_delay,
+    kombu_failover_strategy => $kombu_failover_strategy,
+    kombu_compression       => $kombu_compression,
+    rabbit_host             => $rabbit_os_host,
+    rabbit_port             => $rabbit_os_port,
+    rabbit_hosts            => $rabbit_os_hosts,
+    rabbit_use_ssl          => $rabbit_os_use_ssl,
+    rabbit_userid           => $rabbit_os_user,
+    rabbit_password         => $rabbit_os_password,
+    rabbit_ha_queues        => $rabbit_ha_queues,
+    rabbit_virtual_host     => $rabbit_os_virtual_host,
   }
 
   oslo::messaging::notifications { 'murano_config':

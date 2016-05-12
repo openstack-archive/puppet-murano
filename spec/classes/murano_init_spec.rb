@@ -35,6 +35,9 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_murano_config('rabbitmq/login').with_value('guest') }
     it { is_expected.to contain_murano_config('rabbitmq/password').with_value('guest') }
@@ -92,6 +95,9 @@ describe 'murano' do
       :auth_uri                => 'http://10.255.0.1:5000/v2.0/',
       :identity_uri            => 'http://10.255.0.1:35357/',
       :signing_dir             => '/tmp/keystone-muranoapi',
+      :kombu_reconnect_delay   => '1.0',
+      :kombu_failover_strategy => 'round-robin',
+      :kombu_compression       => 'gzip',
     }
     end
 
@@ -117,6 +123,10 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('5673') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true) }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true) }
+
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('1.0') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('round-robin') }
+    it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_compression').with_value('gzip') }
 
     it { is_expected.to contain_murano_config('rabbitmq/login').with_value('murano') }
     it { is_expected.to contain_murano_config('rabbitmq/password').with_value('secrete') }
