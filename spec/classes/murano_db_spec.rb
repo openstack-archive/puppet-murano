@@ -11,6 +11,7 @@ describe 'murano::db' do
       it { is_expected.to contain_murano_config('database/retry_interval').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('database/max_pool_size').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('database/max_overflow').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_murano_config('database/db_max_retries').with_value('<SERVICE DEFAULT>') }
     end
 
     context 'with specific parameters' do
@@ -22,6 +23,7 @@ describe 'murano::db' do
           :database_retry_interval => '11',
           :database_max_pool_size  => '11',
           :database_max_overflow   => '21',
+          :database_db_max_retries => '-1',
         }
       end
 
@@ -32,6 +34,7 @@ describe 'murano::db' do
       it { is_expected.to contain_murano_config('database/retry_interval').with_value('11') }
       it { is_expected.to contain_murano_config('database/max_pool_size').with_value('11') }
       it { is_expected.to contain_murano_config('database/max_overflow').with_value('21') }
+      it { is_expected.to contain_murano_config('database/db_max_retries').with_value('-1') }
     end
 
     context 'with postgresql backend' do
