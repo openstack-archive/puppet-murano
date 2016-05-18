@@ -9,7 +9,6 @@ describe 'murano::logging' do
 
   let :log_params do
     {
-        :verbose                       => 'true',
         :debug                         => 'true',
         :use_syslog                    => 'true',
         :use_stderr                    => 'false',
@@ -63,7 +62,6 @@ describe 'murano::logging' do
       it { is_expected.to contain_murano_config('DEFAULT/use_stderr').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('DEFAULT/use_syslog').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('DEFAULT/debug').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_murano_config('DEFAULT/verbose').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('DEFAULT/log_dir').with_value('/var/log/murano') }
     end
 
@@ -80,7 +78,6 @@ describe 'murano::logging' do
   shared_examples_for 'basic logging options passed' do
     context 'with passed params' do
       it { is_expected.to contain_murano_config('DEFAULT/debug').with_value(true) }
-      it { is_expected.to contain_murano_config('DEFAULT/verbose').with_value(true) }
       it { is_expected.to contain_murano_config('DEFAULT/use_syslog').with_value(true) }
       it { is_expected.to contain_murano_config('DEFAULT/use_stderr').with_value(false) }
       it { is_expected.to contain_murano_config('DEFAULT/syslog_log_facility').with_value('LOG_LOCAL0') }

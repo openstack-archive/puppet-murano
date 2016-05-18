@@ -8,10 +8,6 @@
 #  (Optional) Ensure state for package
 #  Defaults to 'present'
 #
-# [*verbose*]
-#  (Optional) Should the service log verbose messages
-#  Defaults to undef
-#
 # [*debug*]
 #  (Optional) Should the service log debug messages
 #  Defaults to undef
@@ -246,10 +242,13 @@
 #  (Optional) Admin identity endpoint
 #  Defaults to 'http://127.0.0.1:35357/'
 #
+# [*verbose*]
+#  (Optional) Deprecated. Should the service log verbose messages
+#  Defaults to undef
+#
 class murano(
   $admin_password,
   $package_ensure          = 'present',
-  $verbose                 = undef,
   $debug                   = undef,
   $use_syslog              = undef,
   $use_stderr              = undef,
@@ -302,8 +301,10 @@ class murano(
   $admin_user              = 'murano',
   $admin_tenant_name       = 'services',
   $auth_uri                = 'http://127.0.0.1:5000',
-  $identity_uri            = 'http://127.0.0.1:35357/',
   $signing_dir             = '/tmp/keystone-signing-muranoapi',
+  # Deprecated
+  $identity_uri            = 'http://127.0.0.1:35357/',
+  $verbose                 = undef,
 ) {
 
   include ::murano::params
@@ -312,6 +313,10 @@ class murano(
   include ::murano::db
 
   validate_string($admin_password)
+
+  if $verbose {
+    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
+  }
 
   package { 'murano-common':
     ensure => $package_ensure,
