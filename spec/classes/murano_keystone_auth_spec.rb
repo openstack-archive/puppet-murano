@@ -51,9 +51,10 @@ describe 'murano::keystone::auth' do
                         ) }
   end
 
-  describe 'when overriding auth name' do
+  describe 'when overriding auth and service name' do
     let :params do
       { :password => 'foo',
+        :service_name => 'muranoy',
         :auth_name => 'muranoy' }
     end
 
@@ -62,4 +63,5 @@ describe 'murano::keystone::auth' do
     it { is_expected.to contain_keystone_service('muranoy::application-catalog') }
     it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy::application-catalog') }
   end
+
 end

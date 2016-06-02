@@ -9,7 +9,7 @@
 #
 # [*service_name*]
 #   (Optional) Name of the service.
-#   Defaults to the value of auth_name.
+#   Defaults to 'murano'.
 #
 # [*auth_name*]
 #   (Optional) Username for murano service.
@@ -62,7 +62,7 @@
 #
 class murano::keystone::auth(
   $password,
-  $service_name        = undef,
+  $service_name        = 'murano',
   $auth_name           = 'murano',
   $email               = 'murano@localhost',
   $tenant              = 'services',
@@ -75,15 +75,15 @@ class murano::keystone::auth(
   $internal_url        = 'http://127.0.0.1:8082',
 ) {
 
-  $real_service_name = pick($service_name, $auth_name)
-
-  keystone::resource::service_identity { $real_service_name:
+  keystone::resource::service_identity { 'murano':
     configure_user      => true,
     configure_user_role => true,
     configure_endpoint  => $configure_endpoint,
+    service_name        => $service_name,
     service_type        => $service_type,
     service_description => $service_description,
     region              => $region,
+    auth_name           => $auth_name,
     password            => $password,
     email               => $email,
     tenant              => $tenant,
