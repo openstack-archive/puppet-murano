@@ -7,6 +7,7 @@ describe 'murano' do
 
   let :params do {
     :admin_password => 'secrete',
+    :purge_config   => false,
   }
   end
 
@@ -18,6 +19,12 @@ describe 'murano' do
     it { is_expected.to contain_package('murano-common').with({
       :ensure => 'present'
     }) }
+
+    it 'passes purge to resource' do
+      is_expected.to contain_resources('murano_config').with({
+        :purge => false
+      })
+    end
 
     it { is_expected.to contain_class('mysql::bindings::python') }
 

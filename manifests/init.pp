@@ -236,6 +236,11 @@
 #  (Optional) Directory used to cache files related to PKI tokens
 #  Defaults to '/tmp/keystone-signing-muranoapi'
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the murano config.
+#   Defaults to false.
+#
 # === Deprecated Parameters
 #
 # [*identity_uri*]
@@ -302,6 +307,7 @@ class murano(
   $admin_tenant_name       = 'services',
   $auth_uri                = 'http://127.0.0.1:5000',
   $signing_dir             = '/tmp/keystone-signing-muranoapi',
+  $purge_config            = false,
   # Deprecated
   $identity_uri            = 'http://127.0.0.1:35357/',
   $verbose                 = undef,
@@ -327,6 +333,10 @@ class murano(
   $service_protocol = $use_ssl ? {
     true    => 'https',
     default => 'http',
+  }
+
+  resources { 'murano_config':
+    purge => $purge_config,
   }
 
   murano_config {
