@@ -9,7 +9,7 @@
 #
 # [*service_name*]
 #   (Optional) Name of the service.
-#   Defaults to the value of auth_name.
+#   Defaults to 'murano-cfapi'.
 #
 # [*auth_name*]
 #   (Optional) Username for murano service.
@@ -62,7 +62,7 @@
 #
 class murano::keystone::cfapi_auth(
   $password,
-  $service_name        = undef,
+  $service_name        = 'murano-cfapi',
   $auth_name           = 'murano-cfapi',
   $email               = 'murano@localhost',
   $tenant              = 'services',
@@ -75,15 +75,16 @@ class murano::keystone::cfapi_auth(
   $internal_url        = 'http://127.0.0.1:8083',
 ) {
 
-  $real_service_name = pick($service_name, $auth_name)
 
-  keystone::resource::service_identity { $real_service_name:
+  keystone::resource::service_identity { 'murano-cfapi':
     configure_user      => false,
     configure_user_role => false,
     configure_endpoint  => $configure_endpoint,
+    service_name        => $service_name,
     service_type        => $service_type,
     service_description => $service_description,
     region              => $region,
+    auth_name           => $auth_name,
     password            => $password,
     email               => $email,
     tenant              => $tenant,

@@ -41,13 +41,14 @@ describe 'murano::keystone::cfapi_auth' do
                         ) }
   end
 
-  describe 'when overriding auth name' do
+  describe 'when overriding service name' do
     let :params do
       { :password => 'foo',
-        :auth_name => 'muranoy' }
+        :service_name => 'murano-cfapiy' }
     end
 
-    it { is_expected.to contain_keystone_service('muranoy::service-broker') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy::service-broker') }
+    it { is_expected.to contain_keystone_service('murano-cfapiy::service-broker') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/murano-cfapiy::service-broker') }
   end
+
 end
