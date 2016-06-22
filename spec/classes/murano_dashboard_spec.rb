@@ -52,7 +52,6 @@ describe 'murano::dashboard' do
 
   shared_examples_for 'with parameters override' do
     let :params do {
-      :api_url               => 'http://127.0.0.1:8083',
       :repo_url              => 'http://storage.apps.openstack.com',
       :enable_glare          => true,
       :collect_static_script => '/bin/openstack-dashboard/manage.py',
@@ -79,7 +78,6 @@ describe 'murano::dashboard' do
       :order  => 2,
     })}
 
-    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_API_URL = 'http:\/\/127.0.0.1:8083'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_REPO_URL = 'http:\/\/storage.apps.openstack.com'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MAX_FILE_SIZE_MB = '5'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/tmp\/muranodashboard-cache'/)}

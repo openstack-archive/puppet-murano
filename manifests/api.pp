@@ -24,27 +24,16 @@
 #  (Optional) Port on which murano api should listen
 #  Defaults to $::os_service_default.
 #
-# DEPRECATED PARAMETERS
-#
-# [*sync_db*]
-#  (Optional) Whether to sync database
-#  Defaults to undef
-#
 class murano::api(
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
   $host           = $::os_service_default,
   $port           = $::os_service_default,
-  $sync_db        = undef,
 ) {
 
   include ::murano::params
   include ::murano::policy
-
-  if $sync_db {
-    warning('The sync_db parameter has no effect.')
-  }
 
   Murano_config<||> ~> Service['murano-api']
   Class['murano::policy'] -> Service['murano-api']
