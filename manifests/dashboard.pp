@@ -40,6 +40,10 @@
 #  (Optional) Whether to sync database
 #  Default to 'true'
 #
+# [*log_handler*]
+#  (Optional) Log handler.
+#  Defaults to 'file'
+#
 class murano::dashboard(
   $package_ensure        = 'present',
   $repo_url              = undef,
@@ -49,6 +53,7 @@ class murano::dashboard(
   $max_file_size         = '5',
   $dashboard_debug_level = 'DEBUG',
   $client_debug_level    = 'ERROR',
+  $log_handler           = 'file',
   $sync_db               = true,
 ) {
 

@@ -28,8 +28,8 @@ describe 'murano::dashboard' do
     it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_REPO_URL = /)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MAX_FILE_SIZE_MB = '5'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/var\/cache\/murano-dashboard'/)}
-    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': \['syslog'\], 'level': 'DEBUG'\}/)}
-    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': \['syslog'\], 'level': 'ERROR'\}/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': 'file', 'level': 'DEBUG'\}/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': 'file', 'level': 'ERROR'\}/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_USE_GLARE = False/)}
 
     it { is_expected.to contain_exec('clean_horizon_config').with({
@@ -58,6 +58,7 @@ describe 'murano::dashboard' do
       :metadata_dir          => '/tmp/muranodashboard-cache',
       :max_file_size         => '5',
       :sync_db               => false,
+      :log_handler           => 'console',
     }
     end
 
@@ -81,8 +82,8 @@ describe 'murano::dashboard' do
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_REPO_URL = 'http:\/\/storage.apps.openstack.com'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MAX_FILE_SIZE_MB = '5'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/tmp\/muranodashboard-cache'/)}
-    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': \['syslog'\], 'level': 'DEBUG'\}/)}
-    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': \['syslog'\], 'level': 'ERROR'\}/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': 'console', 'level': 'DEBUG'\}/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': 'console', 'level': 'ERROR'\}/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_USE_GLARE = True/)}
 
     it { is_expected.to contain_exec('clean_horizon_config').with({
