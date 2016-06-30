@@ -232,6 +232,11 @@
 #  (Optional) Public identity endpoint
 #  Defaults to 'http://127.0.0.1:5000'
 #
+# [*memcached_servers*]
+#   (optinal) a list of memcached server(s) to use for caching. If left
+#   undefined, tokens will instead be cached in-process.
+#   Defaults to $::os_service_default.
+#
 # [*signing_dir*]
 #  (Optional) Directory used to cache files related to PKI tokens
 #  Defaults to '/tmp/keystone-signing-muranoapi'
@@ -306,6 +311,7 @@ class murano(
   $admin_user              = 'murano',
   $admin_tenant_name       = 'services',
   $auth_uri                = 'http://127.0.0.1:5000',
+  $memcached_servers       = $::os_service_default,
   $signing_dir             = '/tmp/keystone-signing-muranoapi',
   $purge_config            = false,
   # Deprecated
@@ -390,6 +396,7 @@ class murano(
     'keystone_authtoken/signing_dir' :       value => $signing_dir;
     'keystone_authtoken/admin_password' :    value => $admin_password;
     'keystone_authtoken/identity_uri' :      value => $identity_uri;
+    'keystone_authtoken/memcached_servers':  value => join(any2array($memcached_servers), ',');
 
     'networking/default_dns':                value => $default_nameservers;
 
