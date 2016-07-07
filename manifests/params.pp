@@ -3,6 +3,7 @@
 # Parameters for puppet-murano
 #
 class murano::params {
+  include ::openstacklib::defaults
   $dbmanage_command         = 'murano-db-manage --config-file /etc/murano/murano.conf upgrade'
   $default_external_network = 'public'
 

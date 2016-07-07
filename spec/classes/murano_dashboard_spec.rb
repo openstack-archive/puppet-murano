@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe 'murano::dashboard' do
 
-  let :facts do {
-    :osfamily       => 'Debian',
-  } end
+  let :facts do
+    OSDefaults.get_facts({ :osfamily => 'Debian' })
+  end
 
   shared_examples_for 'with default class parameters' do
     it { is_expected.to contain_package('murano-dashboard').with({
@@ -107,11 +107,11 @@ describe 'murano::dashboard' do
 
   context 'on Debian platforms' do
     let :facts do
-      {
-        :osfamily => 'Debian',
+      OSDefaults.get_facts({
+        :osfamily        => 'Debian',
         :operatingsystem => 'Debian',
-        :concat_basedir => '/var/lib/puppet/concat'
-      }
+        :concat_basedir  => '/var/lib/puppet/concat',
+      })
     end
 
     it_configures 'with default class parameters'

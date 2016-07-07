@@ -11,10 +11,10 @@ describe 'murano::client' do
 
   context 'on Debian platforms' do
     let :facts do
-      {
-        :osfamily => 'Debian',
-        :operatingsystem => 'Debian'
-      }
+      OSDefaults.get_facts({
+        :osfamily        => 'Debian',
+        :operatingsystem => 'Debian',
+      })
     end
 
     it_configures 'murano-client'
