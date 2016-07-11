@@ -8,11 +8,6 @@
 #  (Optional) Ensure state for package
 #  Defaults to 'present'
 #
-# [*api_url*]
-#  (Optional) DEPRECATED: Use murano::keystone::auth to configure keystone::endpoint for Murano API instead
-#  API url for murano-dashboard
-#  Defaults to 'undef'
-#
 # [*repo_url*]
 #  (Optional) Application repository URL for murano-dashboard
 #  Defaults to 'undef'
@@ -55,15 +50,9 @@ class murano::dashboard(
   $dashboard_debug_level = 'DEBUG',
   $client_debug_level    = 'ERROR',
   $sync_db               = true,
-  # DEPRECATED PARAMETERS
-  $api_url               = undef,
 ) {
 
   include ::murano::params
-
-  if $api_url {
-    warning('Usage of api_url is deprecated. Use murano::keystone::auth to configure keystone::endpoint for Murano API instead.')
-  }
 
   package { 'murano-dashboard':
     ensure => $package_ensure,

@@ -20,26 +20,15 @@
 #  (Optional) Number of workers for Murano Engine
 #  Defaults to $::os_service_default
 #
-# DEPRECATED  PARAMETERS
-#
-# [*sync_db*]
-#  (Optional) Whether to sync database
-#  Defaults to undef
-#
 class murano::engine(
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
   $workers        = $::os_service_default,
-  $sync_db        = undef,
 ) {
 
   include ::murano::params
   include ::murano::policy
-
-  if $sync_db {
-    warning('The sync_db parameter has no effect.')
-  }
 
   Murano_config<||> ~> Service['murano-engine']
   Class['murano::policy'] -> Service['murano-engine']
