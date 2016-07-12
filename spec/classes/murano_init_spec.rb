@@ -61,6 +61,7 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('keystone_authtoken/signing_dir').with_value('/tmp/keystone-signing-muranoapi') }
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_password').with_value('secrete') }
     it { is_expected.not_to contain_murano_config('keystone_authtoken/identity_uri').with_value('http://10.255.0.1:35357/') }
+    it { is_expected.to contain_murano_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('packages_opts/packages_service').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_exec('murano-dbmanage') }
@@ -105,6 +106,7 @@ describe 'murano' do
       :kombu_reconnect_delay   => '1.0',
       :kombu_failover_strategy => 'round-robin',
       :kombu_compression       => 'gzip',
+      :memcached_servers       => '1.1.1.1:11211',
     }
     end
 
@@ -148,6 +150,7 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('keystone_authtoken/signing_dir').with_value('/tmp/keystone-muranoapi') }
     it { is_expected.to contain_murano_config('keystone_authtoken/identity_uri').with_value('http://10.255.0.1:35357/') }
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_password').with_value('secrete') }
+    it { is_expected.to contain_murano_config('keystone_authtoken/memcached_servers').with_value('1.1.1.1:11211') }
 
     it { is_expected.to contain_murano_config('networking/external_network').with_value('murano-net') }
     it { is_expected.to contain_murano_config('networking/router_name').with_value('murano-router') }
