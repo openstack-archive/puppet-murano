@@ -8,6 +8,11 @@
 #  (Optional) Ensure state for package
 #  Defaults to 'present'
 #
+# [*dashboard_name*]
+#  (Optional) Overrides the default dashboard name (Murano) that is displayed
+#  in the main accordion navigation
+#  Defaults to 'undef'
+#
 # [*repo_url*]
 #  (Optional) Application repository URL for murano-dashboard
 #  Defaults to 'undef'
@@ -46,6 +51,7 @@
 #
 class murano::dashboard(
   $package_ensure        = 'present',
+  $dashboard_name        = undef,
   $repo_url              = undef,
   $enable_glare          = false,
   $collect_static_script = '/usr/share/openstack-dashboard/manage.py',

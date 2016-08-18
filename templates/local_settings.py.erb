@@ -1,4 +1,5 @@
 ## MURANO_CONFIG_BEGIN ##
+<% if @dashboard_name != nil %>MURANO_DASHBOARD_NAME = '<%= @dashboard_name %>'<% end %>
 <% if @repo_url != nil %>MURANO_REPO_URL = '<%= @repo_url %>'<% end %>
 MAX_FILE_SIZE_MB = '<%= @max_file_size %>'
 METADATA_CACHE_DIR = '<%= @metadata_dir %>'

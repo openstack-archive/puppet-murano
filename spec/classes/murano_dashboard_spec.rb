@@ -26,6 +26,7 @@ describe 'murano::dashboard' do
 
     it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_API_URL = /)}
     it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_REPO_URL = /)}
+    it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_DASHBOARD_NAME = /)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MAX_FILE_SIZE_MB = '5'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/var\/cache\/murano-dashboard'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': 'file', 'level': 'DEBUG'\}/)}
@@ -52,6 +53,7 @@ describe 'murano::dashboard' do
 
   shared_examples_for 'with parameters override' do
     let :params do {
+      :dashboard_name        => 'Application Catalog',
       :repo_url              => 'http://storage.apps.openstack.com',
       :enable_glare          => true,
       :collect_static_script => '/bin/openstack-dashboard/manage.py',
@@ -79,6 +81,7 @@ describe 'murano::dashboard' do
       :order  => 2,
     })}
 
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_DASHBOARD_NAME = 'Application Catalog'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_REPO_URL = 'http:\/\/storage.apps.openstack.com'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MAX_FILE_SIZE_MB = '5'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/tmp\/muranodashboard-cache'/)}
