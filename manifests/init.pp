@@ -356,10 +356,12 @@ class murano(
     }
     murano_config {
       'networking/external_network': value => $external_network;
+      'networking/driver': value => 'neutron';
     }
   } else {
     murano_config {
       'networking/external_network': ensure => 'absent';
+      'networking/driver': value => 'nova';
     }
   }
 
