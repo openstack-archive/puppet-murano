@@ -91,8 +91,14 @@ class murano::dashboard(
     path    => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
   }
 
+  if $::os_package_type == 'ubuntu' {
+    $collect_static_command = "${collect_static_script} collectstatic --noinput"
+  } else {
+    $collect_static_command = "${collect_static_script} collectstatic --noinput --clear"
+  }
+
   exec { 'django_collectstatic':
-    command     => "${collect_static_script} collectstatic --noinput --clear",
+    command     => $collect_static_command,
     environment => [
       "APACHE_USER=${::apache::params::user}",
       "APACHE_GROUP=${::apache::params::group}",

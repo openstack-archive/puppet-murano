@@ -7,6 +7,14 @@ describe 'murano::dashboard' do
   } end
 
   shared_examples_for 'with default class parameters' do
+    let(:collect_static_command) {
+      if facts[:os_package_type] == 'ubuntu'
+        "/usr/share/openstack-dashboard/manage.py collectstatic --noinput"
+      else
+        "/usr/share/openstack-dashboard/manage.py collectstatic --noinput --clear"
+      end
+    }
+
     it { is_expected.to contain_package('murano-dashboard').with({
       :ensure => 'present',
       :name   => 'python-murano-dashboard',
@@ -38,7 +46,7 @@ describe 'murano::dashboard' do
     })}
 
     it { is_expected.to contain_exec('django_collectstatic').with({
-      :command => '/usr/share/openstack-dashboard/manage.py collectstatic --noinput --clear'
+      :command => collect_static_command
     })}
 
     it { is_expected.to contain_exec('django_compressstatic').with({
@@ -61,6 +69,14 @@ describe 'murano::dashboard' do
       :sync_db               => false,
     }
     end
+
+    let(:collect_static_command) {
+      if facts[:os_package_type] == 'ubuntu'
+        "/bin/openstack-dashboard/manage.py collectstatic --noinput"
+      else
+        "/bin/openstack-dashboard/manage.py collectstatic --noinput --clear"
+      end
+    }
 
     it { is_expected.to contain_package('murano-dashboard').with({
       :ensure => 'present',
@@ -93,7 +109,7 @@ describe 'murano::dashboard' do
     })}
 
     it { is_expected.to contain_exec('django_collectstatic').with({
-      :command => '/bin/openstack-dashboard/manage.py collectstatic --noinput --clear'
+      :command => collect_static_command
     })}
 
     it { is_expected.to contain_exec('django_compressstatic').with({
