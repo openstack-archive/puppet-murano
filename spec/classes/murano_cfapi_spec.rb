@@ -15,10 +15,10 @@ describe 'murano::cfapi' do
     it { is_expected.to contain_class('murano::params') }
     it { is_expected.to contain_class('murano::policy') }
 
-    it { is_expected.to contain_murano_config('cfapi/tenant').with_value('admin') }
-    it { is_expected.to contain_murano_config('cfapi/bind_host').with_value('<SERVICE DEFAULT>') }
-    it { is_expected.to contain_murano_config('cfapi/bind_port').with_value('<SERVICE DEFAULT>') }
-    it { is_expected.to contain_murano_config('cfapi/auth_url').with_value('http://127.0.0.1:5000') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/tenant').with_value('admin') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/bind_host').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/bind_port').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/auth_url').with_value('http://127.0.0.1:5000') }
   end
 
   shared_examples_for 'with parameters override' do
@@ -33,10 +33,10 @@ describe 'murano::cfapi' do
     it { is_expected.to contain_class('murano::params') }
     it { is_expected.to contain_class('murano::policy') }
 
-    it { is_expected.to contain_murano_config('cfapi/tenant').with_value('services') }
-    it { is_expected.to contain_murano_config('cfapi/bind_host').with_value('0.0.0.0') }
-    it { is_expected.to contain_murano_config('cfapi/bind_port').with_value(8080) }
-    it { is_expected.to contain_murano_config('cfapi/auth_url').with_value('http://127.0.0.1:5000/v2.0/') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/tenant').with_value('services') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/bind_host').with_value('0.0.0.0') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/bind_port').with_value(8080) }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/auth_url').with_value('http://127.0.0.1:5000/v2.0/') }
   end
 
   context 'on a RedHat osfamily' do

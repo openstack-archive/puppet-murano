@@ -44,7 +44,7 @@ class murano::cfapi(
   include ::murano::params
   include ::murano::policy
 
-  Murano_config<||> ~> Service['murano-cfapi']
+  Murano_cfapi_config<||> ~> Service['murano-cfapi']
   Class['murano::policy'] -> Service['murano-cfapi']
 
   if $manage_service {
@@ -55,7 +55,7 @@ class murano::cfapi(
     }
   }
 
-  murano_config {
+  murano_cfapi_config {
     'cfapi/tenant':    value => $tenant;
     'cfapi/bind_host': value => $bind_host;
     'cfapi/bind_port': value => $bind_port;
@@ -77,5 +77,5 @@ class murano::cfapi(
   }
 
   Package['murano-cfapi'] ~> Service['murano-cfapi']
-  Murano_paste_ini_config<||> ~> Service['murano-cfapi']
+  Murano_cfapi_paste_ini_config<||> ~> Service['murano-cfapi']
 }

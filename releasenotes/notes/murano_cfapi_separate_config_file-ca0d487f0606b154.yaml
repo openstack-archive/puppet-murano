@@ -1,0 +1,4 @@
+---
+features:
+  - Murano CFAPI service configuration has been moved into
+    separate config files (as main config file as paste ini).
