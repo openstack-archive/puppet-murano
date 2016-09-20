@@ -8,9 +8,11 @@ describe provider_class do
 
   let :app_attrs do
     {
-      :name         => 'io.murano',
-      :package_path => '/tmp/io.murano.zip',
-      :ensure       => 'present',
+      :name          => 'io.murano',
+      :package_path  => '/tmp/io.murano.zip',
+      :ensure        => 'present',
+      :public        => true,
+      :exists_action => 'u',
     }
   end
 
@@ -42,9 +44,17 @@ describe provider_class do
 
     describe '#create' do
       it 'should create application' do
-        provider.expects(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public', '--exists-action', 'u'] )
+        provider.expects(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public'] )
                       .returns('')
         provider.create
+      end
+    end
+
+    describe '#flush' do
+      it 'should flush application' do
+        provider.expects(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public', '--exists-action', 'u'] )
+                      .returns('')
+        provider.flush
       end
     end
 

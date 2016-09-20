@@ -6,14 +6,18 @@ describe 'murano::application' do
 
   describe 'with default parameters' do
     it { is_expected.to contain_murano_application('io.murano').with(
-      :ensure       => 'present',
-      :package_path => '/var/cache/murano/meta/io.murano.zip'
+      :ensure        => 'present',
+      :package_path  => '/var/cache/murano/meta/io.murano.zip',
+      :public        => true,
+      :exists_action => 's'
     )}
   end
 
   describe 'with package_category override' do
     let :params do {
-      :package_category => 'library'
+      :package_category => 'library',
+      :public           => false,
+      :exists_action    => 'u'
     }
     end
 
@@ -21,6 +25,8 @@ describe 'murano::application' do
       :ensure       => 'present',
       :package_path => '/var/cache/murano/meta/io.murano.zip',
       :category     => 'library',
+      :public        => false,
+      :exists_action => 'u'
     )}
   end
 
