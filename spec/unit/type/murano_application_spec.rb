@@ -22,4 +22,7 @@ describe 'Puppet::Type.type(:murano_application)' do
     Puppet::Type.type(:murano_application).new(:name => 'io.murano', :package_path => '/tmp/io.zip', :category => 'library')
   end
 
+  it 'should reject wrong exists action' do
+    expect { Puppet::Type.type(:murano_application).new(:name => 'io.murano', :package_path => '/tmp/io.zip', :category => 'library', :exists_action => 'e') }.to raise_error(Puppet::Error, /Unknown action is set/)
+  end
 end

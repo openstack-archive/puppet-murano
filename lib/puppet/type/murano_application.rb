@@ -9,6 +9,16 @@
 #    Path to package file
 #    Required
 #
+#  [*exists_action*]
+#    Default action when a package
+#    already exists
+#    Optional
+#
+#  [*public*]
+#    Make the package available for users
+#    from other tenants
+#    Optional
+#
 #  [*category*]
 #    Category for the new application
 #    Optional
@@ -42,6 +52,24 @@ Puppet::Type.newtype(:murano_application) do
       end
     end
     newvalues(/\S+/)
+  end
+
+  newproperty(:exists_action) do
+    desc 'Default action when a package already exists'
+    defaultto('s')
+    validate do |value|
+      allowed_actions = ['s', 'a', 'u']
+      raise ArgumentError, 'Unknown action is set' unless allowed_actions.include?(value)
+    end
+  end
+
+  newproperty(:public) do
+    desc 'Make the package available for users from other tenants'
+    defaultto('true')
+    newvalues(/(t|T)rue/, /(f|F)alse/, true, false)
+    munge do |value|
+      value.to_s.downcase.to_sym
+    end
   end
 
   newproperty(:category) do
