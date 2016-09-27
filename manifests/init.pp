@@ -252,10 +252,6 @@
 #  (Optional) Admin identity endpoint
 #  Defaults to 'http://127.0.0.1:35357/'
 #
-# [*verbose*]
-#  (Optional) Deprecated. Should the service log verbose messages
-#  Defaults to undef
-#
 class murano(
   $admin_password,
   $package_ensure          = 'present',
@@ -316,7 +312,6 @@ class murano(
   $purge_config            = false,
   # Deprecated
   $identity_uri            = 'http://127.0.0.1:35357/',
-  $verbose                 = undef,
 ) {
 
   include ::murano::params
@@ -325,10 +320,6 @@ class murano(
   include ::murano::db
 
   validate_string($admin_password)
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
-  }
 
   package { 'murano-common':
     ensure => $package_ensure,
