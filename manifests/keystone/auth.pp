@@ -27,6 +27,14 @@
 #   (Optional) Should murano endpoint be configured?
 #   Defaults to 'true'.
 #
+# [*configure_user*]
+#   (Optional) Should murano user be configured?
+#   Defaults to 'true'.
+#
+# [*configure_user_role*]
+#   (Optional) Should murano user role be configured?
+#   Defaults to 'true'.
+#
 # [*service_type*]
 #   (Optional) Type of service.
 #   Defaults to 'application-catalog'.
@@ -69,6 +77,8 @@ class murano::keystone::auth(
   $service_type        = 'application-catalog',
   $service_description = 'Murano Application Catalog',
   $configure_endpoint  = true,
+  $configure_user      = true,
+  $configure_user_role = true,
   $region              = 'RegionOne',
   $public_url          = 'http://127.0.0.1:8082',
   $admin_url           = 'http://127.0.0.1:8082',
@@ -76,8 +86,8 @@ class murano::keystone::auth(
 ) {
 
   keystone::resource::service_identity { 'murano':
-    configure_user      => true,
-    configure_user_role => true,
+    configure_user      => $configure_user,
+    configure_user_role => $configure_user_role,
     configure_endpoint  => $configure_endpoint,
     service_name        => $service_name,
     service_type        => $service_type,
