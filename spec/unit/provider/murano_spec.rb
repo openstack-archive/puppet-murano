@@ -77,7 +77,7 @@ describe Puppet::Provider::Murano do
           'admin_user'        => 'admin',
           'admin_password'    => 'password',
         },
-        'packages_opts' => {
+        'engine' => {
           'packages_service' => 'glance',
         }
       }

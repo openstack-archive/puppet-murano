@@ -63,7 +63,7 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('keystone_authtoken/admin_password').with_value('secrete') }
     it { is_expected.not_to contain_murano_config('keystone_authtoken/identity_uri').with_value('http://10.255.0.1:35357/') }
     it { is_expected.to contain_murano_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>') }
-    it { is_expected.to contain_murano_config('packages_opts/packages_service').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_config('engine/packages_service').with_value('<SERVICE DEFAULT>') }
 
     it { is_expected.to contain_exec('murano-dbmanage') }
 
@@ -163,7 +163,7 @@ describe 'murano' do
     it { is_expected.to contain_murano_config('ssl/key_file').with_value('/etc/murano/murano.key') }
     it { is_expected.to contain_murano_config('ssl/ca_file').with_value('/etc/murano/ca.crt') }
 
-    it { is_expected.to contain_murano_config('packages_opts/packages_service').with_value('glare') }
+    it { is_expected.to contain_murano_config('engine/packages_service').with_value('glare') }
 
     it { is_expected.to_not contain_exec('murano-dbmanage') }
 

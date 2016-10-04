@@ -42,8 +42,8 @@ class Puppet::Provider::Murano < Puppet::Provider
     if conf and conf['keystone_authtoken'] and
         auth_keys.all?{|k| !conf['keystone_authtoken'][k].nil?}
       creds = Hash[ auth_keys.map { |k| [k, conf['keystone_authtoken'][k].strip] } ]
-      if conf['packages_opts'] and !conf['packages_opts']['packages_service'].nil?
-        creds['packages_service'] = conf['packages_opts']['packages_service'].strip
+      if conf['engine'] and !conf['engine']['packages_service'].nil?
+        creds['packages_service'] = conf['engine']['packages_service'].strip
       end
       return creds
     else
