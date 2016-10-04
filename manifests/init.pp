@@ -402,7 +402,7 @@ class murano(
 
     'networking/default_dns':                value => $default_nameservers;
 
-    'packages_opts/packages_service':        value => $packages_service,
+    'engine/packages_service':               value => $packages_service,
   }
 
   oslo::messaging::rabbit { 'murano_config':
