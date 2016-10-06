@@ -64,4 +64,14 @@ describe 'murano::keystone::auth' do
     it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy::application-catalog') }
   end
 
+  describe 'when not configuring user and role' do
+    let :params do
+      { :password => 'foo',
+        :configure_user => false,
+        :configure_user_role => false }
+    end
+
+    it { is_expected.to_not contain_keystone_user('murano') }
+    it { is_expected.to_not contain_keystone_user_role('murano@services') }
+  end
 end

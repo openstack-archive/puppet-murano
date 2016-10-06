@@ -51,4 +51,14 @@ describe 'murano::keystone::cfapi_auth' do
     it { is_expected.to contain_keystone_endpoint('RegionOne/murano-cfapiy::service-broker') }
   end
 
+  describe 'when configuring user and role' do
+    let :params do
+      { :password => 'foo',
+        :configure_user => true,
+        :configure_user_role => true }
+    end
+
+    it { is_expected.to contain_keystone_user('murano-cfapi') }
+    it { is_expected.to contain_keystone_user_role('murano-cfapi@services') }
+  end
 end

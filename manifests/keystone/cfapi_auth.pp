@@ -27,6 +27,14 @@
 #   (Optional) Should murano endpoint be configured?
 #   Defaults to 'true'.
 #
+# [*configure_user*]
+#   (Optional) Should murano user be configured?
+#   Defaults to 'false'.
+#
+# [*configure_user_role*]
+#   (Optional) Should murano user_role be configured?
+#   Defaults to 'false'.
+#
 # [*service_type*]
 #   (Optional) Type of service.
 #   Defaults to 'service-broker'.
@@ -69,6 +77,8 @@ class murano::keystone::cfapi_auth(
   $service_type        = 'service-broker',
   $service_description = 'Murano Service Broker API',
   $configure_endpoint  = true,
+  $configure_user      = false,
+  $configure_user_role = false,
   $region              = 'RegionOne',
   $public_url          = 'http://127.0.0.1:8083',
   $admin_url           = 'http://127.0.0.1:8083',
@@ -77,8 +87,8 @@ class murano::keystone::cfapi_auth(
 
 
   keystone::resource::service_identity { 'murano-cfapi':
-    configure_user      => false,
-    configure_user_role => false,
+    configure_user      => $configure_user,
+    configure_user_role => $configure_user_role,
     configure_endpoint  => $configure_endpoint,
     service_name        => $service_name,
     service_type        => $service_type,
