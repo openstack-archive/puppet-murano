@@ -33,6 +33,27 @@ Puppet::Type.type(:murano_application).provide(
     auth_murano('package-import', opts)
   end
 
+  def self.instances
+    packages = auth_murano('package-list')
+    packages.split("\n")[3..-2].collect do |n|
+      new({
+        :name => n.split("|")[3][/([^\s]+)/],
+        :exists_action => 's',
+        :package_path => '/var/cache/murano/meta/' + n.split("|")[3][/([^\s]+)/] + '.zip',
+        :public => (n.split("|")[5][/([^\s]+)/] == 'True').to_s,
+        :ensure => :present
+      })
+    end
+  end
+
+  def self.prefetch(resources)
+    packages = instances
+    resources.keys.each do |name|
+      if provider = packages.find{ |package| package.name == name }
+        resources[name].provider = provider
+      end
+    end
+  end
 
   def flush
     if [:present, :latest].include?(resource[:ensure])

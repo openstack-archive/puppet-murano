@@ -25,27 +25,10 @@ describe provider_class do
   end
 
   shared_examples 'murano_application' do
-    describe '#exists?' do
-      it 'should check existsing application' do
-        provider.class.stubs(:application_exists?).returns(true)
-        provider.expects(:auth_murano).with("package-list")
-                      .returns('"+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| ID                               | Name               | FQN                                    | Author        | Is Public |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| 9a23e4aea548462d82b66f2aee0f196e | Core library       | io.murano                              | murano.io     | True      |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n"')
-        provider.exists?
-      end
-
-      it 'should check non-existsing application' do
-        resource[:name] = 'io.murano.qwe'
-        provider.class.stubs(:application_exists?).returns(false)
-        provider.expects(:auth_murano).with("package-list")
-            .returns('"+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| ID                               | Name               | FQN                                    | Author        | Is Public |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| 9a23e4aea548462d82b66f2aee0f196e | Core library       | io.murano                              | murano.io     | True      |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n"')
-        provider.exists?
-      end
-    end
-
     describe '#create' do
       it 'should create application' do
         provider.expects(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public'] )
-                      .returns('')
+          .returns('')
         provider.create
       end
     end
@@ -53,7 +36,7 @@ describe provider_class do
     describe '#flush' do
       it 'should flush application' do
         provider.expects(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public', '--exists-action', 'u'] )
-                      .returns('')
+          .returns('')
         provider.flush
       end
     end
@@ -62,8 +45,21 @@ describe provider_class do
       it 'should destroy application' do
         resource[:ensure] = :absent
         provider.expects(:auth_murano).with("package-delete", 'io.murano')
-                      .returns('')
+          .returns('')
         provider.destroy
+      end
+    end
+
+    describe '#instances' do
+      it 'finds packages' do
+        provider.class.expects(:auth_murano).with("package-list")
+          .returns("+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| ID                               | Name               | FQN                                    | Author        | Is Public |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| 9a23e4aea548462d82b66f2aee0f196e | Core library       | io.murano                              | murano.io     | True      |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n")
+        instances = provider_class.instances
+        expect(instances.count).to eq(1)
+        expect(instances[0].name).to eq('io.murano')
+        expect(instances[0].public).to eq('true')
+        expect(instances[0].package_path).to eq('/var/cache/murano/meta/io.murano.zip')
+        expect(instances[0].exists_action).to eq('s')
       end
     end
   end
