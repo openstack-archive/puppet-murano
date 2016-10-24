@@ -85,12 +85,6 @@
 #   Defaults to $::os_service_default.
 #   Example: 'Y-%m-%d %H:%M:%S'
 #
-#  DEPRECATED PARAMETERS
-#
-# [*verbose*]
-#   (Optional) Deprecated. Should the daemons log verbose messages
-#   Defaults to undef
-#
 class murano::logging(
   $debug                         = $::os_service_default,
   $use_syslog                    = $::os_service_default,
@@ -108,14 +102,8 @@ class murano::logging(
   $instance_format               = $::os_service_default,
   $instance_uuid_format          = $::os_service_default,
   $log_date_format               = $::os_service_default,
-  # Deprecated
-  $verbose                       = undef,
 ) {
 
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
-  }
 # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
 # to use murano::<myparam> if murano::logging::<myparam> isn't specified.
   $use_syslog_real   = pick($::murano::use_syslog, $use_syslog)
