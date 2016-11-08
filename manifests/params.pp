@@ -4,8 +4,13 @@
 #
 class murano::params {
   include ::openstacklib::defaults
+
   $dbmanage_command         = 'murano-db-manage --config-file /etc/murano/murano.conf upgrade'
   $default_external_network = 'public'
+  # service names
+  $api_service_name         = 'murano-api'
+  $cfapi_service_name       = 'murano-cfapi'
+  $engine_service_name      = 'murano-engine'
 
   case $::osfamily {
     'RedHat': {
@@ -16,10 +21,6 @@ class murano::params {
       $engine_package_name       = 'openstack-murano-engine'
       $pythonclient_package_name = 'openstack-python-muranoclient'
       $dashboard_package_name    = 'openstack-murano-dashboard'
-      # service names
-      $api_service_name          = 'murano-api'
-      $cfapi_service_name        = 'murano-cfapi'
-      $engine_service_name       = 'murano-engine'
       # dashboard config file
       $local_settings_path       = '/etc/openstack-dashboard/local_settings'
     }
@@ -31,10 +32,6 @@ class murano::params {
       $engine_package_name       = 'murano-engine'
       $pythonclient_package_name = 'python-muranoclient'
       $dashboard_package_name    = 'python-murano-dashboard'
-      # service names
-      $api_service_name          = 'murano-api'
-      $cfapi_service_name        = 'murano-cfapi'
-      $engine_service_name       = 'murano-engine'
       # dashboard config file
       $local_settings_path       = '/etc/openstack-dashboard/local_settings.py'
     }
