@@ -34,6 +34,7 @@ describe 'murano' do
 
     it { is_expected.to contain_murano_config('engine/use_trusts').with_value('<SERVICE DEFAULT>') }
 
+    it { is_expected.to contain_murano_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('guest') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('guest') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>') }
@@ -74,6 +75,7 @@ describe 'murano' do
       :admin_password          => 'secrete',
       :package_ensure          => 'latest',
       :notification_driver     => 'messagingv1',
+      :default_transport_url   => 'rabbit://user:pass@host:1234/virt',
       :rabbit_os_host          => '10.255.0.1',
       :rabbit_os_port          => '5673',
       :rabbit_os_user          => 'os',
@@ -127,6 +129,7 @@ describe 'murano' do
 
     it { is_expected.to contain_murano_config('engine/use_trusts').with_value(true) }
 
+    it { is_expected.to contain_murano_config('DEFAULT/transport_url').with_value('rabbit://user:pass@host:1234/virt') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('os') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('ossecrete') }
     it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_host').with_value('10.255.0.1') }

@@ -36,26 +36,11 @@
 #  (Optional) Notification driver to use
 #  Defaults to 'messagingv2'
 #
-# [*rabbit_os_host*]
-#  (Optional) Host for openstack rabbit server
+# [*default_transport_url*]
+#  (optional) A URL representing the messaging driver to use and its full
+#  configuration. Transport URLs take the form:
+#    transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #  Defaults to $::os_service_default
-#
-# [*rabbit_os_hosts*]
-#  (Optional) Hosts for openstack rabbit server
-#  Defaults to $::os_service_default
-#
-# [*rabbit_os_port*]
-#  (Optional) Port for openstack rabbit server
-#  Defaults to $::os_service_default
-#
-# [*rabbit_os_user*]
-#  (Optional) Username for openstack rabbit server
-#  Defaults to 'guest'
-#
-# [*rabbit_os_password*]
-#  (Optional) Password for openstack rabbit server
-#  Defaults to 'guest'
-#
 # [*rabbit_ha_queues*]
 #  (Optional) Should murano api use ha queues
 #  Defaults to $::os_service_default
@@ -63,10 +48,6 @@
 # [*rabbit_os_use_ssl*]
 #   (Optional) Connect over SSL for openstack RabbitMQ.
 #   Defaults to $::os_service_default.
-#
-# [*rabbit_os_virtual_host*]
-#   (optional) The RabbitMQ virtual host.
-#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_ca_certs*]
 #   (optional) SSL certification authority file (valid only if SSL enabled).
@@ -252,6 +233,30 @@
 #  (Optional) Admin identity endpoint
 #  Defaults to 'http://127.0.0.1:35357/'
 #
+# [*rabbit_os_host*]
+#  (Optional) Host for openstack rabbit server
+#  Defaults to $::os_service_default
+#
+# [*rabbit_os_hosts*]
+#  (Optional) Hosts for openstack rabbit server
+#  Defaults to $::os_service_default
+#
+# [*rabbit_os_port*]
+#  (Optional) Port for openstack rabbit server
+#  Defaults to $::os_service_default
+#
+# [*rabbit_os_user*]
+#  (Optional) Username for openstack rabbit server
+#  Defaults to 'guest'
+#
+# [*rabbit_os_password*]
+#  (Optional) Password for openstack rabbit server
+#  Defaults to 'guest'
+#
+# [*rabbit_os_virtual_host*]
+#   (optional) The RabbitMQ virtual host.
+#   Defaults to $::os_service_default
+#
 class murano(
   $admin_password,
   $package_ensure          = 'present',
@@ -262,13 +267,8 @@ class murano(
   $log_dir                 = undef,
   $data_dir                = '/var/cache/murano',
   $notification_driver     = 'messagingv2',
-  $rabbit_os_host          = $::os_service_default,
-  $rabbit_os_port          = $::os_service_default,
-  $rabbit_os_hosts         = $::os_service_default,
-  $rabbit_os_user          = 'guest',
-  $rabbit_os_password      = 'guest',
+  $default_transport_url   = $::os_service_default,
   $rabbit_os_use_ssl       = $::os_service_default,
-  $rabbit_os_virtual_host  = $::os_service_default,
   $kombu_ssl_ca_certs      = $::os_service_default,
   $kombu_ssl_certfile      = $::os_service_default,
   $kombu_ssl_keyfile       = $::os_service_default,
@@ -312,6 +312,12 @@ class murano(
   $purge_config            = false,
   # Deprecated
   $identity_uri            = 'http://127.0.0.1:35357/',
+  $rabbit_os_host          = $::os_service_default,
+  $rabbit_os_port          = $::os_service_default,
+  $rabbit_os_hosts         = $::os_service_default,
+  $rabbit_os_virtual_host  = $::os_service_default,
+  $rabbit_os_user          = 'guest',
+  $rabbit_os_password      = 'guest',
 ) {
 
   include ::murano::params
@@ -320,6 +326,17 @@ class murano(
   include ::murano::db
 
   validate_string($admin_password)
+
+  if !is_service_default($rabbit_os_host) or
+    !is_service_default($rabbit_os_hosts) or
+    !is_service_default($rabbit_os_password) or
+    !is_service_default($rabbit_os_port) or
+    !is_service_default($rabbit_os_user) or
+    !is_service_default($rabbit_os_virtual_host) {
+    warning("murano::rabbit_os_host, murano::rabbit_os_hosts, murano::rabbit_os_password, \
+murano::rabbit_os_port, murano::rabbit_os_userid and murano::rabbit_os_virtual_host are \
+deprecated. Please use murano::default_transport_url instead.")
+  }
 
   package { 'murano-common':
     ensure => $package_ensure,
@@ -412,6 +429,10 @@ class murano(
     rabbit_password         => $rabbit_os_password,
     rabbit_ha_queues        => $rabbit_ha_queues,
     rabbit_virtual_host     => $rabbit_os_virtual_host,
+  }
+
+  oslo::messaging::default { 'murano_config':
+    transport_url => $default_transport_url,
   }
 
   oslo::messaging::notifications { 'murano_config':

@@ -46,8 +46,7 @@ describe 'basic murano' do
           }
           class { '::murano':
             admin_password          => 'a_big_secret',
-            rabbit_os_user          => 'murano',
-            rabbit_os_password      => 'an_even_bigger_secret',
+            default_transport_url   => 'rabbit://murano:an_even_bigger_secret@127.0.0.1:5672/',
             rabbit_own_user         => 'murano',
             rabbit_own_password     => 'an_even_bigger_secret',
             rabbit_own_vhost        => '/murano',
