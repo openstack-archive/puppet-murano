@@ -1,0 +1,6 @@
+---
+fixes:
+  - Fixes `bug 1644699
+    <https://bugs.launchpad.net/puppet-murano/+bug/1644699>`__ so
+    we're able to correctly install murano client package in RedHat
+    platforms.
