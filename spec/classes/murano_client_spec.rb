@@ -9,14 +9,15 @@ describe 'murano::client' do
     )}
   end
 
-  context 'on Debian platforms' do
-    let :facts do
-      OSDefaults.get_facts({
-        :osfamily        => 'Debian',
-        :operatingsystem => 'Debian',
-      })
-    end
+  on_supported_os({
+    :supported_os   => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts()) 
+      end
 
-    it_configures 'murano-client'
+      it_configures 'murano-client'
+    end
   end
 end
