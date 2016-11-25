@@ -19,7 +19,7 @@ class murano::params {
       $cfapi_package_name        = 'openstack-murano-cfapi'
       $common_package_name       = 'openstack-murano-common'
       $engine_package_name       = 'openstack-murano-engine'
-      $pythonclient_package_name = 'openstack-python-muranoclient'
+      $pythonclient_package_name = 'python-muranoclient'
       $dashboard_package_name    = 'openstack-murano-dashboard'
       # dashboard config file
       $local_settings_path       = '/etc/openstack-dashboard/local_settings'
