@@ -20,40 +20,33 @@ describe 'murano::api' do
     end
   end
 
-  context 'on a RedHat osfamily' do
-    let :facts do
-      @default_facts.merge({
-          :osfamily               => 'RedHat',
-          :operatingsystemrelease => '7.0',
-          :concat_basedir         => '/var/lib/puppet/concat'
-      })
+  on_supported_os({
+    :supported_os   => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({
+          :concat_basedir => '/var/lib/puppet/concat'
+        }))
+      end
+
+      case facts[:osfamily]
+      when 'Debian'
+        it_behaves_like 'generic murano service', {
+            :name         => 'murano-api',
+            :package_name => 'murano-api',
+            :service_name => 'murano-api'
+          }
+      when 'RedHat'
+        it_behaves_like 'generic murano service', {
+            :name         => 'murano-api',
+            :package_name => 'openstack-murano-api',
+            :service_name => 'murano-api'
+          }
+      end
+
+      it_behaves_like 'murano-api'
     end
-
-    it_configures 'murano-api'
-
-    it_behaves_like 'generic murano service', {
-        :name         => 'murano-api',
-        :package_name => 'openstack-murano-api',
-        :service_name => 'murano-api'
-      }
   end
 
-  context 'on a Debian osfamily' do
-    let :facts do
-      @default_facts.merge({
-          :operatingsystemrelease => '7.8',
-          :operatingsystem        => 'Debian',
-          :osfamily               => 'Debian',
-          :concat_basedir         => '/var/lib/puppet/concat'
-      })
-    end
-
-    it_configures 'murano-api'
-
-    it_behaves_like 'generic murano service', {
-        :name         => 'murano-api',
-        :package_name => 'murano-api',
-        :service_name => 'murano-api'
-      }
-  end
 end

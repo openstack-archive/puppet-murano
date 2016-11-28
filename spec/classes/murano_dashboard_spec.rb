@@ -2,11 +2,37 @@ require 'spec_helper'
 
 describe 'murano::dashboard' do
 
-  let :facts do
-    OSDefaults.get_facts({ :osfamily => 'Debian' })
+  let :params do
+    {
+    }
   end
 
-  shared_examples_for 'with default class parameters' do
+  let :dashboard_params do {
+    :dashboard_name        => 'Application Catalog',
+    :repo_url              => 'http://storage.apps.openstack.com',
+    :enable_glare          => true,
+    :collect_static_script => '/bin/openstack-dashboard/manage.py',
+    :metadata_dir          => '/tmp/muranodashboard-cache',
+    :max_file_size         => '5',
+    :sync_db               => false,
+    :log_handler           => 'console',
+  }
+  end
+
+  shared_examples_for 'murano dashboard' do
+    context 'with basic dashboard options and default settings' do
+      it_configures 'with default class parameters'
+    end
+
+    context 'with non-default settings' do
+      before { params.merge!( dashboard_params ) }
+      it_configures 'with parameters override'
+    end
+  end
+
+  shared_examples 'with default class parameters' do
+
+
     let(:collect_static_command) {
       if facts[:os_package_type] == 'ubuntu'
         "/usr/share/openstack-dashboard/manage.py collectstatic --noinput"
@@ -59,18 +85,7 @@ describe 'murano::dashboard' do
     })}
   end
 
-  shared_examples_for 'with parameters override' do
-    let :params do {
-      :dashboard_name        => 'Application Catalog',
-      :repo_url              => 'http://storage.apps.openstack.com',
-      :enable_glare          => true,
-      :collect_static_script => '/bin/openstack-dashboard/manage.py',
-      :metadata_dir          => '/tmp/muranodashboard-cache',
-      :max_file_size         => '5',
-      :sync_db               => false,
-      :log_handler           => 'console',
-    }
-    end
+  shared_examples 'with parameters override' do
 
     let(:collect_static_command) {
       if facts[:os_package_type] == 'ubuntu'
@@ -132,7 +147,6 @@ describe 'murano::dashboard' do
       })
     end
 
-    it_configures 'with default class parameters'
-    it_configures 'with parameters override'
+    it_behaves_like 'murano dashboard'
   end
 end
