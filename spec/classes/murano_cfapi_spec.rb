@@ -57,8 +57,8 @@ describe 'murano::cfapi' do
       when 'RedHat'
         it_behaves_like 'generic murano service', {
             :name         => 'murano-cfapi',
-            :package_name => 'openstack-murano-cfapi',
-            :service_name => 'murano-cfapi',
+            :package_name => 'openstack-murano-cf-api',
+            :service_name => 'murano-cf-api',
             :extra_params => {
               :tenant => 'admin',
             },
