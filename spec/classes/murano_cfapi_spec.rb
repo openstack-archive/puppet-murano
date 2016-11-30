@@ -39,50 +39,41 @@ describe 'murano::cfapi' do
     it { is_expected.to contain_murano_cfapi_config('cfapi/auth_url').with_value('http://127.0.0.1:5000/v2.0/') }
   end
 
-  context 'on a RedHat osfamily' do
-    let :facts do
-      @default_facts.merge({
-          :osfamily               => 'RedHat',
-          :operatingsystemrelease => '7.0',
+  on_supported_os({
+    :supported_os   => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({
           :concat_basedir         => '/var/lib/puppet/concat'
-      })
+        }))
+      end
+
+      it_behaves_like 'murano-cfapi'
+      it_behaves_like 'with default parameters'
+      it_behaves_like 'with parameters override'
+
+      case facts[:osfamily]
+      when 'RedHat'
+        it_behaves_like 'generic murano service', {
+            :name         => 'murano-cfapi',
+            :package_name => 'openstack-murano-cf-api',
+            :service_name => 'murano-cf-api',
+            :extra_params => {
+              :tenant => 'admin',
+            },
+          }
+      when 'Debian'
+        it_behaves_like 'generic murano service', {
+            :name         => 'murano-cfapi',
+            :package_name => 'murano-cfapi',
+            :service_name => 'murano-cfapi',
+            :extra_params => {
+              :tenant => 'admin',
+            },
+          }
+      end
     end
-
-    it_configures 'murano-cfapi'
-    it_configures 'with default parameters'
-    it_configures 'with parameters override'
-
-    it_behaves_like 'generic murano service', {
-        :name         => 'murano-cfapi',
-        :package_name => 'openstack-murano-cfapi',
-        :service_name => 'murano-cfapi',
-        :extra_params => {
-          :tenant => 'admin',
-        },
-      }
   end
 
-  context 'on a Debian osfamily' do
-    let :facts do
-      @default_facts.merge({
-          :operatingsystemrelease => '7.8',
-          :operatingsystem        => 'Debian',
-          :osfamily               => 'Debian',
-          :concat_basedir         => '/var/lib/puppet/concat'
-      })
-    end
-
-    it_configures 'murano-cfapi'
-    it_configures 'with default parameters'
-    it_configures 'with parameters override'
-
-    it_behaves_like 'generic murano service', {
-        :name         => 'murano-cfapi',
-        :package_name => 'murano-cfapi',
-        :service_name => 'murano-cfapi',
-        :extra_params => {
-          :tenant => 'admin',
-        },
-      }
-  end
 end
