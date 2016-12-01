@@ -17,7 +17,8 @@
 #  Defaults to 'present'
 #
 # [*tenant*]
-#  (Required) Tenant for cloudfoundry api
+#  (Optional) Tenant for cloudfoundry api
+#  Defaults to 'admin'
 #
 # [*bind_host*]
 #  (Optional) Host on which murano cloudfoundry api should listen
@@ -31,14 +32,26 @@
 #  (Optional) Public identity endpoint
 #  Defaults to 'http://127.0.0.1:5000'.
 #
+# [*user_domain_name*]
+#  (Optional) User Domain name for connecting to Murano CFAPI services in
+#  admin context through the OpenStack Identity service.
+#  Defaults to $::os_service_default.
+#
+# [*project_domain_name*]
+#  (Optional) Project Domain name for connecting to Murano CFAPI services in
+#  admin context through the OpenStack Identity service.
+#  Defaults to $::os_service_default.
+#
 class murano::cfapi(
-  $tenant,
-  $manage_service = true,
-  $enabled        = true,
-  $package_ensure = 'present',
-  $bind_host      = $::os_service_default,
-  $bind_port      = $::os_service_default,
-  $auth_url       = 'http://127.0.0.1:5000',
+  $tenant              = 'admin',
+  $manage_service      = true,
+  $enabled             = true,
+  $package_ensure      = 'present',
+  $bind_host           = $::os_service_default,
+  $bind_port           = $::os_service_default,
+  $auth_url            = 'http://127.0.0.1:5000',
+  $user_domain_name    = $::os_service_default,
+  $project_domain_name = $::os_service_default,
 ) {
 
   include ::murano::deps
@@ -54,10 +67,12 @@ class murano::cfapi(
   }
 
   murano_cfapi_config {
-    'cfapi/tenant':    value => $tenant;
-    'cfapi/bind_host': value => $bind_host;
-    'cfapi/bind_port': value => $bind_port;
-    'cfapi/auth_url':  value => $auth_url;
+    'cfapi/tenant':               value => $tenant;
+    'cfapi/bind_host':            value => $bind_host;
+    'cfapi/bind_port':            value => $bind_port;
+    'cfapi/auth_url':             value => $auth_url;
+    'cfapi/user_domain_name':     value => $user_domain_name;
+    'cfapi/project_domain_name':  value => $project_domain_name;
   }
 
   package { 'murano-cfapi':

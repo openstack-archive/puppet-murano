@@ -1,6 +1,6 @@
-# == Class murano::logging
+# == Class murano::logging_cfapi
 #
-#  murano extended logging configuration
+#  murano_cfapi extended logging configuration
 #
 # === Parameters
 #
@@ -23,7 +23,7 @@
 # [*log_dir*]
 #   (optional) Directory where logs should be stored.
 #   If set to $::os_service_default, it will not log to any directory.
-#   Defaults to '/var/log/murano'
+#   Defaults to '/var/log/murano_cfapi'
 #
 # [*logging_context_format_string*]
 #   (optional) Format string to use for log messages with context.
@@ -85,12 +85,12 @@
 #   Defaults to $::os_service_default.
 #   Example: 'Y-%m-%d %H:%M:%S'
 #
-class murano::logging(
+class murano::logging_cfapi(
   $debug                         = $::os_service_default,
   $use_syslog                    = $::os_service_default,
   $use_stderr                    = $::os_service_default,
   $log_facility                  = $::os_service_default,
-  $log_dir                       = '/var/log/murano',
+  $log_dir                       = '/var/log/murano_cfapi',
   $logging_context_format_string = $::os_service_default,
   $logging_default_format_string = $::os_service_default,
   $logging_debug_format_suffix   = $::os_service_default,
@@ -104,22 +104,12 @@ class murano::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
-  include ::murano::deps
-
-# NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
-# to use murano::<myparam> if murano::logging::<myparam> isn't specified.
-  $use_syslog_real   = pick($::murano::use_syslog, $use_syslog)
-  $use_stderr_real   = pick($::murano::use_stderr, $use_stderr)
-  $log_facility_real = pick($::murano::log_facility, $log_facility)
-  $log_dir_real      = pick($::murano::log_dir, $log_dir)
-  $debug_real        = pick($::murano::debug, $debug)
-
-  oslo::log { 'murano_config':
-    debug                         => $debug_real,
-    use_syslog                    => $use_syslog_real,
-    use_stderr                    => $use_stderr_real,
-    log_dir                       => $log_dir_real,
-    syslog_log_facility           => $log_facility_real,
+  oslo::log { 'murano_cfapi_config':
+    debug                         => $debug,
+    use_syslog                    => $use_syslog,
+    use_stderr                    => $use_stderr,
+    log_dir                       => $log_dir,
+    syslog_log_facility           => $log_facility,
     logging_context_format_string => $logging_context_format_string,
     logging_default_format_string => $logging_default_format_string,
     logging_debug_format_suffix   => $logging_debug_format_suffix,
@@ -132,5 +122,4 @@ class murano::logging(
     instance_format               => $instance_format,
     instance_uuid_format          => $instance_uuid_format,
   }
-
 }

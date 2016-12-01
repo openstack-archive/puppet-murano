@@ -1,0 +1,4 @@
+---
+features:
+  - Add separate db for Murano Service Broker, so we can use
+    murano service broker independently.

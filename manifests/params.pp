@@ -6,6 +6,7 @@ class murano::params {
   include ::openstacklib::defaults
 
   $dbmanage_command         = 'murano-db-manage --config-file /etc/murano/murano.conf upgrade'
+  $cfapi_dbmanage_command   = 'murano-cfapi-db-manage --config-file /etc/murano/murano-cfapi.conf upgrade'
   $default_external_network = 'public'
   # service names
   $api_service_name         = 'murano-api'

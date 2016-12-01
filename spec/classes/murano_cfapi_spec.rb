@@ -20,6 +20,8 @@ describe 'murano::cfapi' do
     it { is_expected.to contain_murano_cfapi_config('cfapi/bind_host').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_cfapi_config('cfapi/bind_port').with_value('<SERVICE DEFAULT>') }
     it { is_expected.to contain_murano_cfapi_config('cfapi/auth_url').with_value('http://127.0.0.1:5000') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/user_domain_name').with_value('<SERVICE DEFAULT>') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/project_domain_name').with_value('<SERVICE DEFAULT>') }
   end
 
   shared_examples_for 'with parameters override' do
@@ -27,7 +29,7 @@ describe 'murano::cfapi' do
       :tenant => 'services',
       :bind_host => '0.0.0.0',
       :bind_port => 8080,
-      :auth_url => 'http://127.0.0.1:5000/v2.0/'
+      :auth_url => 'http://127.0.0.1:5000/v2.0/',
     }
     end
 
