@@ -32,11 +32,9 @@ class murano::api(
   $port           = $::os_service_default,
 ) {
 
+  include ::murano::deps
   include ::murano::params
   include ::murano::policy
-
-  Murano_config<||> ~> Service['murano-api']
-  Class['murano::policy'] -> Service['murano-api']
 
   if $manage_service {
     if $enabled {
@@ -58,14 +56,10 @@ class murano::api(
   }
 
   service { 'murano-api':
-    ensure  => $service_ensure,
-    name    => $::murano::params::api_service_name,
-    enable  => $enabled,
-    require => Package['murano-api'],
-    tag     => 'murano-service',
+    ensure => $service_ensure,
+    name   => $::murano::params::api_service_name,
+    enable => $enabled,
+    tag    => 'murano-service',
   }
-
-  Package['murano-api'] ~> Service['murano-api']
-  Murano_paste_ini_config<||> ~> Service['murano-api']
 
 }

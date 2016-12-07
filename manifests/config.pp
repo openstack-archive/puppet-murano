@@ -36,6 +36,8 @@ class murano::config (
   $murano_cfapi_paste_config = {}
 ) {
 
+  include ::murano::deps
+
   validate_hash($murano_config)
   validate_hash($murano_cfapi_config)
   validate_hash($murano_paste_config)

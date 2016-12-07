@@ -104,6 +104,8 @@ class murano::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
+  include ::murano::deps
+
 # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
 # to use murano::<myparam> if murano::logging::<myparam> isn't specified.
   $use_syslog_real   = pick($::murano::use_syslog, $use_syslog)

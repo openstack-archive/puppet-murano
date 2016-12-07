@@ -17,6 +17,8 @@ class murano::policy (
   $policy_path = '/etc/murano/policy.json',
 ) {
 
+  include ::murano::deps
+
   validate_hash($policies)
 
   Openstacklib::Policy::Base {

@@ -27,11 +27,9 @@ class murano::engine(
   $workers        = $::os_service_default,
 ) {
 
+  include ::murano::deps
   include ::murano::params
   include ::murano::policy
-
-  Murano_config<||> ~> Service['murano-engine']
-  Class['murano::policy'] -> Service['murano-engine']
 
   if $manage_service {
     if $enabled {
@@ -52,13 +50,10 @@ class murano::engine(
   }
 
   service { 'murano-engine':
-    ensure  => $service_ensure,
-    name    => $::murano::params::engine_service_name,
-    enable  => $enabled,
-    require => Package['murano-engine'],
-    tag     => 'murano-service',
+    ensure => $service_ensure,
+    name   => $::murano::params::engine_service_name,
+    enable => $enabled,
+    tag    => 'murano-service',
   }
-
-  Package['murano-engine'] ~> Service['murano-engine']
 
 }

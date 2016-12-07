@@ -42,6 +42,8 @@ class murano::db::mysql(
   $collate       = 'utf8_general_ci',
 ) {
 
+  include ::murano::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql{ 'murano':
@@ -54,5 +56,8 @@ class murano::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['murano'] ~> Exec<| title == 'murano-dbmanage' |>
+  Anchor['murano::db::begin']
+  ~> Class['murano::db::mysql']
+  ~> Anchor['murano::db::end']
+
 }

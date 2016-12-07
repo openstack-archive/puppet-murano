@@ -12,6 +12,7 @@ class murano::client(
   $package_ensure = 'present',
 ) {
 
+  include ::murano::deps
   include ::murano::params
 
   package { 'python-muranoclient':

@@ -63,6 +63,7 @@ class murano::dashboard(
   $sync_db               = true,
 ) {
 
+  include ::murano::deps
   include ::murano::params
 
   package { 'murano-dashboard':

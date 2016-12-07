@@ -3,12 +3,8 @@
 #
 class murano::db::sync {
 
+  include ::murano::deps
   include ::murano::params
-
-  Package <| title == 'murano-common' |> ~> Exec['murano-dbmanage']
-  Exec['murano-dbmanage'] ~> Service <| tag == 'murano-service' |>
-
-  Murano_config <| title == 'database/connection' |> ~> Exec['murano-dbmanage']
 
   exec { 'murano-dbmanage':
     command     => $::murano::params::dbmanage_command,
@@ -18,6 +14,12 @@ class murano::db::sync {
     try_sleep   => 5,
     tries       => 10,
     logoutput   => on_failure,
+    subscribe   => [
+      Anchor['murano::install::end'],
+      Anchor['murano::config::end'],
+      Anchor['murano::dbsync::begin']
+    ],
+    notify      => Anchor['murano::dbsync::end'],
   }
 
 }

@@ -12,6 +12,7 @@ describe 'murano::cfapi' do
   end
 
   shared_examples_for 'with default parameters' do
+    it { is_expected.to contain_class('murano::deps') }
     it { is_expected.to contain_class('murano::params') }
     it { is_expected.to contain_class('murano::policy') }
 

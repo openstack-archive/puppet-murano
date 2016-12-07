@@ -320,6 +320,7 @@ class murano(
   $rabbit_os_password      = 'guest',
 ) {
 
+  include ::murano::deps
   include ::murano::params
   include ::murano::logging
   include ::murano::policy

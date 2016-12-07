@@ -85,6 +85,8 @@ class murano::keystone::auth(
   $internal_url        = 'http://127.0.0.1:8082',
 ) {
 
+  include ::murano::deps
+
   keystone::resource::service_identity { 'murano':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,

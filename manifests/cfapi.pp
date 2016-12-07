@@ -41,11 +41,9 @@ class murano::cfapi(
   $auth_url       = 'http://127.0.0.1:5000',
 ) {
 
+  include ::murano::deps
   include ::murano::params
   include ::murano::policy
-
-  Murano_cfapi_config<||> ~> Service['murano-cfapi']
-  Class['murano::policy'] -> Service['murano-cfapi']
 
   if $manage_service {
     if $enabled {
@@ -69,13 +67,10 @@ class murano::cfapi(
   }
 
   service { 'murano-cfapi':
-    ensure  => $service_ensure,
-    name    => $::murano::params::cfapi_service_name,
-    enable  => $enabled,
-    require => Package['murano-cfapi'],
-    tag     => 'murano-service',
+    ensure => $service_ensure,
+    name   => $::murano::params::cfapi_service_name,
+    enable => $enabled,
+    tag    => 'murano-service',
   }
 
-  Package['murano-cfapi'] ~> Service['murano-cfapi']
-  Murano_cfapi_paste_ini_config<||> ~> Service['murano-cfapi']
 }

@@ -12,7 +12,11 @@ describe 'murano::db::sync' do
         :refreshonly => 'true',
         :try_sleep   => 5,
         :tries       => 10,
-        :logoutput   => 'on_failure'
+        :logoutput   => 'on_failure',
+        :subscribe   => ['Anchor[murano::install::end]',
+                         'Anchor[murano::config::end]',
+                         'Anchor[murano::dbsync::begin]'],
+        :notify      => 'Anchor[murano::dbsync::end]',
       )
     end
 

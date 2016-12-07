@@ -49,6 +49,8 @@ class murano::db (
   $database_db_max_retries = $::os_service_default,
 ) {
 
+  include ::murano::deps
+
 # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
 # to use murano::<myparam> if murano::db::<myparam> isn't specified.
   $database_connection_real     = pick($::murano::database_connection, $database_connection)

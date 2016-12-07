@@ -32,6 +32,8 @@ class murano::db::postgresql(
   $privileges = 'ALL',
 ) {
 
+  include ::murano::deps
+
   validate_string($password)
 
   ::openstacklib::db::postgresql { 'murano':
@@ -42,6 +44,8 @@ class murano::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['murano'] ~> Exec<| title == 'murano-dbmanage' |>
+  Anchor['murano::db::begin']
+  ~> Class['murano::db::postgresql']
+  ~> Anchor['murano::db::end']
 
 }
