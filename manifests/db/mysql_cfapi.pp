@@ -42,6 +42,8 @@ class murano::db::mysql_cfapi(
   $collate       = 'utf8_general_ci',
 ) {
 
+  include ::murano::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql{ 'murano_cfapi':
@@ -54,5 +56,8 @@ class murano::db::mysql_cfapi(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['murano_cfapi'] ~> Exec<| title == 'murano-cfapi-dbmanage' |>
+  Anchor['murano::db::begin']
+  ~> Class['murano::db::mysql_cfapi']
+  ~> Anchor['murano::db::end']
+
 }

@@ -49,6 +49,8 @@ class murano::db_cfapi (
   $database_db_max_retries   = $::os_service_default,
 ) {
 
+  include ::murano::deps
+
   if !is_service_default($database_connection) {
 
     validate_re($database_connection, '^(mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')

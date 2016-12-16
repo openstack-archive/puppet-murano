@@ -10,7 +10,11 @@ describe 'murano::db::sync_cfapi' do
         :path        => '/usr/bin',
         :user        => 'murano_cfapi',
         :refreshonly => 'true',
-        :logoutput   => 'on_failure'
+        :logoutput   => 'on_failure',
+        :subscribe   => ['Anchor[murano::install::end]',
+                         'Anchor[murano::config::end]',
+                         'Anchor[murano::dbsync::begin]'],
+        :notify      => 'Anchor[murano::dbsync::end]',
       )
     end
 

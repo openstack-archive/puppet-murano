@@ -32,6 +32,8 @@ class murano::db::postgresql_cfapi(
   $privileges = 'ALL',
 ) {
 
+  include ::murano::deps
+
   validate_string($password)
 
   ::openstacklib::db::postgresql { 'murano_cfapi':
@@ -42,6 +44,8 @@ class murano::db::postgresql_cfapi(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['murano_cfapi'] ~> Exec<| title == 'murano-cfapi-dbmanage' |>
+  Anchor['murano::db::begin']
+  ~> Class['murano::db::postgresql_cfapi']
+  ~> Anchor['murano::db::end']
 
 }

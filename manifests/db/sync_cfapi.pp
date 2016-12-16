@@ -3,12 +3,8 @@
 #
 class murano::db::sync_cfapi {
 
+  include ::murano::deps
   include ::murano::params
-
-  Package <| title == 'murano-common' |> ~> Exec['murano-cfapi-dbmanage']
-  Exec['murano-cfapi-dbmanage'] ~> Service <| tag == 'murano-service' |>
-
-  Murano_cfapi_config <| title == 'database/connection' |> ~> Exec['murano-cfapi-dbmanage']
 
   exec { 'murano-cfapi-dbmanage':
     command     => $::murano::params::cfapi_dbmanage_command,
@@ -18,6 +14,12 @@ class murano::db::sync_cfapi {
     try_sleep   => 5,
     tries       => 10,
     logoutput   => on_failure,
+    subscribe   => [
+      Anchor['murano::install::end'],
+      Anchor['murano::config::end'],
+      Anchor['murano::dbsync::begin']
+    ],
+    notify      => Anchor['murano::dbsync::end'],
   }
 
 }
