@@ -218,10 +218,6 @@
 #   undefined, tokens will instead be cached in-process.
 #   Defaults to $::os_service_default.
 #
-# [*signing_dir*]
-#  (Optional) Directory used to cache files related to PKI tokens
-#  Defaults to '/tmp/keystone-signing-muranoapi'
-#
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
 #   in the murano config.
@@ -256,6 +252,10 @@
 # [*rabbit_os_virtual_host*]
 #   (optional) The RabbitMQ virtual host.
 #   Defaults to $::os_service_default
+#
+# [*signing_dir*]
+#   (Optional) Directory used to cache files related to PKI tokens.
+#   Defaults to undef
 #
 class murano(
   $admin_password,
@@ -308,7 +308,6 @@ class murano(
   $admin_tenant_name       = 'services',
   $auth_uri                = 'http://127.0.0.1:5000',
   $memcached_servers       = $::os_service_default,
-  $signing_dir             = '/tmp/keystone-signing-muranoapi',
   $purge_config            = false,
   # Deprecated
   $identity_uri            = 'http://127.0.0.1:35357/',
@@ -318,6 +317,7 @@ class murano(
   $rabbit_os_virtual_host  = $::os_service_default,
   $rabbit_os_user          = 'guest',
   $rabbit_os_password      = 'guest',
+  $signing_dir             = undef,
 ) {
 
   include ::murano::deps
@@ -337,6 +337,10 @@ class murano(
     warning("murano::rabbit_os_host, murano::rabbit_os_hosts, murano::rabbit_os_password, \
 murano::rabbit_os_port, murano::rabbit_os_userid and murano::rabbit_os_virtual_host are \
 deprecated. Please use murano::default_transport_url instead.")
+  }
+
+  if $signing_dir {
+    warning('signing_dir parameter is deprecated, has no effect and will be removed in the P release.')
   }
 
   package { 'murano-common':
@@ -404,7 +408,6 @@ deprecated. Please use murano::default_transport_url instead.")
     'keystone_authtoken/auth_uri' :          value => $auth_uri;
     'keystone_authtoken/admin_user' :        value => $admin_user;
     'keystone_authtoken/admin_tenant_name' : value => $admin_tenant_name;
-    'keystone_authtoken/signing_dir' :       value => $signing_dir;
     'keystone_authtoken/admin_password' :    value => $admin_password;
     'keystone_authtoken/identity_uri' :      value => $identity_uri;
     'keystone_authtoken/memcached_servers':  value => join(any2array($memcached_servers), ',');
