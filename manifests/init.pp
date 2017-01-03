@@ -318,10 +318,9 @@ class murano(
   $rabbit_os_user          = 'guest',
   $rabbit_os_password      = 'guest',
   $signing_dir             = undef,
-) {
+) inherits murano::params {
 
   include ::murano::deps
-  include ::murano::params
   include ::murano::logging
   include ::murano::policy
   include ::murano::db
