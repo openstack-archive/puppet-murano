@@ -24,6 +24,10 @@ class murano::deps {
   ~> Service<| tag == 'murano-service' |>
   ~> anchor { 'murano::service::end': }
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db<||> -> Anchor['murano::dbsync::begin']
+
   # policy config should occur in the config block also.
   Anchor['murano::config::begin']
   -> Openstacklib::Policy::Base<||>
