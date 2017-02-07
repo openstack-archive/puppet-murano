@@ -41,6 +41,17 @@
 #  configuration. Transport URLs take the form:
 #    transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #  Defaults to $::os_service_default
+#
+# [*rpc_response_timeout*]
+#  (Optional) Seconds to wait for a response from a call.
+#  Defaults to $::os_service_default
+#
+# [*control_exchange*]
+#   (Optional) The default exchange under which topics are scoped. May be
+#   overridden by an exchange name specified in the transport_url
+#   option.
+#   Defaults to $::os_service_default
+#
 # [*rabbit_ha_queues*]
 #  (Optional) Should murano api use ha queues
 #  Defaults to $::os_service_default
@@ -268,6 +279,8 @@ class murano(
   $data_dir                = '/var/cache/murano',
   $notification_driver     = 'messagingv2',
   $default_transport_url   = $::os_service_default,
+  $rpc_response_timeout    = $::os_service_default,
+  $control_exchange        = $::os_service_default,
   $rabbit_os_use_ssl       = $::os_service_default,
   $kombu_ssl_ca_certs      = $::os_service_default,
   $kombu_ssl_certfile      = $::os_service_default,
@@ -435,7 +448,9 @@ deprecated. Please use murano::default_transport_url instead.")
   }
 
   oslo::messaging::default { 'murano_config':
-    transport_url => $default_transport_url,
+    transport_url        => $default_transport_url,
+    rpc_response_timeout => $rpc_response_timeout,
+    control_exchange     => $control_exchange,
   }
 
   oslo::messaging::notifications { 'murano_config':
