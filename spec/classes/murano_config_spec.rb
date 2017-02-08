@@ -11,9 +11,9 @@ describe 'murano::config' do
   end
 
   let :params do
-    { :murano_config => base_config,
-      :murano_cfapi_config => base_config,
-      :murano_paste_config => base_config,
+    { :murano_config             => base_config,
+      :murano_cfapi_config       => base_config,
+      :murano_paste_config       => base_config,
       :murano_cfapi_paste_config => base_config
     }
   end
