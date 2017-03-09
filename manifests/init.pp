@@ -32,6 +32,17 @@
 #  (Optional) Directory to store data
 #  Defaults to '/var/cache/murano'
 #
+# [*notification_transport_url*]
+#   (optional) A URL representing the messaging driver to use for notifications
+#   and its full configuration. Transport URLs take the form:
+#     transport://user:pass@host1:port[,hostN:portN]/virtual_host
+#   Defaults to $::os_service_default
+#
+# [*notification_topics*]
+#   (optional) AMQP topics to publish to when using the RPC notification driver.
+#   (list value)
+#   Default to $::os_service_default
+#
 # [*notification_driver*]
 #  (Optional) Notification driver to use
 #  Defaults to 'messagingv2'
@@ -270,67 +281,69 @@
 #
 class murano(
   $admin_password,
-  $package_ensure          = 'present',
-  $debug                   = undef,
-  $use_syslog              = undef,
-  $use_stderr              = undef,
-  $log_facility            = undef,
-  $log_dir                 = undef,
-  $data_dir                = '/var/cache/murano',
-  $notification_driver     = 'messagingv2',
-  $default_transport_url   = $::os_service_default,
-  $rpc_response_timeout    = $::os_service_default,
-  $control_exchange        = $::os_service_default,
-  $rabbit_os_use_ssl       = $::os_service_default,
-  $kombu_ssl_ca_certs      = $::os_service_default,
-  $kombu_ssl_certfile      = $::os_service_default,
-  $kombu_ssl_keyfile       = $::os_service_default,
-  $kombu_ssl_version       = $::os_service_default,
-  $kombu_reconnect_delay   = $::os_service_default,
-  $kombu_failover_strategy = $::os_service_default,
-  $kombu_compression       = $::os_service_default,
-  $rabbit_ha_queues        = $::os_service_default,
-  $rabbit_own_host         = $::os_service_default,
-  $rabbit_own_port         = $::os_service_default,
-  $rabbit_own_user         = 'guest',
-  $rabbit_own_password     = 'guest',
-  $rabbit_own_vhost        = 'murano',
-  $rabbit_own_use_ssl      = $::os_service_default,
-  $rabbit_own_ca_certs     = $::os_service_default,
-  $service_host            = '127.0.0.1',
-  $service_port            = '8082',
-  $use_ssl                 = false,
-  $cert_file               = $::os_service_default,
-  $key_file                = $::os_service_default,
-  $ca_file                 = $::os_service_default,
-  $use_neutron             = false,
-  $external_network        = $::murano::params::default_external_network,
-  $default_router          = $::os_service_default,
-  $default_nameservers     = $::os_service_default,
-  $use_trusts              = $::os_service_default,
-  $packages_service        = $::os_service_default,
-  $database_connection     = undef,
-  $database_idle_timeout   = undef,
-  $database_min_pool_size  = undef,
-  $database_max_pool_size  = undef,
-  $database_max_retries    = undef,
-  $database_retry_interval = undef,
-  $database_max_overflow   = undef,
-  $sync_db                 = true,
-  $admin_user              = 'murano',
-  $admin_tenant_name       = 'services',
-  $auth_uri                = 'http://127.0.0.1:5000',
-  $memcached_servers       = $::os_service_default,
-  $purge_config            = false,
+  $package_ensure             = 'present',
+  $debug                      = undef,
+  $use_syslog                 = undef,
+  $use_stderr                 = undef,
+  $log_facility               = undef,
+  $log_dir                    = undef,
+  $data_dir                   = '/var/cache/murano',
+  $notification_transport_url = $::os_service_default,
+  $notification_topics        = $::os_service_default,
+  $notification_driver        = 'messagingv2',
+  $default_transport_url      = $::os_service_default,
+  $rpc_response_timeout       = $::os_service_default,
+  $control_exchange           = $::os_service_default,
+  $rabbit_os_use_ssl          = $::os_service_default,
+  $kombu_ssl_ca_certs         = $::os_service_default,
+  $kombu_ssl_certfile         = $::os_service_default,
+  $kombu_ssl_keyfile          = $::os_service_default,
+  $kombu_ssl_version          = $::os_service_default,
+  $kombu_reconnect_delay      = $::os_service_default,
+  $kombu_failover_strategy    = $::os_service_default,
+  $kombu_compression          = $::os_service_default,
+  $rabbit_ha_queues           = $::os_service_default,
+  $rabbit_own_host            = $::os_service_default,
+  $rabbit_own_port            = $::os_service_default,
+  $rabbit_own_user            = 'guest',
+  $rabbit_own_password        = 'guest',
+  $rabbit_own_vhost           = 'murano',
+  $rabbit_own_use_ssl         = $::os_service_default,
+  $rabbit_own_ca_certs        = $::os_service_default,
+  $service_host               = '127.0.0.1',
+  $service_port               = '8082',
+  $use_ssl                    = false,
+  $cert_file                  = $::os_service_default,
+  $key_file                   = $::os_service_default,
+  $ca_file                    = $::os_service_default,
+  $use_neutron                = false,
+  $external_network           = $::murano::params::default_external_network,
+  $default_router             = $::os_service_default,
+  $default_nameservers        = $::os_service_default,
+  $use_trusts                 = $::os_service_default,
+  $packages_service           = $::os_service_default,
+  $database_connection        = undef,
+  $database_idle_timeout      = undef,
+  $database_min_pool_size     = undef,
+  $database_max_pool_size     = undef,
+  $database_max_retries       = undef,
+  $database_retry_interval    = undef,
+  $database_max_overflow      = undef,
+  $sync_db                    = true,
+  $admin_user                 = 'murano',
+  $admin_tenant_name          = 'services',
+  $auth_uri                   = 'http://127.0.0.1:5000',
+  $memcached_servers          = $::os_service_default,
+  $purge_config               = false,
   # Deprecated
-  $identity_uri            = 'http://127.0.0.1:35357/',
-  $rabbit_os_host          = $::os_service_default,
-  $rabbit_os_port          = $::os_service_default,
-  $rabbit_os_hosts         = $::os_service_default,
-  $rabbit_os_virtual_host  = $::os_service_default,
-  $rabbit_os_user          = 'guest',
-  $rabbit_os_password      = 'guest',
-  $signing_dir             = undef,
+  $identity_uri               = 'http://127.0.0.1:35357/',
+  $rabbit_os_host             = $::os_service_default,
+  $rabbit_os_port             = $::os_service_default,
+  $rabbit_os_hosts            = $::os_service_default,
+  $rabbit_os_virtual_host     = $::os_service_default,
+  $rabbit_os_user             = 'guest',
+  $rabbit_os_password         = 'guest',
+  $signing_dir                = undef,
 ) inherits murano::params {
 
   include ::murano::deps
@@ -454,7 +467,9 @@ deprecated. Please use murano::default_transport_url instead.")
   }
 
   oslo::messaging::notifications { 'murano_config':
-    driver => $notification_driver,
+    transport_url => $notification_transport_url,
+    driver        => $notification_driver,
+    topics        => $notification_topics,
   }
 
   if $sync_db {

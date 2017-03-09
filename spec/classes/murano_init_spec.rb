@@ -31,6 +31,8 @@ describe 'murano' do
 
       it { is_expected.to contain_class('mysql::bindings::python') }
 
+      it { is_expected.to contain_murano_config('oslo_messaging_notifications/transport_url').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_murano_config('oslo_messaging_notifications/topics').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_notifications/driver').with_value('messagingv2') }
 
       it { is_expected.to contain_murano_config('murano/url').with_value('http://127.0.0.1:8082') }
@@ -76,45 +78,47 @@ describe 'murano' do
 
     context 'with parameters override' do
       let :params do {
-        :admin_password          => 'secrete',
-        :package_ensure          => 'latest',
-        :notification_driver     => 'messagingv1',
-        :default_transport_url   => 'rabbit://user:pass@host:1234/virt',
-        :rpc_response_timeout    => '120',
-        :control_exchange        => 'murano',
-        :rabbit_os_host          => '10.255.0.1',
-        :rabbit_os_port          => '5673',
-        :rabbit_os_user          => 'os',
-        :rabbit_os_password      => 'ossecrete',
-        :rabbit_ha_queues        => true,
-        :rabbit_os_use_ssl       => true,
-        :rabbit_own_host         => '10.255.0.2',
-        :rabbit_own_port         => '5674',
-        :rabbit_own_user         => 'murano',
-        :rabbit_own_password     => 'secrete',
-        :rabbit_own_vhost        => 'murano_vhost',
-        :rabbit_own_use_ssl      => true,
-        :service_host            => '10.255.0.3',
-        :service_port            => '8088',
-        :packages_service        => 'glare',
-        :use_ssl                 => true,
-        :cert_file               => '/etc/murano/murano.crt',
-        :key_file                => '/etc/murano/murano.key',
-        :ca_file                 => '/etc/murano/ca.crt',
-        :use_neutron             => true,
-        :external_network        => 'murano-net',
-        :default_router          => 'murano-router',
-        :default_nameservers     => '["8.8.8.8"]',
-        :use_trusts              => true,
-        :sync_db                 => false,
-        :admin_user              => 'muranoy',
-        :admin_tenant_name       => 'secrete',
-        :auth_uri                => 'http://10.255.0.1:5000/v2.0/',
-        :identity_uri            => 'http://10.255.0.1:35357/',
-        :kombu_reconnect_delay   => '1.0',
-        :kombu_failover_strategy => 'round-robin',
-        :kombu_compression       => 'gzip',
-        :memcached_servers       => '1.1.1.1:11211',
+        :admin_password             => 'secrete',
+        :package_ensure             => 'latest',
+        :notification_transport_url => 'rabbit://user:pass@host:1234/virt',
+        :notification_topics        => 'openstack',
+        :notification_driver        => 'messagingv1',
+        :default_transport_url      => 'rabbit://user:pass@host:1234/virt',
+        :rpc_response_timeout       => '120',
+        :control_exchange           => 'murano',
+        :rabbit_os_host             => '10.255.0.1',
+        :rabbit_os_port             => '5673',
+        :rabbit_os_user             => 'os',
+        :rabbit_os_password         => 'ossecrete',
+        :rabbit_ha_queues           => true,
+        :rabbit_os_use_ssl          => true,
+        :rabbit_own_host            => '10.255.0.2',
+        :rabbit_own_port            => '5674',
+        :rabbit_own_user            => 'murano',
+        :rabbit_own_password        => 'secrete',
+        :rabbit_own_vhost           => 'murano_vhost',
+        :rabbit_own_use_ssl         => true,
+        :service_host               => '10.255.0.3',
+        :service_port               => '8088',
+        :packages_service           => 'glare',
+        :use_ssl                    => true,
+        :cert_file                  => '/etc/murano/murano.crt',
+        :key_file                   => '/etc/murano/murano.key',
+        :ca_file                    => '/etc/murano/ca.crt',
+        :use_neutron                => true,
+        :external_network           => 'murano-net',
+        :default_router             => 'murano-router',
+        :default_nameservers        => '["8.8.8.8"]',
+        :use_trusts                 => true,
+        :sync_db                    => false,
+        :admin_user                 => 'muranoy',
+        :admin_tenant_name          => 'secrete',
+        :auth_uri                   => 'http://10.255.0.1:5000/v2.0/',
+        :identity_uri               => 'http://10.255.0.1:35357/',
+        :kombu_reconnect_delay      => '1.0',
+        :kombu_failover_strategy    => 'round-robin',
+        :kombu_compression          => 'gzip',
+        :memcached_servers          => '1.1.1.1:11211',
       }
       end
 
@@ -128,6 +132,8 @@ describe 'murano' do
 
       it { is_expected.to contain_class('mysql::bindings::python') }
 
+      it { is_expected.to contain_murano_config('oslo_messaging_notifications/transport_url').with_value('rabbit://user:pass@host:1234/virt') }
+      it { is_expected.to contain_murano_config('oslo_messaging_notifications/topics').with_value('openstack') }
       it { is_expected.to contain_murano_config('oslo_messaging_notifications/driver').with_value('messagingv1') }
 
       it { is_expected.to contain_murano_config('murano/url').with_value('https://10.255.0.3:8088') }

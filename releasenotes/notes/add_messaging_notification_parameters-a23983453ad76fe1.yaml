@@ -1,0 +1,7 @@
+---
+features:
+  - Add new parameter "notification_transport_url", A URL
+    representing the messaging driver to use for notifications
+    and its full configuration.
+  - Add new parameter "notification_topics", AMQP topic used for
+    OpenStack notifications.
