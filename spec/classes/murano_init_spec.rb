@@ -48,7 +48,9 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_oslo__messaging__rabbit('murano_config').with(
+             :rabbit_use_ssl => '<SERVICE DEFAULT>',
+           ) }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>') }
@@ -148,7 +150,9 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_host').with_value('10.255.0.1') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('5673') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true) }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true) }
+      it { is_expected.to contain_oslo__messaging__rabbit('murano_config').with(
+             :rabbit_use_ssl => true,
+           ) }
 
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('1.0') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('round-robin') }
