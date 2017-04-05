@@ -1,69 +1,69 @@
 {
-  "name": "openstack-murano",
-  "version": "11.0.0-dev",
-  "author": "Red Hat and OpenStack Contributors",
-  "summary": "Puppet module for OpenStack Murano",
-  "license": "Apache-2.0",
-  "source": "git://github.com/openstack/puppet-murano.git",
-  "project_page": "https://launchpad.net/puppet-murano",
-  "issues_url": "https://bugs.launchpad.net/puppet-murano",
-  "requirements": [
-    {
-      "name": "pe",
-      "version_requirement": "4.x"
-    },
-    {
-      "name": "puppet",
-      "version_requirement": "4.x"
-    }
-  ],
-  "operatingsystem_support": [
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "8"
-      ]
-    },
-    {
-      "operatingsystem": "Fedora",
-      "operatingsystemrelease": [
-        "24"
-      ]
-    },
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "16.04"
-      ]
-    }
-  ],
-  "description": "Installs and configures OpenStack Murano (Application Catalog).",
-  "dependencies": [
-    {
-      "name": "puppetlabs/inifile",
-      "version_requirement": ">=1.0.0 <2.0.0"
-    },
-    {
-      "name": "openstack/keystone",
-      "version_requirement": ">=11.0.0 <12.0.0"
-    },
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">=4.0.0 <5.0.0"
-    },
-    {
-      "name": "openstack/openstacklib",
-      "version_requirement": ">=11.0.0 <12.0.0"
-    },
-    {
-      "name": "openstack/oslo",
-      "version_requirement": ">=11.0.0 <12.0.0"
-    }
-  ]
+    "author": "Red Hat and OpenStack Contributors",
+    "dependencies": [
+        {
+            "name": "puppetlabs/inifile",
+            "version_requirement": ">=1.0.0 <2.0.0"
+        },
+        {
+            "name": "openstack/keystone",
+            "version_requirement": ">=11.0.0 <12.0.0"
+        },
+        {
+            "name": "puppetlabs/stdlib",
+            "version_requirement": ">=4.0.0 <5.0.0"
+        },
+        {
+            "name": "openstack/openstacklib",
+            "version_requirement": ">=11.0.0 <12.0.0"
+        },
+        {
+            "name": "openstack/oslo",
+            "version_requirement": ">=11.0.0 <12.0.0"
+        }
+    ],
+    "description": "Installs and configures OpenStack Murano (Application Catalog).",
+    "issues_url": "https://bugs.launchpad.net/puppet-murano",
+    "license": "Apache-2.0",
+    "name": "openstack-murano",
+    "operatingsystem_support": [
+        {
+            "operatingsystem": "Debian",
+            "operatingsystemrelease": [
+                "8"
+            ]
+        },
+        {
+            "operatingsystem": "Fedora",
+            "operatingsystemrelease": [
+                "24"
+            ]
+        },
+        {
+            "operatingsystem": "RedHat",
+            "operatingsystemrelease": [
+                "7"
+            ]
+        },
+        {
+            "operatingsystem": "Ubuntu",
+            "operatingsystemrelease": [
+                "16.04"
+            ]
+        }
+    ],
+    "project_page": "https://launchpad.net/puppet-murano",
+    "requirements": [
+        {
+            "name": "pe",
+            "version_requirement": "4.x"
+        },
+        {
+            "name": "puppet",
+            "version_requirement": "4.x"
+        }
+    ],
+    "source": "git://github.com/openstack/puppet-murano.git",
+    "summary": "Puppet module for OpenStack Murano",
+    "version": "11.0.0"
 }
