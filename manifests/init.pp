@@ -161,7 +161,7 @@
 #
 # [*use_neutron*]
 #  (Optional) Whether to use neutron
-#  Defaults to false
+#  Defaults to true
 #
 # [*external_network*]
 #  (Optional) Name of the external Neutron network which will be used
@@ -316,7 +316,7 @@ class murano(
   $cert_file                  = $::os_service_default,
   $key_file                   = $::os_service_default,
   $ca_file                    = $::os_service_default,
-  $use_neutron                = false,
+  $use_neutron                = true,
   $external_network           = $::murano::params::default_external_network,
   $default_router             = $::os_service_default,
   $default_nameservers        = $::os_service_default,
@@ -389,7 +389,7 @@ deprecated. Please use murano::default_transport_url instead.")
   }
 
   if $use_neutron {
-    if is_service_default($default_router) {
+    if !$default_router {
       fail('The default_router parameter is required when use_neutron is set to true')
     }
     murano_config {

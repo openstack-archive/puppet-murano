@@ -64,7 +64,9 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('rabbitmq/ssl').with_value('<SERVICE DEFAULT>') }
 
       it { is_expected.to contain_murano_config('networking/default_dns').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_murano_config('networking/driver').with_value('nova') }
+      it { is_expected.to contain_murano_config('networking/driver').with_value('neutron') }
+      it { is_expected.to contain_murano_config('networking/create_router').with_value(true) }
+      it { is_expected.to contain_murano_config('networking/external_network').with_value('public') }
 
       it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000') }
       it { is_expected.to contain_murano_config('keystone_authtoken/admin_user').with_value('murano') }
