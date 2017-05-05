@@ -45,12 +45,13 @@ describe 'basic murano' do
             password => 'a_big_secret',
           }
           class { '::murano':
-            admin_password          => 'a_big_secret',
-            default_transport_url   => 'rabbit://murano:an_even_bigger_secret@127.0.0.1:5672/',
-            rabbit_own_user         => 'murano',
-            rabbit_own_password     => 'an_even_bigger_secret',
-            rabbit_own_vhost        => '/murano',
-            database_connection     => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
+            debug                 => true,
+            admin_password        => 'a_big_secret',
+            default_transport_url => 'rabbit://murano:an_even_bigger_secret@127.0.0.1:5672/',
+            rabbit_own_user       => 'murano',
+            rabbit_own_password   => 'an_even_bigger_secret',
+            rabbit_own_vhost      => '/murano',
+            database_connection   => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
           }
           class { '::murano::api': }
           class { '::murano::engine': }
