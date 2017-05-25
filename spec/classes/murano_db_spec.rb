@@ -95,13 +95,13 @@ on_supported_os({
 
         case facts[:osfamily]
         when 'Debian'
-          it { is_expected.to contain_package('db_backend_package').with(
+          it { is_expected.to contain_package('python-pymysql').with(
             :ensure => 'present',
             :name   => 'python-pymysql',
             :tag    => 'openstack'
           )}
         when 'RedHat'
-          it { is_expected.not_to contain_package('db_backend_package') }
+          it { is_expected.not_to contain_package('python-pymysql') }
         end
       end
 
