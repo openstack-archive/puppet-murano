@@ -275,10 +275,6 @@
 #   (optional) The RabbitMQ virtual host.
 #   Defaults to $::os_service_default
 #
-# [*signing_dir*]
-#   (Optional) Directory used to cache files related to PKI tokens.
-#   Defaults to undef
-#
 class murano(
   $admin_password,
   $package_ensure             = 'present',
@@ -343,7 +339,6 @@ class murano(
   $rabbit_os_virtual_host     = $::os_service_default,
   $rabbit_os_user             = 'guest',
   $rabbit_os_password         = 'guest',
-  $signing_dir                = undef,
 ) inherits murano::params {
 
   include ::murano::deps
@@ -362,10 +357,6 @@ class murano(
     warning("murano::rabbit_os_host, murano::rabbit_os_hosts, murano::rabbit_os_password, \
 murano::rabbit_os_port, murano::rabbit_os_userid and murano::rabbit_os_virtual_host are \
 deprecated. Please use murano::default_transport_url instead.")
-  }
-
-  if $signing_dir {
-    warning('signing_dir parameter is deprecated, has no effect and will be removed in the P release.')
   }
 
   package { 'murano-common':
