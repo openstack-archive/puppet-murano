@@ -126,18 +126,18 @@ class murano::dashboard(
       refreshonly => true,
     }
 
-    Exec['django_compressstatic'] ~>
-      Exec['django_syncdb'] ~>
-        Service <| title == 'httpd' |>
+    Exec['django_compressstatic']
+      ~> Exec['django_syncdb']
+        ~> Service <| title == 'httpd' |>
   }
 
-  Package['murano-dashboard'] ->
-    Exec['clean_horizon_config'] ->
-      Concat[$::murano::params::local_settings_path] ->
-        Service <| title == 'httpd' |>
+  Package['murano-dashboard']
+    -> Exec['clean_horizon_config']
+      -> Concat[$::murano::params::local_settings_path]
+        -> Service <| title == 'httpd' |>
 
-  Package['murano-dashboard'] ~>
-    Exec['django_collectstatic'] ~>
-      Exec['django_compressstatic'] ~>
-        Service <| title == 'httpd' |>
+  Package['murano-dashboard']
+    ~> Exec['django_collectstatic']
+      ~> Exec['django_compressstatic']
+        ~> Service <| title == 'httpd' |>
 }
