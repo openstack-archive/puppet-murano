@@ -2,22 +2,34 @@ require 'spec_helper'
 
 describe 'murano::client' do
 
-  shared_examples_for 'murano-client' do
-    it { is_expected.to contain_class('murano::client') }
-    it { is_expected.to contain_package('python-muranoclient').with(
-      :name => 'python-muranoclient',
-    )}
+  shared_examples_for 'murano client' do
+
+    it { is_expected.to contain_class('murano::deps') }
+    it { is_expected.to contain_class('murano::params') }
+
+    it 'installs murano client package' do
+      is_expected.to contain_package('python-muranoclient').with(
+        :ensure => 'present',
+        :name   => platform_params[:pythonclient_package_name],
+        :tag    => ['openstack', 'murano-packages']
+      )
+    end
   end
 
   on_supported_os({
-    :supported_os   => OSDefaults.get_supported_os
+    :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts()) 
+        facts.merge!(OSDefaults.get_facts())
       end
 
-      it_configures 'murano-client'
+      let :platform_params do
+        { :pythonclient_package_name => 'python-muranoclient' }
+      end
+
+      it_behaves_like 'murano client'
     end
   end
+
 end
