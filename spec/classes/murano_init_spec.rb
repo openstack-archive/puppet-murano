@@ -55,6 +55,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>') }
 
       it { is_expected.to contain_murano_config('rabbitmq/login').with_value('guest') }
       it { is_expected.to contain_murano_config('rabbitmq/password').with_value('guest') }
@@ -96,6 +97,7 @@ describe 'murano' do
         :rabbit_os_password         => 'ossecrete',
         :rabbit_ha_queues           => true,
         :rabbit_os_use_ssl          => true,
+        :amqp_durable_queues        => true,
         :rabbit_own_host            => '10.255.0.2',
         :rabbit_own_port            => '5674',
         :rabbit_own_user            => 'murano',
@@ -159,6 +161,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('1.0') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('round-robin') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_compression').with_value('gzip') }
+      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/amqp_durable_queues').with_value(true) }
 
       it { is_expected.to contain_murano_config('rabbitmq/login').with_value('murano') }
       it { is_expected.to contain_murano_config('rabbitmq/password').with_value('secrete') }
