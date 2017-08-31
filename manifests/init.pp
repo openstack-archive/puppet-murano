@@ -183,6 +183,10 @@
 #  (Optional) The service to store murano packages.
 #  Defaults to $::os_service_default.
 #
+# [*amqp_durable_queues*]
+#   (optional) Whether to use durable queues in AMQP.
+#   Defaults to $::os_service_default.
+#
 # == database configuration options
 #
 # [*database_connection*]
@@ -331,6 +335,7 @@ class murano(
   $auth_uri                   = 'http://127.0.0.1:5000',
   $memcached_servers          = $::os_service_default,
   $purge_config               = false,
+  $amqp_durable_queues        = $::os_service_default,
   # Deprecated
   $identity_uri               = 'http://127.0.0.1:35357/',
   $rabbit_os_host             = $::os_service_default,
@@ -449,6 +454,7 @@ deprecated. Please use murano::default_transport_url instead.")
     rabbit_password         => $rabbit_os_password,
     rabbit_ha_queues        => $rabbit_ha_queues,
     rabbit_virtual_host     => $rabbit_os_virtual_host,
+    amqp_durable_queues     => $amqp_durable_queues,
   }
 
   oslo::messaging::default { 'murano_config':
