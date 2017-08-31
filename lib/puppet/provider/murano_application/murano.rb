@@ -13,7 +13,7 @@ Puppet::Type.type(:murano_application).provide(
   mk_resource_methods
 
   def exists?
-    packages = auth_murano('package-list')
+    packages = self.package_list_cleanup(auth_murano('package-list'))
     return packages.split("\n")[1..-1].detect do |n|
       n =~ /\s(#{resource[:name]})\s/
     end
@@ -34,7 +34,7 @@ Puppet::Type.type(:murano_application).provide(
   end
 
   def self.instances
-    packages = auth_murano('package-list')
+    packages = self.package_list_cleanup(auth_murano('package-list'))
     packages.split("\n")[3..-2].collect do |n|
       new({
         :name => n.split("|")[3][/([^\s]+)/],
@@ -53,6 +53,13 @@ Puppet::Type.type(:murano_application).provide(
         resources[name].provider = provider
       end
     end
+  end
+
+def self.package_list_cleanup(text)
+    return nil if text.nil?
+    # The murano package-list valid output should only start by + or |
+    text=text.split("\n").drop_while { |line| line !~ /^(\+|\|)/ }.join("\n")
+    "#{text}\n"
   end
 
   def flush
