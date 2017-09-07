@@ -24,12 +24,17 @@
 #  (Optional) Port on which murano api should listen
 #  Defaults to $::os_service_default.
 #
+# [*workers*]
+#  (Optional) Number of workers for Murano Api
+#  Defaults to $::os_workers
+#
 class murano::api(
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
   $host           = $::os_service_default,
   $port           = $::os_service_default,
+  $workers        = $::os_workers,
 ) {
 
   include ::murano::deps
@@ -47,6 +52,7 @@ class murano::api(
   murano_config {
     'DEFAULT/bind_host': value => $host;
     'DEFAULT/bind_port': value => $port;
+    'murano/api_workers': value => $workers;
   }
 
   package { 'murano-api':

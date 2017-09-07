@@ -8,15 +8,18 @@ describe 'murano::api' do
     context 'with default params' do
       it { is_expected.to contain_murano_config('DEFAULT/bind_host').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('DEFAULT/bind_port').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_murano_config('murano/api_workers').with_value(facts[:os_workers]) }
     end
 
     context 'with passed params' do
       let :params do {
-         :host => 'localhost',
-         :port => '1111',
+         :host        => 'localhost',
+         :port        => '1111',
+         :workers     => '4',
       } end
       it { is_expected.to contain_murano_config('DEFAULT/bind_host').with_value('localhost') }
       it { is_expected.to contain_murano_config('DEFAULT/bind_port').with_value('1111') }
+      it { is_expected.to contain_murano_config('murano/api_workers').with_value('4') }
     end
   end
 

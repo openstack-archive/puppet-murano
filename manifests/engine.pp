@@ -40,7 +40,7 @@ class murano::engine(
   }
 
   murano_config {
-    'engine/workers': value => $workers;
+    'engine/engine_workers': value => $workers;
   }
 
   package { 'murano-engine':
