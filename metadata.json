@@ -65,5 +65,5 @@
     ],
     "source": "git://github.com/openstack/puppet-murano.git",
     "summary": "Puppet module for OpenStack Murano",
-    "version": "11.3.0"
+    "version": "11.3.1"
 }
