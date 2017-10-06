@@ -12,9 +12,9 @@ describe Puppet::Provider::Murano do
   let :credential_hash do
     {
       'auth_uri'            => 'https://192.168.56.210:35357',
-      'admin_tenant_name'   => 'admin_tenant',
-      'admin_user'          => 'admin',
-      'admin_password'      => 'password',
+      'project_name'        => 'admin_tenant',
+      'username'            => 'admin',
+      'password'            => 'password',
       'project_domain_name' => 'Default',
       'user_domain_name'    => 'Default',
 
@@ -62,9 +62,9 @@ describe Puppet::Provider::Murano do
     it 'should set auth credentials in the environment' do
       authenv = {
         :OS_AUTH_URL            => credential_hash['auth_uri'],
-        :OS_USERNAME            => credential_hash['admin_user'],
-        :OS_TENANT_NAME         => credential_hash['admin_tenant_name'],
-        :OS_PASSWORD            => credential_hash['admin_password'],
+        :OS_USERNAME            => credential_hash['username'],
+        :OS_TENANT_NAME         => credential_hash['project_name'],
+        :OS_PASSWORD            => credential_hash['password'],
         :OS_ENDPOINT_TYPE       => 'internalURL',
         :OS_PROJECT_DOMAIN_NAME => credential_hash['project_domain_name'],
         :OS_USER_DOMAIN_NAME    => credential_hash['user_domain_name'],
@@ -79,9 +79,9 @@ describe Puppet::Provider::Murano do
       mock = {
         'keystone_authtoken' => {
           'auth_uri'          => 'https://192.168.56.210:35357',
-          'admin_tenant_name' => 'admin_tenant',
-          'admin_user'        => 'admin',
-          'admin_password'    => 'password',
+          'project_name'      => 'admin_tenant',
+          'username'          => 'admin',
+          'password'          => 'password',
         },
         'engine' => {
           'packages_service' => 'glance',
@@ -89,9 +89,9 @@ describe Puppet::Provider::Murano do
       }
       creds = {
          'auth_uri'            => 'https://192.168.56.210:35357',
-         'admin_tenant_name'   => 'admin_tenant',
-         'admin_user'          => 'admin',
-         'admin_password'      => 'password',
+         'project_name'        => 'admin_tenant',
+         'username'            => 'admin',
+         'password'            => 'password',
          'packages_service'    => 'glance',
          'project_domain_name' => 'Default',
          'user_domain_name'    => 'Default',
@@ -104,18 +104,18 @@ describe Puppet::Provider::Murano do
     it 'should set auth env credentials with specified package service' do
       creds = {
          'auth_uri'            => 'https://192.168.56.210:35357',
-         'admin_tenant_name'   => 'admin_tenant',
-         'admin_user'          => 'admin',
-         'admin_password'      => 'password',
+         'project_name'        => 'admin_tenant',
+         'username'            => 'admin',
+         'password'            => 'password',
          'packages_service'    => 'glance',
          'project_domain_name' => 'Default',
          'user_domain_name'    => 'Default',
       }
       authenv = {
         :OS_AUTH_URL             => creds['auth_uri'],
-        :OS_USERNAME             => creds['admin_user'],
-        :OS_TENANT_NAME          => creds['admin_tenant_name'],
-        :OS_PASSWORD             => creds['admin_password'],
+        :OS_USERNAME             => creds['username'],
+        :OS_TENANT_NAME          => creds['project_name'],
+        :OS_PASSWORD             => creds['password'],
         :OS_ENDPOINT_TYPE        => 'internalURL',
         :MURANO_PACKAGES_SERVICE => creds['packages_service'],
         :OS_PROJECT_DOMAIN_NAME  => creds['project_domain_name'],
