@@ -239,6 +239,14 @@
 #  (Optional) Public identity endpoint
 #  Defaults to 'http://127.0.0.1:5000'
 #
+# [*user_domain_name*]
+#   (Optional) Name of domain for $username
+#   Defaults to 'Default'
+#
+# [*project_domain_name*]
+#   (Optional) Name of domain for $project_name
+#   Defaults to 'Default'
+#
 # [*memcached_servers*]
 #   (optinal) a list of memcached server(s) to use for caching. If left
 #   undefined, tokens will instead be cached in-process.
@@ -333,6 +341,8 @@ class murano(
   $admin_user                 = 'murano',
   $admin_tenant_name          = 'services',
   $auth_uri                   = 'http://127.0.0.1:5000',
+  $user_domain_name           = 'Default',
+  $project_domain_name        = 'Default',
   $memcached_servers          = $::os_service_default,
   $purge_config               = false,
   $amqp_durable_queues        = $::os_service_default,
@@ -414,28 +424,32 @@ deprecated. Please use murano::default_transport_url instead.")
   }
 
   murano_config {
-    'murano/url' :                           value => "${service_protocol}://${service_host}:${service_port}";
+    'murano/url' :            value => "${service_protocol}://${service_host}:${service_port}";
 
-    'engine/use_trusts' :                    value => $use_trusts;
+    'engine/use_trusts' :     value => $use_trusts;
 
-    'rabbitmq/login' :                       value => $rabbit_own_user;
-    'rabbitmq/password' :                    value => $rabbit_own_password;
-    'rabbitmq/host' :                        value => $rabbit_own_host;
-    'rabbitmq/port' :                        value => $rabbit_own_port;
-    'rabbitmq/virtual_host' :                value => $rabbit_own_vhost;
-    'rabbitmq/ssl' :                         value => $rabbit_own_use_ssl;
-    'rabbitmq/ca_certs' :                    value => $rabbit_own_ca_certs;
+    'rabbitmq/login' :        value => $rabbit_own_user;
+    'rabbitmq/password' :     value => $rabbit_own_password;
+    'rabbitmq/host' :         value => $rabbit_own_host;
+    'rabbitmq/port' :         value => $rabbit_own_port;
+    'rabbitmq/virtual_host' : value => $rabbit_own_vhost;
+    'rabbitmq/ssl' :          value => $rabbit_own_use_ssl;
+    'rabbitmq/ca_certs' :     value => $rabbit_own_ca_certs;
 
-    'keystone_authtoken/auth_uri' :          value => $auth_uri;
-    'keystone_authtoken/admin_user' :        value => $admin_user;
-    'keystone_authtoken/admin_tenant_name' : value => $admin_tenant_name;
-    'keystone_authtoken/admin_password' :    value => $admin_password;
-    'keystone_authtoken/identity_uri' :      value => $identity_uri;
-    'keystone_authtoken/memcached_servers':  value => join(any2array($memcached_servers), ',');
+    'networking/default_dns': value => $default_nameservers;
 
-    'networking/default_dns':                value => $default_nameservers;
+    'engine/packages_service': value => $packages_service,
+  }
 
-    'engine/packages_service':               value => $packages_service,
+  keystone::resource::authtoken { 'murano_config':
+    auth_uri            => $auth_uri,
+    auth_url            => $identity_uri,
+    username            => $admin_user,
+    password            => $admin_password,
+    project_name        => $admin_tenant_name,
+    user_domain_name    => $user_domain_name,
+    project_domain_name => $project_domain_name,
+    memcached_servers   => $memcached_servers,
   }
 
   oslo::messaging::rabbit { 'murano_config':

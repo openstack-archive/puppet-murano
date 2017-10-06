@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Keystone API v2.0 has been removed and we need to add domain parameters to
+    keystone_authtoken section so that it works with API v3. New parameters have
+    been added to murano class, user_domain_name and project_domain_name.

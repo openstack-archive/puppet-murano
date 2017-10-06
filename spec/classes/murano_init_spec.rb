@@ -70,10 +70,12 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('networking/external_network').with_value('public') }
 
       it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/admin_user').with_value('murano') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/admin_tenant_name').with_value('services') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/admin_password').with_value('secrete') }
-      it { is_expected.not_to contain_murano_config('keystone_authtoken/identity_uri').with_value('http://10.255.0.1:35357/') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/username').with_value('murano') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/project_name').with_value('services') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/password').with_value('secrete') }
+      it { is_expected.not_to contain_murano_config('keystone_authtoken/auth_url').with_value('http://10.255.0.1:35357/') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/user_domain_name').with_value('Default') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/project_domain_name').with_value('Default') }
       it { is_expected.to contain_murano_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('engine/packages_service').with_value('<SERVICE DEFAULT>') }
 
@@ -121,6 +123,8 @@ describe 'murano' do
         :admin_tenant_name          => 'secrete',
         :auth_uri                   => 'http://10.255.0.1:5000/v2.0/',
         :identity_uri               => 'http://10.255.0.1:35357/',
+        :user_domain_name           => 'new_domain',
+        :project_domain_name        => 'new_domain',
         :kombu_reconnect_delay      => '1.0',
         :kombu_failover_strategy    => 'round-robin',
         :kombu_compression          => 'gzip',
@@ -171,11 +175,13 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('rabbitmq/ssl').with_value(true) }
 
       it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://10.255.0.1:5000/v2.0/') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/admin_user').with_value('muranoy') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/admin_tenant_name').with_value('secrete') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/identity_uri').with_value('http://10.255.0.1:35357/') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/admin_password').with_value('secrete') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/username').with_value('muranoy') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/project_name').with_value('secrete') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/auth_url').with_value('http://10.255.0.1:35357/') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/password').with_value('secrete') }
       it { is_expected.to contain_murano_config('keystone_authtoken/memcached_servers').with_value('1.1.1.1:11211') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/user_domain_name').with_value('new_domain') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/project_domain_name').with_value('new_domain') }
 
       it { is_expected.to contain_murano_config('networking/external_network').with_value('murano-net') }
       it { is_expected.to contain_murano_config('networking/router_name').with_value('murano-router') }
