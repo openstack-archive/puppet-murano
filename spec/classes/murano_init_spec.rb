@@ -106,6 +106,7 @@ describe 'murano' do
         :rabbit_own_password        => 'secrete',
         :rabbit_own_vhost           => 'murano_vhost',
         :rabbit_own_use_ssl         => true,
+        :service_url                => 'http://10.255.0.3:8088',
         :service_host               => '10.255.0.3',
         :service_port               => '8088',
         :packages_service           => 'glare',
@@ -146,7 +147,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('oslo_messaging_notifications/topics').with_value('openstack') }
       it { is_expected.to contain_murano_config('oslo_messaging_notifications/driver').with_value('messagingv1') }
 
-      it { is_expected.to contain_murano_config('murano/url').with_value('https://10.255.0.3:8088') }
+      it { is_expected.to contain_murano_config('murano/url').with_value('http://10.255.0.3:8088') }
 
       it { is_expected.to contain_murano_config('engine/use_trusts').with_value(true) }
 
