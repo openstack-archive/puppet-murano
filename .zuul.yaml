@@ -1,0 +1,5 @@
+- project:
+    name: openstack/puppet-murano
+    templates:
+      - puppet-openstack-check-jobs
+      - puppet-openstack-module-unit-jobs
