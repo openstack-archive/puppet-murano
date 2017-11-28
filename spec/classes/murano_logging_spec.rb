@@ -11,6 +11,7 @@ describe 'murano::logging' do
     {
         :debug                         => 'true',
         :use_syslog                    => 'true',
+        :use_json                      => 'true',
         :use_stderr                    => 'false',
         :log_facility                  => 'LOG_LOCAL0',
         :log_dir                       => '/tmp/murano',
@@ -62,6 +63,7 @@ describe 'murano::logging' do
     context 'with defaults' do
      it { is_expected.to contain_oslo__log('murano_config').with(
         :use_syslog => '<SERVICE DEFAULT>',
+        :use_json   => '<SERVICE DEFAULT>',
         :use_stderr => '<SERVICE DEFAULT>',
         :log_dir    => '/var/log/murano',
         :debug      => '<SERVICE DEFAULT>',
@@ -84,6 +86,7 @@ describe 'murano::logging' do
     context 'with passed params' do
       it { is_expected.to contain_oslo__log('murano_config').with(
         :use_syslog          => true,
+        :use_json            => true,
         :use_stderr          => false,
         :syslog_log_facility => 'LOG_LOCAL0',
         :log_dir             => '/tmp/murano',
