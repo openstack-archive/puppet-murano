@@ -12,6 +12,10 @@
 #   Use syslog for logging.
 #   (Optional) Defaults to $::os_service_default.
 #
+# [*use_json*]
+#   (optional) Use json for logging
+#   Defaults to $::os_service_default
+#
 # [*use_stderr*]
 #   (optional) Use stderr for logging
 #   Defaults to $::os_service_default
@@ -88,6 +92,7 @@
 class murano::logging_cfapi(
   $debug                         = $::os_service_default,
   $use_syslog                    = $::os_service_default,
+  $use_json                      = $::os_service_default,
   $use_stderr                    = $::os_service_default,
   $log_facility                  = $::os_service_default,
   $log_dir                       = '/var/log/murano_cfapi',
@@ -109,6 +114,7 @@ class murano::logging_cfapi(
   oslo::log { 'murano_cfapi_config':
     debug                         => $debug,
     use_syslog                    => $use_syslog,
+    use_json                      => $use_json,
     use_stderr                    => $use_stderr,
     log_dir                       => $log_dir,
     syslog_log_facility           => $log_facility,
