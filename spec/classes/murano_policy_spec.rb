@@ -17,8 +17,10 @@ describe 'murano::policy' do
 
     it 'set up the policies' do
       is_expected.to contain_openstacklib__policy__base('context_is_admin').with({
-        :key   => 'context_is_admin',
-        :value => 'foo:bar'
+        :key        => 'context_is_admin',
+        :value      => 'foo:bar',
+        :file_user  => 'root',
+        :file_group => 'murano',
       })
       is_expected.to contain_oslo__policy('murano_config').with(
         :policy_file => '/etc/murano/policy.json',
@@ -37,5 +39,4 @@ describe 'murano::policy' do
       it_configures 'murano policies'
     end
   end
-
 end

@@ -11,6 +11,7 @@ class murano::params {
   # service names
   $api_service_name         = 'murano-api'
   $engine_service_name      = 'murano-engine'
+  $group                    = 'murano'
 
   case $::osfamily {
     'RedHat': {
