@@ -10,4 +10,5 @@ MURANO_USE_GLARE = True
 <% else %>
 MURANO_USE_GLARE = False
 <% end %>
+<% if @image_filter_project_id != nil %>MURANO_IMAGE_FILTER_PROJECT_ID = '<%= @image_filter_project_id %>'<% end %>
 ## MURANO_CONFIG_END ##

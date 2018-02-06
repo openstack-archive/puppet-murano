@@ -8,14 +8,15 @@ describe 'murano::dashboard' do
   end
 
   let :dashboard_params do {
-    :dashboard_name        => 'Application Catalog',
-    :repo_url              => 'http://storage.apps.openstack.com',
-    :enable_glare          => true,
-    :collect_static_script => '/bin/openstack-dashboard/manage.py',
-    :metadata_dir          => '/tmp/muranodashboard-cache',
-    :max_file_size         => '5',
-    :sync_db               => false,
-    :log_handler           => 'console',
+    :dashboard_name          => 'Application Catalog',
+    :repo_url                => 'http://storage.apps.openstack.com',
+    :enable_glare            => true,
+    :collect_static_script   => '/bin/openstack-dashboard/manage.py',
+    :metadata_dir            => '/tmp/muranodashboard-cache',
+    :max_file_size           => '5',
+    :sync_db                 => false,
+    :log_handler             => 'console',
+    :image_filter_project_id => '00000000-0000-0000-0000-000000000000',
   }
   end
 
@@ -61,6 +62,7 @@ describe 'murano::dashboard' do
     it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_API_URL = /)}
     it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_REPO_URL = /)}
     it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_DASHBOARD_NAME = /)}
+    it { is_expected.to_not contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_IMAGE_FILTER_PROJECT_ID = /)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MAX_FILE_SIZE_MB = '5'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/METADATA_CACHE_DIR = '\/var\/cache\/murano-dashboard'/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': 'file', 'level': 'DEBUG'\}/)}
@@ -119,6 +121,7 @@ describe 'murano::dashboard' do
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranodashboard'\] = \{'handlers': 'console', 'level': 'DEBUG'\}/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/LOGGING\['loggers'\]\['muranoclient'\] = \{'handlers': 'console', 'level': 'ERROR'\}/)}
     it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_USE_GLARE = True/)}
+    it { is_expected.to contain_concat__fragment('murano_dashboard_section').with_content(/MURANO_IMAGE_FILTER_PROJECT_ID = '00000000-0000-0000-0000-000000000000'/)}
 
     it { is_expected.to contain_exec('clean_horizon_config').with({
       :command => 'sed -e \'/^## MURANO_CONFIG_BEGIN/,/^## MURANO_CONFIG_END ##/ d\' -i /etc/openstack-dashboard/local_settings.py',

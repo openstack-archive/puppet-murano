@@ -49,18 +49,23 @@
 #  (Optional) Log handler.
 #  Defaults to 'file'
 #
+# [*image_filter_project_id*]
+#  (Optional) Filter image list by project ID
+#  Defaults to 'undef'
+#
 class murano::dashboard(
-  $package_ensure        = 'present',
-  $dashboard_name        = undef,
-  $repo_url              = undef,
-  $enable_glare          = false,
-  $collect_static_script = '/usr/share/openstack-dashboard/manage.py',
-  $metadata_dir          = '/var/cache/murano-dashboard',
-  $max_file_size         = '5',
-  $dashboard_debug_level = 'DEBUG',
-  $client_debug_level    = 'ERROR',
-  $log_handler           = 'file',
-  $sync_db               = true,
+  $package_ensure          = 'present',
+  $dashboard_name          = undef,
+  $repo_url                = undef,
+  $enable_glare            = false,
+  $collect_static_script   = '/usr/share/openstack-dashboard/manage.py',
+  $metadata_dir            = '/var/cache/murano-dashboard',
+  $max_file_size           = '5',
+  $dashboard_debug_level   = 'DEBUG',
+  $client_debug_level      = 'ERROR',
+  $log_handler             = 'file',
+  $sync_db                 = true,
+  $image_filter_project_id = undef,
 ) {
 
   include ::murano::deps
