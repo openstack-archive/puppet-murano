@@ -7,7 +7,7 @@ describe 'murano::db' do
     context 'with default parameters' do
       it { is_expected.to contain_oslo__db('murano_config').with(
         :db_max_retries => '<SERVICE DEFAULT>',
-        :connection     => 'mysql://murano:secrete@localhost:3306/murano',
+        :connection     => 'mysql+pymysql://murano:secrete@localhost:3306/murano',
         :idle_timeout   => '<SERVICE DEFAULT>',
         :min_pool_size  => '<SERVICE DEFAULT>',
         :max_pool_size  => '<SERVICE DEFAULT>',
@@ -55,7 +55,7 @@ describe 'murano::db' do
 
     context 'with MySQL-python library as backend package' do
       let :params do
-        { :database_connection => 'mysql://murano:murano@localhost/murano', }
+        { :database_connection => 'mysql+pymysql://murano:murano@localhost/murano', }
       end
 
       it { is_expected.to contain_package('python-mysqldb').with(:ensure => 'present') }

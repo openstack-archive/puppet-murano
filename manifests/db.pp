@@ -6,7 +6,7 @@
 #
 # [*database_connection*]
 #   (Optional) Non-sqllite database for murano
-#   Defaults to 'mysql://murano:secrete@localhost:3306/murano'
+#   Defaults to 'mysql+pymysql://murano:secrete@localhost:3306/murano'
 #
 # [*database_max_retries*]
 #   (Optional) Maximum number of database connection retries during startup.
@@ -39,7 +39,7 @@
 #   Defaults to $::os_service_default
 #
 class murano::db (
-  $database_connection     = 'mysql://murano:secrete@localhost:3306/murano',
+  $database_connection     = 'mysql+pymysql://murano:secrete@localhost:3306/murano',
   $database_idle_timeout   = $::os_service_default,
   $database_min_pool_size  = $::os_service_default,
   $database_max_pool_size  = $::os_service_default,
