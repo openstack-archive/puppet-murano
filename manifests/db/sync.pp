@@ -20,6 +20,7 @@ class murano::db::sync {
       Anchor['murano::dbsync::begin']
     ],
     notify      => Anchor['murano::dbsync::end'],
+    tag         => 'openstack-db',
   }
 
 }

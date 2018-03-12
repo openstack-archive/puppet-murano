@@ -17,6 +17,7 @@ describe 'murano::db::sync' do
                          'Anchor[murano::config::end]',
                          'Anchor[murano::dbsync::begin]'],
         :notify      => 'Anchor[murano::dbsync::end]',
+        :tag         => 'openstack-db',
       )
     end
 
