@@ -12,64 +12,17 @@ describe 'basic murano' do
       include ::openstack_integration::mysql
       include ::openstack_integration::keystone
 
-      rabbitmq_vhost { '/murano':
-        provider => 'rabbitmqctl',
-        require  => Class['rabbitmq'],
-      }
-      rabbitmq_user { 'murano':
-        admin    => true,
-        password => 'an_even_bigger_secret',
-        provider => 'rabbitmqctl',
-        require  => Class['rabbitmq'],
-      }
-      rabbitmq_user_permissions { 'murano@/':
-        configure_permission => '.*',
-        write_permission     => '.*',
-        read_permission      => '.*',
-        provider             => 'rabbitmqctl',
-        require              => Class['rabbitmq'],
-      }
-      rabbitmq_user_permissions { 'murano@/murano':
-        configure_permission => '.*',
-        write_permission     => '.*',
-        read_permission      => '.*',
-        provider             => 'rabbitmqctl',
-        require              => Class['rabbitmq'],
-      }
-
       # Murano resources
       # NOTE(aderyugin): Workaround to fix acceptance tests till murano is not in RDO
       case $::osfamily {
         'Debian': {
-          class { '::murano::db::mysql':
-            password => 'a_big_secret',
-          }
-          class { '::murano':
-            debug                 => true,
-            admin_password        => 'a_big_secret',
-            default_transport_url => 'rabbit://murano:an_even_bigger_secret@127.0.0.1:5672/',
-            rabbit_own_user       => 'murano',
-            rabbit_own_password   => 'an_even_bigger_secret',
-            rabbit_own_vhost      => '/murano',
-            database_connection   => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
-          }
-          class { '::murano::api': }
-          class { '::murano::engine': }
-          class { '::murano::cfapi':
-            tenant => 'admin',
-          }
-          class { '::murano::keystone::auth':
-            password => 'a_big_secret',
-          }
-          class { '::murano::keystone::cfapi_auth':
-            password => 'a_big_secret',
-          }
-          class { '::murano::client': }
-          murano_application { 'io.murano':
-            ensure       => present,
-            package_path => '/usr/share/murano-common/io.murano.zip',
-            category     => undef,
-          }
+          include ::openstack_integration::murano
+        }
+        'Redhat': {
+          warning('Workaround to fix acceptance tests till murano is not in RDO')
+        }
+        default: {
+          fail("Unsupported osfamily (${::osfamily})")
         }
       }
       EOS
