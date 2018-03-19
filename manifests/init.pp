@@ -241,7 +241,7 @@
 #
 # [*auth_uri*]
 #  (Optional) Public identity endpoint
-#  Defaults to 'http://127.0.0.1:5000'
+#  Defaults to 'http://127.0.0.1:5000/v3'
 #
 # [*user_domain_name*]
 #   (Optional) Name of domain for $username
@@ -345,7 +345,7 @@ class murano(
   $sync_db                    = true,
   $admin_user                 = 'murano',
   $admin_tenant_name          = 'services',
-  $auth_uri                   = 'http://127.0.0.1:5000',
+  $auth_uri                   = 'http://127.0.0.1:5000/v3',
   $user_domain_name           = 'Default',
   $project_domain_name        = 'Default',
   $memcached_servers          = $::os_service_default,

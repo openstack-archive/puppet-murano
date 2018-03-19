@@ -69,7 +69,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('networking/create_router').with_value(true) }
       it { is_expected.to contain_murano_config('networking/external_network').with_value('public') }
 
-      it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000/v3') }
       it { is_expected.to contain_murano_config('keystone_authtoken/username').with_value('murano') }
       it { is_expected.to contain_murano_config('keystone_authtoken/project_name').with_value('services') }
       it { is_expected.to contain_murano_config('keystone_authtoken/password').with_value('secrete') }
