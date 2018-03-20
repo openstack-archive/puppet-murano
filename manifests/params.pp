@@ -21,7 +21,7 @@ class murano::params {
       $common_package_name       = 'openstack-murano-common'
       $engine_package_name       = 'openstack-murano-engine'
       $pythonclient_package_name = 'python-muranoclient'
-      $dashboard_package_name    = 'openstack-murano-dashboard'
+      $dashboard_package_name    = 'openstack-murano-ui'
       # service names
       $cfapi_service_name        = 'murano-cf-api'
       # dashboard config file
