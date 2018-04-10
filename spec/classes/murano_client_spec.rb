@@ -25,7 +25,16 @@ describe 'murano::client' do
       end
 
       let :platform_params do
-        { :pythonclient_package_name => 'python-muranoclient' }
+        case facts[:osfamily]
+        when 'Debian'
+          if facts[:os_package_type] == 'debian'
+            { :pythonclient_package_name => 'python3-muranoclient' }
+          else
+            { :pythonclient_package_name => 'python-muranoclient' }
+          end
+        when 'RedHat'
+          { :pythonclient_package_name => 'python-muranoclient' }
+        end
       end
 
       it_behaves_like 'murano client'

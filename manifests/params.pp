@@ -5,6 +5,11 @@
 class murano::params {
   include ::openstacklib::defaults
 
+  if ($::os_package_type == 'debian') {
+    $pyvers = '3'
+  } else {
+    $pyvers = ''
+  }
   $dbmanage_command         = 'murano-db-manage --config-file /etc/murano/murano.conf upgrade'
   $cfapi_dbmanage_command   = 'murano-cfapi-db-manage --config-file /etc/murano/murano-cfapi.conf upgrade'
   $default_external_network = 'public'
@@ -33,8 +38,8 @@ class murano::params {
       $cfapi_package_name        = 'murano-cfapi'
       $common_package_name       = 'murano-common'
       $engine_package_name       = 'murano-engine'
-      $pythonclient_package_name = 'python-muranoclient'
-      $dashboard_package_name    = 'python-murano-dashboard'
+      $pythonclient_package_name = "python${pyvers}-muranoclient"
+      $dashboard_package_name    = "python${pyvers}-murano-dashboard"
       # service names
       $cfapi_service_name        = 'murano-cfapi'
       # dashboard config file
