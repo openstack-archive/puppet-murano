@@ -18,6 +18,8 @@ describe 'murano::config' do
     }
   end
 
+  it { is_expected.to contain_class('murano::deps') }
+
   it 'configures arbitrary murano configurations' do
     is_expected.to contain_murano_config('DEFAULT/foo').with_value('fooValue')
     is_expected.to contain_murano_config('DEFAULT/bar').with_value('barValue')
