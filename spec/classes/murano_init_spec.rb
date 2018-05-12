@@ -73,7 +73,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('keystone_authtoken/username').with_value('murano') }
       it { is_expected.to contain_murano_config('keystone_authtoken/project_name').with_value('services') }
       it { is_expected.to contain_murano_config('keystone_authtoken/password').with_value('secrete') }
-      it { is_expected.not_to contain_murano_config('keystone_authtoken/auth_url').with_value('http://10.255.0.1:35357/') }
+      it { is_expected.not_to contain_murano_config('keystone_authtoken/auth_url').with_value('http://10.255.0.1:5000/') }
       it { is_expected.to contain_murano_config('keystone_authtoken/user_domain_name').with_value('Default') }
       it { is_expected.to contain_murano_config('keystone_authtoken/project_domain_name').with_value('Default') }
       it { is_expected.to contain_murano_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>') }
@@ -123,7 +123,7 @@ describe 'murano' do
         :admin_user                 => 'muranoy',
         :admin_tenant_name          => 'secrete',
         :auth_uri                   => 'http://10.255.0.1:5000/v2.0/',
-        :identity_uri               => 'http://10.255.0.1:35357/',
+        :identity_uri               => 'http://10.255.0.1:5000/',
         :user_domain_name           => 'new_domain',
         :project_domain_name        => 'new_domain',
         :kombu_reconnect_delay      => '1.0',
@@ -178,7 +178,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://10.255.0.1:5000/v2.0/') }
       it { is_expected.to contain_murano_config('keystone_authtoken/username').with_value('muranoy') }
       it { is_expected.to contain_murano_config('keystone_authtoken/project_name').with_value('secrete') }
-      it { is_expected.to contain_murano_config('keystone_authtoken/auth_url').with_value('http://10.255.0.1:35357/') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/auth_url').with_value('http://10.255.0.1:5000/') }
       it { is_expected.to contain_murano_config('keystone_authtoken/password').with_value('secrete') }
       it { is_expected.to contain_murano_config('keystone_authtoken/memcached_servers').with_value('1.1.1.1:11211') }
       it { is_expected.to contain_murano_config('keystone_authtoken/user_domain_name').with_value('new_domain') }

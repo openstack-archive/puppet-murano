@@ -265,7 +265,7 @@
 #
 # [*identity_uri*]
 #  (Optional) Admin identity endpoint
-#  Defaults to 'http://127.0.0.1:35357/'
+#  Defaults to 'http://127.0.0.1:5000/'
 #
 # [*rabbit_os_host*]
 #  (Optional) Host for openstack rabbit server
@@ -352,7 +352,7 @@ class murano(
   $purge_config               = false,
   $amqp_durable_queues        = $::os_service_default,
   # Deprecated
-  $identity_uri               = 'http://127.0.0.1:35357/',
+  $identity_uri               = 'http://127.0.0.1:5000/',
   $rabbit_os_host             = $::os_service_default,
   $rabbit_os_port             = $::os_service_default,
   $rabbit_os_hosts            = $::os_service_default,
