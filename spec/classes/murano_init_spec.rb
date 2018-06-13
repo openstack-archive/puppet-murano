@@ -42,16 +42,10 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('DEFAULT/rpc_response_timeout').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('DEFAULT/control_exchange').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('guest') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('guest') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_oslo__messaging__rabbit('murano_config').with(
              :rabbit_use_ssl => '<SERVICE DEFAULT>',
            ) }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>') }
@@ -93,10 +87,6 @@ describe 'murano' do
         :default_transport_url      => 'rabbit://user:pass@host:1234/virt',
         :rpc_response_timeout       => '120',
         :control_exchange           => 'murano',
-        :rabbit_os_host             => '10.255.0.1',
-        :rabbit_os_port             => '5673',
-        :rabbit_os_user             => 'os',
-        :rabbit_os_password         => 'ossecrete',
         :rabbit_ha_queues           => true,
         :rabbit_os_use_ssl          => true,
         :amqp_durable_queues        => true,
@@ -154,10 +144,6 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('DEFAULT/transport_url').with_value('rabbit://user:pass@host:1234/virt') }
       it { is_expected.to contain_murano_config('DEFAULT/rpc_response_timeout').with_value('120') }
       it { is_expected.to contain_murano_config('DEFAULT/control_exchange').with_value('murano') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_userid').with_value('os') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_password').with_value('ossecrete') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_host').with_value('10.255.0.1') }
-      it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_port').with_value('5673') }
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true) }
       it { is_expected.to contain_oslo__messaging__rabbit('murano_config').with(
              :rabbit_use_ssl => true,

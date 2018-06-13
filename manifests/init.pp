@@ -267,30 +267,6 @@
 #  (Optional) Admin identity endpoint
 #  Defaults to 'http://127.0.0.1:5000/'
 #
-# [*rabbit_os_host*]
-#  (Optional) Host for openstack rabbit server
-#  Defaults to $::os_service_default
-#
-# [*rabbit_os_hosts*]
-#  (Optional) Hosts for openstack rabbit server
-#  Defaults to $::os_service_default
-#
-# [*rabbit_os_port*]
-#  (Optional) Port for openstack rabbit server
-#  Defaults to $::os_service_default
-#
-# [*rabbit_os_user*]
-#  (Optional) Username for openstack rabbit server
-#  Defaults to 'guest'
-#
-# [*rabbit_os_password*]
-#  (Optional) Password for openstack rabbit server
-#  Defaults to 'guest'
-#
-# [*rabbit_os_virtual_host*]
-#   (optional) The RabbitMQ virtual host.
-#   Defaults to $::os_service_default
-#
 class murano(
   $admin_password,
   $package_ensure             = 'present',
@@ -353,12 +329,6 @@ class murano(
   $amqp_durable_queues        = $::os_service_default,
   # Deprecated
   $identity_uri               = 'http://127.0.0.1:5000/',
-  $rabbit_os_host             = $::os_service_default,
-  $rabbit_os_port             = $::os_service_default,
-  $rabbit_os_hosts            = $::os_service_default,
-  $rabbit_os_virtual_host     = $::os_service_default,
-  $rabbit_os_user             = 'guest',
-  $rabbit_os_password         = 'guest',
 ) inherits murano::params {
 
   include ::murano::deps
@@ -367,17 +337,6 @@ class murano(
   include ::murano::db
 
   validate_string($admin_password)
-
-  if !is_service_default($rabbit_os_host) or
-    !is_service_default($rabbit_os_hosts) or
-    !is_service_default($rabbit_os_password) or
-    !is_service_default($rabbit_os_port) or
-    !is_service_default($rabbit_os_user) or
-    !is_service_default($rabbit_os_virtual_host) {
-    warning("murano::rabbit_os_host, murano::rabbit_os_hosts, murano::rabbit_os_password, \
-murano::rabbit_os_port, murano::rabbit_os_userid and murano::rabbit_os_virtual_host are \
-deprecated. Please use murano::default_transport_url instead.")
-  }
 
   package { 'murano-common':
     ensure => $package_ensure,
@@ -472,14 +431,8 @@ deprecated. Please use murano::default_transport_url instead.")
     kombu_reconnect_delay   => $kombu_reconnect_delay,
     kombu_failover_strategy => $kombu_failover_strategy,
     kombu_compression       => $kombu_compression,
-    rabbit_host             => $rabbit_os_host,
-    rabbit_port             => $rabbit_os_port,
-    rabbit_hosts            => $rabbit_os_hosts,
     rabbit_use_ssl          => $rabbit_os_use_ssl,
-    rabbit_userid           => $rabbit_os_user,
-    rabbit_password         => $rabbit_os_password,
     rabbit_ha_queues        => $rabbit_ha_queues,
-    rabbit_virtual_host     => $rabbit_os_virtual_host,
     amqp_durable_queues     => $amqp_durable_queues,
   }
 
