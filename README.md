@@ -87,6 +87,4 @@ The github [contributor graph](https://github.com/openstack/puppet-murano/graphs
 Release Notes
 -------------
 
-**1.0.0**
-
-* Initial
+* https://docs.openstack.org/releasenotes/puppet-murano/
