@@ -88,3 +88,8 @@ Release Notes
 -------------
 
 * https://docs.openstack.org/releasenotes/puppet-murano/
+
+Repository
+-------------
+
+* https://git.openstack.org/cgit/openstack/puppet-murano
