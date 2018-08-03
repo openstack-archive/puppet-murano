@@ -11,7 +11,7 @@ describe Puppet::Provider::Murano do
 
   let :credential_hash do
     {
-      'auth_uri'            => 'https://192.168.56.210:35357',
+      'auth_url'            => 'https://192.168.56.210:35357',
       'project_name'        => 'admin_tenant',
       'username'            => 'admin',
       'password'            => 'password',
@@ -61,7 +61,7 @@ describe Puppet::Provider::Murano do
 
     it 'should set auth credentials in the environment' do
       authenv = {
-        :OS_AUTH_URL            => credential_hash['auth_uri'],
+        :OS_AUTH_URL            => credential_hash['auth_url'],
         :OS_USERNAME            => credential_hash['username'],
         :OS_TENANT_NAME         => credential_hash['project_name'],
         :OS_PASSWORD            => credential_hash['password'],
@@ -78,7 +78,7 @@ describe Puppet::Provider::Murano do
     it 'should read auth credentials with specified package service' do
       mock = {
         'keystone_authtoken' => {
-          'auth_uri'          => 'https://192.168.56.210:35357',
+          'auth_url'          => 'https://192.168.56.210:35357',
           'project_name'      => 'admin_tenant',
           'username'          => 'admin',
           'password'          => 'password',
@@ -88,7 +88,7 @@ describe Puppet::Provider::Murano do
         }
       }
       creds = {
-         'auth_uri'            => 'https://192.168.56.210:35357',
+         'auth_url'            => 'https://192.168.56.210:35357',
          'project_name'        => 'admin_tenant',
          'username'            => 'admin',
          'password'            => 'password',
@@ -103,7 +103,7 @@ describe Puppet::Provider::Murano do
 
     it 'should set auth env credentials with specified package service' do
       creds = {
-         'auth_uri'            => 'https://192.168.56.210:35357',
+         'auth_url'            => 'https://192.168.56.210:35357',
          'project_name'        => 'admin_tenant',
          'username'            => 'admin',
          'password'            => 'password',
@@ -112,7 +112,7 @@ describe Puppet::Provider::Murano do
          'user_domain_name'    => 'Default',
       }
       authenv = {
-        :OS_AUTH_URL             => creds['auth_uri'],
+        :OS_AUTH_URL             => creds['auth_url'],
         :OS_USERNAME             => creds['username'],
         :OS_TENANT_NAME          => creds['project_name'],
         :OS_PASSWORD             => creds['password'],
