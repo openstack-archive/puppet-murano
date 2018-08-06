@@ -63,7 +63,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('networking/create_router').with_value(true) }
       it { is_expected.to contain_murano_config('networking/external_network').with_value('public') }
 
-      it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://127.0.0.1:5000/v3') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/www_authenticate_uri').with_value('http://127.0.0.1:5000/v3') }
       it { is_expected.to contain_murano_config('keystone_authtoken/username').with_value('murano') }
       it { is_expected.to contain_murano_config('keystone_authtoken/project_name').with_value('services') }
       it { is_expected.to contain_murano_config('keystone_authtoken/password').with_value('secrete') }
@@ -112,7 +112,7 @@ describe 'murano' do
         :sync_db                    => false,
         :admin_user                 => 'muranoy',
         :admin_tenant_name          => 'secrete',
-        :auth_uri                   => 'http://10.255.0.1:5000/v2.0/',
+        :www_authenticate_uri       => 'http://10.255.0.1:5000/v2.0/',
         :identity_uri               => 'http://10.255.0.1:5000/',
         :user_domain_name           => 'new_domain',
         :project_domain_name        => 'new_domain',
@@ -161,7 +161,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('rabbitmq/virtual_host').with_value('murano_vhost') }
       it { is_expected.to contain_murano_config('rabbitmq/ssl').with_value(true) }
 
-      it { is_expected.to contain_murano_config('keystone_authtoken/auth_uri').with_value('http://10.255.0.1:5000/v2.0/') }
+      it { is_expected.to contain_murano_config('keystone_authtoken/www_authenticate_uri').with_value('http://10.255.0.1:5000/v2.0/') }
       it { is_expected.to contain_murano_config('keystone_authtoken/username').with_value('muranoy') }
       it { is_expected.to contain_murano_config('keystone_authtoken/project_name').with_value('secrete') }
       it { is_expected.to contain_murano_config('keystone_authtoken/auth_url').with_value('http://10.255.0.1:5000/') }
