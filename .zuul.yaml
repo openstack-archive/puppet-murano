@@ -2,7 +2,7 @@
     templates:
       - puppet-openstack-check-jobs
       - puppet-openstack-module-unit-jobs
-      - release-notes-jobs
+      - release-notes-jobs-python3
     check:
       jobs:
         - puppet-openstack-beaker-centos-7
