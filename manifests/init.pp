@@ -267,10 +267,6 @@
 #  (Optional) Admin identity endpoint
 #  Defaults to 'http://127.0.0.1:5000/'
 #
-# [*auth_uri*]
-#   (Optional) Complete public Identity API endpoint.
-#   Defaults to undef
-#
 class murano(
   $admin_password,
   $package_ensure             = 'present',
@@ -333,7 +329,6 @@ class murano(
   $amqp_durable_queues        = $::os_service_default,
   # Deprecated
   $identity_uri               = 'http://127.0.0.1:5000/',
-  $auth_uri                   = undef,
 ) inherits murano::params {
 
   include ::murano::deps
@@ -342,11 +337,6 @@ class murano(
   include ::murano::db
 
   validate_string($admin_password)
-
-  if $auth_uri {
-    warning('The auth_uri parameter is deprecated. Please use www_authenticate_uri instead.')
-  }
-  $www_authenticate_uri_real = pick($auth_uri, $www_authenticate_uri)
 
   package { 'murano-common':
     ensure => $package_ensure,
@@ -423,7 +413,7 @@ class murano(
   }
 
   keystone::resource::authtoken { 'murano_config':
-    www_authenticate_uri => $www_authenticate_uri_real,
+    www_authenticate_uri => $www_authenticate_uri,
     auth_url             => $identity_uri,
     username             => $admin_user,
     password             => $admin_password,
