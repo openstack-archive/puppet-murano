@@ -8,26 +8,6 @@
 #  (Optional) Ensure state for package
 #  Defaults to 'present'
 #
-# [*debug*]
-#  (Optional) Should the service log debug messages
-#  Defaults to undef
-#
-# [*use_syslog*]
-#  (Optional) Should the service use Syslog
-#  Defaults to undef
-#
-# [*use_stderr*]
-#  (Optional) Should the service log to stderr
-#  Defaults to undef
-#
-# [*log_facility*]
-#  (Optional) Syslog facility to recieve logs
-#  Defaults to undef
-#
-# [*log_dir*]
-#  (Optional) Directory to store logs
-#  Defaults to undef
-#
 # [*data_dir*]
 #  (Optional) Directory to store data
 #  Defaults to '/var/cache/murano'
@@ -274,11 +254,6 @@
 class murano(
   $admin_password,
   $package_ensure             = 'present',
-  $debug                      = undef,
-  $use_syslog                 = undef,
-  $use_stderr                 = undef,
-  $log_facility               = undef,
-  $log_dir                    = undef,
   $data_dir                   = '/var/cache/murano',
   $notification_transport_url = $::os_service_default,
   $notification_topics        = $::os_service_default,
@@ -337,7 +312,6 @@ class murano(
 ) inherits murano::params {
 
   include ::murano::deps
-  include ::murano::logging
   include ::murano::policy
   include ::murano::db
 
