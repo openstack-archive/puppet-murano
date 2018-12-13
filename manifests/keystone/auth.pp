@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*password*]
-#   (required) Password for murano user.
+#   (Required) Password for murano user.
 #
 # [*service_name*]
 #   (Optional) Name of the service.
@@ -25,11 +25,11 @@
 #
 # [*configure_endpoint*]
 #   (Optional) Should murano endpoint be configured?
-#   Defaults to 'true'.
+#   Defaults to true.
 #
 # [*configure_user*]
 #   (Optional) Should murano user be configured?
-#   Defaults to 'true'.
+#   Defaults to true.
 #
 # [*configure_user_role*]
 #   (Optional) Should murano user role be configured?
@@ -48,16 +48,19 @@
 #   Defaults to 'RegionOne'.
 #
 # [*public_url*]
-#   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:8082
+#   (0ptional) The endpoint's public url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8082
 #
 # [*admin_url*]
-#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:8082
+#   (Optional) The endpoint's admin url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8082
 #
 # [*internal_url*]
-#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:8082
+#   (Optional) The endpoint's internal url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8082
 #
 # === Examples
 #

@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*policies*]
-#   (optional) Set of policies to configure for murano
+#   (Optional) Set of policies to configure for murano
 #   Example :
 #     {
 #       'murano-context_is_admin' => {
@@ -20,7 +20,7 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (optional) Path to the murano policy.json file
+#   (Optional) Path to the murano policy.json file
 #   Defaults to /etc/murano/policy.json
 #
 class murano::policy (
