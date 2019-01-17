@@ -151,7 +151,7 @@ describe 'murano::dashboard' do
         case facts[:osfamily]
         when 'Debian'
           {
-            :dashboard_package_name => 'python-murano-dashboard',
+            :dashboard_package_name => 'python3-murano-dashboard',
             :dashboard_config       => '/etc/openstack-dashboard/local_settings.py'
           }
         when 'RedHat'
