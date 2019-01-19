@@ -56,8 +56,8 @@ class murano::db (
 
   include ::murano::deps
 
-# NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
-# to use murano::<myparam> if murano::db::<myparam> isn't specified.
+  # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
+  # to use murano::<myparam> if murano::db::<myparam> isn't specified.
   $database_connection_real     = pick($::murano::database_connection, $database_connection)
   $database_idle_timeout_real   = pick($::murano::database_idle_timeout, $database_idle_timeout)
   $database_min_pool_size_real  = pick($::murano::database_min_pool_size, $database_min_pool_size)
