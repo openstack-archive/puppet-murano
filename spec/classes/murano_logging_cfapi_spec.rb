@@ -30,10 +30,10 @@ describe 'murano::logging_cfapi' do
             'suds'       => 'INFO',
             'iso8601'    => 'WARN',
             'requests.packages.urllib3.connectionpool' => 'WARN' },
-        :fatal_deprecations             => true,
-        :instance_format                => '[instance: %(uuid)s] ',
-        :instance_uuid_format           => '[instance: %(uuid)s] ',
-        :log_date_format                => '%Y-%m-%d %H:%M:%S',
+        :fatal_deprecations            => true,
+        :instance_format               => '[instance: %(uuid)s] ',
+        :instance_uuid_format          => '[instance: %(uuid)s] ',
+        :log_date_format               => '%Y-%m-%d %H:%M:%S',
     }
   end
 
