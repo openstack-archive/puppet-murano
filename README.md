@@ -36,7 +36,7 @@ Setup
 
 **What the murano module affects:**
 
-* [Murano](https://wiki.openstack.org/wiki/Murano), the application catalog service for OpenStack.
+* [Murano](https://docs.openstack.org/murano/latest/), the application catalog service for OpenStack.
 
 ### Installing murano
 
