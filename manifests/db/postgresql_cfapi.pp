@@ -34,7 +34,7 @@ class murano::db::postgresql_cfapi(
 
   include ::murano::deps
 
-  validate_string($password)
+  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::postgresql { 'murano_cfapi':
     password_hash => postgresql_password($user, $password),

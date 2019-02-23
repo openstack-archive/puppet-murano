@@ -34,7 +34,7 @@ class murano::db::postgresql(
 
   include ::murano::deps
 
-  validate_string($password)
+  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::postgresql { 'murano':
     password_hash => postgresql_password($user, $password),

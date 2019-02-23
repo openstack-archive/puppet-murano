@@ -44,7 +44,7 @@ class murano::db::mysql(
 
   include ::murano::deps
 
-  validate_string($password)
+  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql{ 'murano':
     user          => $user,

@@ -310,7 +310,7 @@ class murano(
   include ::murano::policy
   include ::murano::db
 
-  validate_string($admin_password)
+  validate_legacy(String, 'validate_string', $admin_password)
 
   package { 'murano-common':
     ensure => $package_ensure,
