@@ -29,7 +29,7 @@ describe 'murano::cfapi' do
       :tenant => 'services',
       :bind_host => '0.0.0.0',
       :bind_port => 8080,
-      :auth_url => 'http://127.0.0.1:5000/v2.0/',
+      :auth_url => 'http://127.0.0.1:5000/v3/',
     }
     end
 
@@ -39,7 +39,7 @@ describe 'murano::cfapi' do
     it { is_expected.to contain_murano_cfapi_config('cfapi/tenant').with_value('services') }
     it { is_expected.to contain_murano_cfapi_config('cfapi/bind_host').with_value('0.0.0.0') }
     it { is_expected.to contain_murano_cfapi_config('cfapi/bind_port').with_value(8080) }
-    it { is_expected.to contain_murano_cfapi_config('cfapi/auth_url').with_value('http://127.0.0.1:5000/v2.0/') }
+    it { is_expected.to contain_murano_cfapi_config('cfapi/auth_url').with_value('http://127.0.0.1:5000/v3/') }
   end
 
   on_supported_os({
