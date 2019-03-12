@@ -16,6 +16,7 @@ describe 'murano::logging' do
         :use_stderr                    => 'false',
         :log_facility                  => 'LOG_LOCAL0',
         :log_dir                       => '/tmp/murano',
+        :log_file                      => '/tmp/murano/murano.log',
         :logging_context_format_string => '%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [%(request_id)s %(user_identity)s] %(instance)s%(message)s',
         :logging_default_format_string => '%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] %(instance)s%(message)s',
         :logging_debug_format_suffix   => '%(funcName)s %(pathname)s:%(lineno)d',
@@ -68,6 +69,7 @@ describe 'murano::logging' do
         :use_journal => '<SERVICE DEFAULT>',
         :use_stderr  => '<SERVICE DEFAULT>',
         :log_dir     => '/var/log/murano',
+        :log_file    => '<SERVICE DEFAULT>',
         :debug       => '<SERVICE DEFAULT>',
       )}
     end
@@ -93,6 +95,7 @@ describe 'murano::logging' do
         :use_stderr          => false,
         :syslog_log_facility => 'LOG_LOCAL0',
         :log_dir             => '/tmp/murano',
+        :log_file            => '/tmp/murano/murano.log',
         :debug               => true,
       )}
     end
