@@ -88,7 +88,7 @@ class murano::keystone::cfapi_auth(
   $internal_url        = 'http://127.0.0.1:8083',
 ) {
 
-  include ::murano::deps
+  include murano::deps
 
   keystone::resource::service_identity { 'murano-cfapi':
     configure_user      => $configure_user,

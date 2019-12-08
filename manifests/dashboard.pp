@@ -68,8 +68,8 @@ class murano::dashboard(
   $image_filter_project_id = undef,
 ) {
 
-  include ::murano::deps
-  include ::murano::params
+  include murano::deps
+  include murano::params
 
   package { 'murano-dashboard':
     ensure => $package_ensure,

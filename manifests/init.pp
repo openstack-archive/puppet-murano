@@ -306,9 +306,9 @@ class murano(
   $identity_uri               = 'http://127.0.0.1:5000/',
 ) inherits murano::params {
 
-  include ::murano::deps
-  include ::murano::policy
-  include ::murano::db
+  include murano::deps
+  include murano::policy
+  include murano::db
 
   validate_legacy(String, 'validate_string', $admin_password)
 
@@ -423,6 +423,6 @@ class murano(
   }
 
   if $sync_db {
-    include ::murano::db::sync
+    include murano::db::sync
   }
 }

@@ -36,7 +36,7 @@ class murano::config (
   $murano_cfapi_paste_config = {}
 ) {
 
-  include ::murano::deps
+  include murano::deps
 
   validate_legacy(Hash, 'validate_hash', $murano_config)
   validate_legacy(Hash, 'validate_hash', $murano_cfapi_config)

@@ -42,7 +42,7 @@ class murano::db::mysql_cfapi(
   $collate       = 'utf8_general_ci',
 ) {
 
-  include ::murano::deps
+  include murano::deps
 
   validate_legacy(String, 'validate_string', $password)
 

@@ -6,17 +6,17 @@ describe 'basic murano' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      include ::openstack_integration
-      include ::openstack_integration::repos
-      include ::openstack_integration::rabbitmq
-      include ::openstack_integration::mysql
-      include ::openstack_integration::keystone
+      include openstack_integration
+      include openstack_integration::repos
+      include openstack_integration::rabbitmq
+      include openstack_integration::mysql
+      include openstack_integration::keystone
 
       # Murano resources
       # NOTE(aderyugin): Workaround to fix acceptance tests till murano is not in RDO
       case $::osfamily {
         'Debian': {
-          include ::openstack_integration::murano
+          include openstack_integration::murano
         }
         'Redhat': {
           warning('Workaround to fix acceptance tests till murano is not in RDO')

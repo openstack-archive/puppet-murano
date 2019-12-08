@@ -37,9 +37,9 @@ class murano::api(
   $workers        = $::os_workers,
 ) {
 
-  include ::murano::deps
-  include ::murano::params
-  include ::murano::policy
+  include murano::deps
+  include murano::params
+  include murano::policy
 
   if $manage_service {
     if $enabled {

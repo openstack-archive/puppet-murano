@@ -32,7 +32,7 @@ class murano::db::postgresql_cfapi(
   $privileges = 'ALL',
 ) {
 
-  include ::murano::deps
+  include murano::deps
 
   validate_legacy(String, 'validate_string', $password)
 

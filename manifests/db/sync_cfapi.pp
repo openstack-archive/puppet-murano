@@ -3,8 +3,8 @@
 #
 class murano::db::sync_cfapi {
 
-  include ::murano::deps
-  include ::murano::params
+  include murano::deps
+  include murano::params
 
   exec { 'murano-cfapi-dbmanage':
     command     => $::murano::params::cfapi_dbmanage_command,

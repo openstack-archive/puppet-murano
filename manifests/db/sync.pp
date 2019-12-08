@@ -3,8 +3,8 @@
 #
 class murano::db::sync {
 
-  include ::murano::deps
-  include ::murano::params
+  include murano::deps
+  include murano::params
 
   exec { 'murano-dbmanage':
     command     => $::murano::params::dbmanage_command,

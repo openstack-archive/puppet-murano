@@ -54,9 +54,9 @@ class murano::cfapi(
   $project_domain_name = $::os_service_default,
 ) {
 
-  include ::murano::deps
-  include ::murano::params
-  include ::murano::policy
+  include murano::deps
+  include murano::params
+  include murano::policy
 
   if $manage_service {
     if $enabled {

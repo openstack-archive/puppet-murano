@@ -119,7 +119,7 @@ class murano::logging_cfapi(
   $log_date_format               = $::os_service_default,
 ) {
 
-  include ::murano::deps
+  include murano::deps
 
   oslo::log { 'murano_cfapi_config':
     debug                         => $debug,

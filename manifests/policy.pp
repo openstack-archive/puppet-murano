@@ -28,8 +28,8 @@ class murano::policy (
   $policy_path = '/etc/murano/policy.json',
 ) {
 
-  include ::murano::deps
-  include ::murano::params
+  include murano::deps
+  include murano::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 

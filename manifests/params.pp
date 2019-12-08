@@ -3,7 +3,7 @@
 # Parameters for puppet-murano
 #
 class murano::params {
-  include ::openstacklib::defaults
+  include openstacklib::defaults
   $pyvers = $::openstacklib::defaults::pyvers
 
   $dbmanage_command          = 'murano-db-manage --config-file /etc/murano/murano.conf upgrade'

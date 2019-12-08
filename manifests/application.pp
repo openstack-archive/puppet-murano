@@ -35,7 +35,7 @@ define murano::application (
   $public           = true,
 ) {
 
-  include ::murano::deps
+  include murano::deps
 
   $package_path="/var/cache/murano/meta/${package_name}.zip"
 
