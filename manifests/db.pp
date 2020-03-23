@@ -42,12 +42,6 @@
 #   before error is raised. Set to -1 to specify an infinite retry count.
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*database_idle_timeout*]
-#   Timeout when db connections should be reaped.
-#   Defaults to undef.
-#
 class murano::db (
   $database_connection              = 'mysql+pymysql://murano:secrete@localhost:3306/murano',
   $database_connection_recycle_time = $::os_service_default,
@@ -58,21 +52,14 @@ class murano::db (
   $database_max_overflow            = $::os_service_default,
   $database_pool_timeout            = $::os_service_default,
   $database_db_max_retries          = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $database_idle_timeout            = undef,
 ) {
 
   include murano::deps
 
-  if $database_idle_timeout {
-    warning('The database_idle_timeout parameter is deprecated. Please use \
-database_connection_recycle_time instead.')
-  }
-
   # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
   # to use murano::<myparam> if murano::db::<myparam> isn't specified.
   $database_connection_real              = pick($::murano::database_connection, $database_connection)
-  $database_connection_recycle_time_real = pick($::murano::database_idle_timeout, $database_idle_timeout, $database_connection_recycle_time)
+  $database_connection_recycle_time_real = pick($::murano::database_idle_timeout, $database_connection_recycle_time)
   $database_min_pool_size_real           = pick($::murano::database_min_pool_size, $database_min_pool_size)
   $database_max_pool_size_real           = pick($::murano::database_max_pool_size, $database_max_pool_size)
   $database_max_retries_real             = pick($::murano::database_max_retries, $database_max_retries)
