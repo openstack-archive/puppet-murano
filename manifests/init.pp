@@ -190,10 +190,6 @@
 #   (optional) Interval between retries of opening a database connection.
 #   Defaults to undef.
 #
-# [*database_min_pool_size*]
-#   (optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
 # [*database_max_pool_size*]
 #   (optional) Maximum number of SQL connections to keep open in a pool.
 #   Defaults to undef.
@@ -247,6 +243,10 @@
 #  (Optional) Admin identity endpoint
 #  Defaults to 'http://127.0.0.1:5000/'
 #
+# [*database_min_pool_size*]
+#   (optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to undef.
+#
 class murano(
   $admin_password,
   $package_ensure             = 'present',
@@ -288,7 +288,6 @@ class murano(
   $packages_service           = $::os_service_default,
   $database_connection        = undef,
   $database_idle_timeout      = undef,
-  $database_min_pool_size     = undef,
   $database_max_pool_size     = undef,
   $database_max_retries       = undef,
   $database_retry_interval    = undef,
@@ -304,6 +303,7 @@ class murano(
   $amqp_durable_queues        = $::os_service_default,
   # Deprecated
   $identity_uri               = 'http://127.0.0.1:5000/',
+  $database_min_pool_size     = undef,
 ) inherits murano::params {
 
   include murano::deps

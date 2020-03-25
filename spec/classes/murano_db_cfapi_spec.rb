@@ -7,7 +7,6 @@ describe 'murano::db_cfapi' do
     context 'with default parameters' do
       it { is_expected.to_not contain_murano_cfapi_config('database/connection') }
       it { is_expected.to_not contain_murano_cfapi_config('database/idle_timeout') }
-      it { is_expected.to_not contain_murano_cfapi_config('database/min_pool_size') }
       it { is_expected.to_not contain_murano_cfapi_config('database/max_retries') }
       it { is_expected.to_not contain_murano_cfapi_config('database/retry_interval') }
       it { is_expected.to_not contain_murano_cfapi_config('database/max_pool_size') }
@@ -19,7 +18,6 @@ describe 'murano::db_cfapi' do
       let :params do
         { :database_connection       => 'mysql+pymysql://murano_cfapi:murano_cfapi@localhost/murano_cfapi',
           :database_idle_timeout     => '3601',
-          :database_min_pool_size    => '2',
           :database_max_retries      => '11',
           :database_retry_interval   => '11',
           :database_max_pool_size    => '11',
@@ -31,7 +29,6 @@ describe 'murano::db_cfapi' do
       it { should contain_oslo__db('murano_cfapi_config').with(
         :connection     => 'mysql+pymysql://murano_cfapi:murano_cfapi@localhost/murano_cfapi',
         :idle_timeout   => '3601',
-        :min_pool_size  => '2',
         :max_pool_size  => '11',
         :max_retries    => '11',
         :retry_interval => '11',
