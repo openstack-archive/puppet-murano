@@ -75,5 +75,5 @@
     ],
     "source": "git://github.com/openstack/puppet-murano.git",
     "summary": "Puppet module for OpenStack Murano",
-    "version": "16.2.0"
+    "version": "16.2.1"
 }
