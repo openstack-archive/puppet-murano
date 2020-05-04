@@ -1,5 +1,6 @@
 require 'puppet'
 require 'puppet/type/murano_cfapi_config'
+
 describe 'Puppet::Type.type(:murano_cfapi_config)' do
   before :each do
     @murano_cfapi_config = Puppet::Type.type(:murano_cfapi_config).new(:name => 'DEFAULT/foo', :value => 'bar')
@@ -52,11 +53,11 @@ describe 'Puppet::Type.type(:murano_cfapi_config)' do
 
   it 'should autorequire the package that install the file' do
     catalog = Puppet::Resource::Catalog.new
-    package = Puppet::Type.type(:package).new(:name => 'murano-common')
-    catalog.add_resource package, @murano_cfapi_config
+    anchor = Puppet::Type.type(:anchor).new(:name => 'murano::install::end')
+    catalog.add_resource anchor, @murano_cfapi_config
     dependency = @murano_cfapi_config.autorequire
     expect(dependency.size).to eq(1)
     expect(dependency[0].target).to eq(@murano_cfapi_config)
-    expect(dependency[0].source).to eq(package)
+    expect(dependency[0].source).to eq(anchor)
   end
 end

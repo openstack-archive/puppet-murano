@@ -45,7 +45,8 @@ Puppet::Type.newtype(:murano_paste_ini_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'murano-common'
+  autorequire(:anchor) do
+    ['murano::install::end']
   end
+
 end
