@@ -4,7 +4,7 @@ describe 'murano::db::postgresql' do
 
   shared_examples_for 'murano::db::postgresql' do
     let :req_params do
-      { :password => 'pw' }
+      { :password => 'muranopass' }
     end
 
     let :pre_condition do
@@ -16,9 +16,12 @@ describe 'murano::db::postgresql' do
         req_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('murano').with(
-        :user     => 'murano',
-        :password => 'md5c73cd23dae0b015e51ff2b38714d0bab'
+      it { is_expected.to contain_openstacklib__db__postgresql('murano').with(
+        :user       => 'murano',
+        :password   => 'muranopass',
+        :dbname     => 'murano',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
 

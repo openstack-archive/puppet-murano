@@ -8,7 +8,7 @@ describe 'murano::db::mysql' do
 
   let :params do
     { :dbname        => 'murano',
-      :password      => 's3cr3t',
+      :password      => 'muranopass',
       :user          => 'murano',
       :charset       => 'utf8',
       :collate       => 'utf8_general_ci',
@@ -27,7 +27,7 @@ describe 'murano::db::mysql' do
       is_expected.to contain_openstacklib__db__mysql('murano').with(
         :user          => params[:user],
         :dbname        => params[:dbname],
-        :password_hash => '*58C036CDA51D8E8BBBBF2F9EA5ABF111ADA444F0',
+        :password      => params[:password],
         :host          => params[:host],
         :charset       => params[:charset]
       )
@@ -44,7 +44,7 @@ describe 'murano::db::mysql' do
         is_expected.to contain_openstacklib__db__mysql('murano').with(
           :user          => params[:user],
           :dbname        => params[:dbname],
-          :password_hash => '*58C036CDA51D8E8BBBBF2F9EA5ABF111ADA444F0',
+          :password      => params[:password],
           :host          => params[:host],
           :charset       => params[:charset],
           :allowed_hosts => ['127.0.0.1','%']
@@ -62,7 +62,7 @@ describe 'murano::db::mysql' do
         is_expected.to contain_openstacklib__db__mysql('murano').with(
           :user          => params[:user],
           :dbname        => params[:dbname],
-          :password_hash => '*58C036CDA51D8E8BBBBF2F9EA5ABF111ADA444F0',
+          :password      => params[:password],
           :host          => params[:host],
           :charset       => params[:charset],
           :allowed_hosts => '192.168.1.1'

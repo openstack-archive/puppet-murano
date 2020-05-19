@@ -37,11 +37,11 @@ class murano::db::postgresql_cfapi(
   validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::postgresql { 'murano_cfapi':
-    password_hash => postgresql_password($user, $password),
-    dbname        => $dbname,
-    user          => $user,
-    encoding      => $encoding,
-    privileges    => $privileges,
+    password   => $password,
+    dbname     => $dbname,
+    user       => $user,
+    encoding   => $encoding,
+    privileges => $privileges,
   }
 
   Anchor['murano::db::begin']
