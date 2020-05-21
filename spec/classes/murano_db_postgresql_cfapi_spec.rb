@@ -4,7 +4,7 @@ describe 'murano::db::postgresql_cfapi' do
 
   shared_examples_for 'murano::db::postgresql_cfapi' do
     let :req_params do
-      { :password => 'pw' }
+      { :password => 'muranopass' }
     end
 
     let :pre_condition do
@@ -16,9 +16,12 @@ describe 'murano::db::postgresql_cfapi' do
         req_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('murano_cfapi').with(
-        :user     => 'murano_cfapi',
-        :password => 'md594583175c7aca1cf386f1c97c50fda19'
+      it { is_expected.to contain_openstacklib__db__postgresql('murano_cfapi').with(
+        :user       => 'murano_cfapi',
+        :password   => 'muranopass',
+        :dbname     => 'murano_cfapi',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
 

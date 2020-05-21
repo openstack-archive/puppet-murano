@@ -7,12 +7,12 @@ describe 'murano::db::mysql_cfapi' do
   end
 
   let :params do
-    { :dbname        => 'murano_cfapi',
-      :password      => 's3cr3t',
-      :user          => 'murano_cfapi',
-      :charset       => 'utf8',
-      :collate       => 'utf8_general_ci',
-      :host          => '127.0.0.1',
+    { :dbname   => 'murano_cfapi',
+      :password => 'muranopass',
+      :user     => 'murano_cfapi',
+      :charset  => 'utf8',
+      :collate  => 'utf8_general_ci',
+      :host     => '127.0.0.1',
     }
   end
 
@@ -25,18 +25,18 @@ describe 'murano::db::mysql_cfapi' do
 
     it 'creates a mysql database' do
       is_expected.to contain_openstacklib__db__mysql('murano_cfapi').with(
-        :user          => params[:user],
-        :dbname        => params[:dbname],
-        :password_hash => '*58C036CDA51D8E8BBBBF2F9EA5ABF111ADA444F0',
-        :host          => params[:host],
-        :charset       => params[:charset]
+        :user     => params[:user],
+        :dbname   => params[:dbname],
+        :password => params[:password],
+        :host     => params[:host],
+        :charset  => params[:charset]
       )
     end
 
     context 'overriding allowed_hosts param to array' do
       before :each do
         params.merge!(
-            :allowed_hosts  => ['127.0.0.1','%']
+            :allowed_hosts => ['127.0.0.1','%']
         )
       end
 
@@ -44,7 +44,7 @@ describe 'murano::db::mysql_cfapi' do
         is_expected.to contain_openstacklib__db__mysql('murano_cfapi').with(
           :user          => params[:user],
           :dbname        => params[:dbname],
-          :password_hash => '*58C036CDA51D8E8BBBBF2F9EA5ABF111ADA444F0',
+          :password      => params[:password],
           :host          => params[:host],
           :charset       => params[:charset],
           :allowed_hosts => ['127.0.0.1','%']
@@ -62,7 +62,7 @@ describe 'murano::db::mysql_cfapi' do
         is_expected.to contain_openstacklib__db__mysql('murano_cfapi').with(
           :user          => params[:user],
           :dbname        => params[:dbname],
-          :password_hash => '*58C036CDA51D8E8BBBBF2F9EA5ABF111ADA444F0',
+          :password      => params[:password],
           :host          => params[:host],
           :charset       => params[:charset],
           :allowed_hosts => '192.168.1.1'

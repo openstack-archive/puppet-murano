@@ -48,7 +48,7 @@ class murano::db::mysql_cfapi(
 
   ::openstacklib::db::mysql{ 'murano_cfapi':
     user          => $user,
-    password_hash => mysql::password($password),
+    password      => $password,
     dbname        => $dbname,
     host          => $host,
     charset       => $charset,
