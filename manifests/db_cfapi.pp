@@ -60,9 +60,6 @@ class murano::db_cfapi (
 
   if !is_service_default($database_connection) {
 
-    validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection,
-      ['^(mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
-
     oslo::db { 'murano_cfapi_config':
       connection     => $database_connection,
       idle_timeout   => $database_idle_timeout,
