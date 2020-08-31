@@ -3,11 +3,4 @@
       - puppet-openstack-check-jobs
       - puppet-openstack-module-unit-jobs
       - release-notes-jobs-python3
-    check:
-      jobs:
-        - puppet-openstack-beaker-centos-7
-        - puppet-openstack-beaker-xenial:
-            voting: false
-    gate:
-      jobs:
-        - puppet-openstack-beaker-centos-7
+      - puppet-openstack-litmus-jobs
