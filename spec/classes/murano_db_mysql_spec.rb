@@ -17,6 +17,7 @@ describe 'murano::db::mysql' do
   end
 
   shared_examples_for 'murano mysql database' do
+    it { is_expected.to contain_class('murano::deps') }
 
     context 'when omiting the required parameter password' do
       before { params.delete(:password) }
