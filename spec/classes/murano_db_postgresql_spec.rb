@@ -16,6 +16,8 @@ describe 'murano::db::postgresql' do
         req_params
       end
 
+      it { is_expected.to contain_class('murano::deps') }
+
       it { is_expected.to contain_openstacklib__db__postgresql('murano').with(
         :user       => 'murano',
         :password   => 'muranopass',
