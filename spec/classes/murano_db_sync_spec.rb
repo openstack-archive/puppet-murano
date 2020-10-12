@@ -4,6 +4,8 @@ describe 'murano::db::sync' do
 
   shared_examples_for 'murano-dbsync' do
 
+    it { is_expected.to contain_class('murano::deps') }
+
     it 'runs murano-dbmanage' do
       is_expected.to contain_exec('murano-dbmanage').with(
         :command     => 'murano-db-manage --config-file /etc/murano/murano.conf upgrade',
