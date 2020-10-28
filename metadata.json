@@ -65,7 +65,7 @@
             "version_requirement": ">= 6.0.0 < 7.0.0"
         }
     ],
-    "source": "git://github.com/openstack/puppet-murano.git",
+    "source": "https://opendev.org/openstack/puppet-murano.git",
     "summary": "Puppet module for OpenStack Murano",
     "version": "18.0.0"
 }
