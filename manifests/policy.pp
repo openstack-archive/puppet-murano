@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*enforce_scope*]
+#  (Optional) Whether or not to enforce scope when evaluating policies.
+#  Defaults to $::os_service_default.
+#
 # [*policies*]
 #   (Optional) Set of policies to configure for murano
 #   Example :
@@ -24,8 +28,9 @@
 #   Defaults to /etc/murano/policy.yaml
 #
 class murano::policy (
-  $policies    = {},
-  $policy_path = '/etc/murano/policy.yaml',
+  $enforce_scope = $::os_service_default,
+  $policies      = {},
+  $policy_path   = '/etc/murano/policy.yaml',
 ) {
 
   include murano::deps
@@ -42,6 +47,9 @@ class murano::policy (
 
   create_resources('openstacklib::policy::base', $policies)
 
-  oslo::policy { 'murano_config': policy_file => $policy_path }
+  oslo::policy { 'murano_config':
+    enforce_scope => $enforce_scope,
+    policy_file   => $policy_path
+  }
 
 }
