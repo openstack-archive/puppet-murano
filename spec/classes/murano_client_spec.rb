@@ -29,15 +29,7 @@ describe 'murano::client' do
         when 'Debian'
           { :pythonclient_package_name => 'python3-muranoclient' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :pythonclient_package_name => 'python3-muranoclient' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :pythonclient_package_name => 'python3-muranoclient' }
-            else
-              { :pythonclient_package_name => 'python-muranoclient' }
-            end
-          end
+          { :pythonclient_package_name => 'python3-muranoclient' }
         end
       end
 

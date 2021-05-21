@@ -4,7 +4,6 @@
 #
 class murano::params {
   include openstacklib::defaults
-  $pyvers = $::openstacklib::defaults::pyvers
 
   $dbmanage_command          = 'murano-db-manage --config-file /etc/murano/murano.conf upgrade'
   $cfapi_dbmanage_command    = 'murano-cfapi-db-manage --config-file /etc/murano/murano-cfapi.conf upgrade'
@@ -12,7 +11,7 @@ class murano::params {
   # service names
   $api_service_name          = 'murano-api'
   $engine_service_name       = 'murano-engine'
-  $pythonclient_package_name = "python${pyvers}-muranoclient"
+  $pythonclient_package_name = 'python3-muranoclient'
   $group                     = 'murano'
 
   case $::osfamily {
@@ -34,7 +33,7 @@ class murano::params {
       $cfapi_package_name        = 'murano-cfapi'
       $common_package_name       = 'murano-common'
       $engine_package_name       = 'murano-engine'
-      $dashboard_package_name    = "python${pyvers}-murano-dashboard"
+      $dashboard_package_name    = 'python3-murano-dashboard'
       # service names
       $cfapi_service_name        = 'murano-cfapi'
       # dashboard config file
