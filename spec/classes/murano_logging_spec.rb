@@ -17,6 +17,7 @@ describe 'murano::logging' do
         :log_facility                  => 'LOG_LOCAL0',
         :log_dir                       => '/tmp/murano',
         :log_file                      => '/tmp/murano/murano.log',
+        :watch_log_file                => true, 
         :logging_context_format_string => '%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [%(request_id)s %(user_identity)s] %(instance)s%(message)s',
         :logging_default_format_string => '%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] %(instance)s%(message)s',
         :logging_debug_format_suffix   => '%(funcName)s %(pathname)s:%(lineno)d',
@@ -64,13 +65,14 @@ describe 'murano::logging' do
 
     context 'with defaults' do
      it { is_expected.to contain_oslo__log('murano_config').with(
-        :use_syslog  => '<SERVICE DEFAULT>',
-        :use_json    => '<SERVICE DEFAULT>',
-        :use_journal => '<SERVICE DEFAULT>',
-        :use_stderr  => '<SERVICE DEFAULT>',
-        :log_dir     => '/var/log/murano',
-        :log_file    => '<SERVICE DEFAULT>',
-        :debug       => '<SERVICE DEFAULT>',
+        :use_syslog     => '<SERVICE DEFAULT>',
+        :use_json       => '<SERVICE DEFAULT>',
+        :use_journal    => '<SERVICE DEFAULT>',
+        :use_stderr     => '<SERVICE DEFAULT>',
+        :log_dir        => '/var/log/murano',
+        :log_file       => '<SERVICE DEFAULT>',
+        :watch_log_file => '<SERVICE DEFAULT>',
+        :debug          => '<SERVICE DEFAULT>',
       )}
     end
 
@@ -96,6 +98,7 @@ describe 'murano::logging' do
         :syslog_log_facility => 'LOG_LOCAL0',
         :log_dir             => '/tmp/murano',
         :log_file            => '/tmp/murano/murano.log',
+        :watch_log_file      => true,
         :debug               => true,
       )}
     end
