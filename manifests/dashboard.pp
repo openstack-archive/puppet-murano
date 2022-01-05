@@ -97,7 +97,7 @@ class murano::dashboard(
     path    => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
   }
 
-  if $::os_package_type == 'ubuntu' {
+  if $::operatingsystem == 'Ubuntu' {
     $collect_static_command = "${collect_static_script} collectstatic --noinput"
   } else {
     $collect_static_command = "${collect_static_script} collectstatic --noinput --clear"

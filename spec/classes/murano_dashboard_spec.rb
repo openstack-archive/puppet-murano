@@ -32,7 +32,7 @@ describe 'murano::dashboard' do
 
   shared_examples 'with default class parameters' do
     let(:collect_static_command) {
-      if facts[:os_package_type] == 'ubuntu'
+      if facts[:operatingsystem] == 'Ubuntu'
         "/usr/share/openstack-dashboard/manage.py collectstatic --noinput"
       else
         "/usr/share/openstack-dashboard/manage.py collectstatic --noinput --clear"
@@ -86,7 +86,7 @@ describe 'murano::dashboard' do
 
   shared_examples 'with parameters override' do
     let(:collect_static_command) {
-      if facts[:os_package_type] == 'ubuntu'
+      if facts[:operatingsystem] == 'Ubuntu'
         "/bin/openstack-dashboard/manage.py collectstatic --noinput"
       else
         "/bin/openstack-dashboard/manage.py collectstatic --noinput --clear"
