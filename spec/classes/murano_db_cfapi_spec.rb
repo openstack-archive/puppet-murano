@@ -5,13 +5,7 @@ describe 'murano::db_cfapi' do
   shared_examples 'murano::db_cfapi' do
 
     context 'with default parameters' do
-      it { is_expected.to_not contain_murano_cfapi_config('database/connection') }
-      it { is_expected.to_not contain_murano_cfapi_config('database/idle_timeout') }
-      it { is_expected.to_not contain_murano_cfapi_config('database/max_retries') }
-      it { is_expected.to_not contain_murano_cfapi_config('database/retry_interval') }
-      it { is_expected.to_not contain_murano_cfapi_config('database/max_pool_size') }
-      it { is_expected.to_not contain_murano_cfapi_config('database/max_overflow') }
-      it { is_expected.to_not contain_murano_cfapi_config('database/db_max_retries') }
+      it { is_expected.to_not contain_oslo__db('murano_cfapi_config') }
     end
 
     context 'with specific parameters' do
