@@ -202,36 +202,6 @@
 #   (Optional) Enable dbsync
 #   Defaults to true.
 #
-# == keystone authentication options
-#
-# [*admin_user*]
-#  (Optional) Username for murano credentials
-#  Defaults to 'murano'
-#
-# [*admin_password*]
-#  (Required) Password for murano credentials
-#
-# [*admin_tenant_name*]
-#  (Optional) Tenant for admin_username
-#  Defaults to 'services'
-#
-# [*www_authenticate_uri*]
-#  (Optional) Public identity endpoint
-#  Defaults to 'http://127.0.0.1:5000/v3'
-#
-# [*user_domain_name*]
-#   (Optional) Name of domain for $username
-#   Defaults to 'Default'
-#
-# [*project_domain_name*]
-#   (Optional) Name of domain for $project_name
-#   Defaults to 'Default'
-#
-# [*memcached_servers*]
-#   (optinal) a list of memcached server(s) to use for caching. If left
-#   undefined, tokens will instead be cached in-process.
-#   Defaults to $::os_service_default.
-#
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
 #   in the murano config.
@@ -241,14 +211,42 @@
 #
 # [*identity_uri*]
 #  (Optional) Admin identity endpoint
-#  Defaults to 'http://127.0.0.1:5000/'
+#  Defaults to undef.
 #
 # [*database_min_pool_size*]
 #   (optional) Minimum number of SQL connections to keep open in a pool.
 #   Defaults to undef.
 #
+# [*admin_user*]
+#  (Optional) Username for murano credentials
+#  Defaults to undef.
+#
+# [*admin_password*]
+#  (Optional) Password for murano credentials
+#  Defaults to undef.
+#
+# [*admin_tenant_name*]
+#  (Optional) Tenant for admin_username
+#  Defaults to undef.
+#
+# [*www_authenticate_uri*]
+#  (Optional) Public identity endpoint
+#  Defaults to undef.
+#
+# [*user_domain_name*]
+#   (Optional) Name of domain for $username
+#   Defaults to undef.
+#
+# [*project_domain_name*]
+#   (Optional) Name of domain for $project_name
+#   Defaults to undef.
+#
+# [*memcached_servers*]
+#   (optinal) a list of memcached server(s) to use for caching. If left
+#   undefined, tokens will instead be cached in-process.
+#   Defaults to undef.
+#
 class murano(
-  $admin_password,
   $package_ensure             = 'present',
   $data_dir                   = '/var/cache/murano',
   $notification_transport_url = $::os_service_default,
@@ -293,17 +291,18 @@ class murano(
   $database_retry_interval    = undef,
   $database_max_overflow      = undef,
   $sync_db                    = true,
-  $admin_user                 = 'murano',
-  $admin_tenant_name          = 'services',
-  $www_authenticate_uri       = 'http://127.0.0.1:5000/v3',
-  $user_domain_name           = 'Default',
-  $project_domain_name        = 'Default',
-  $memcached_servers          = $::os_service_default,
   $purge_config               = false,
   $amqp_durable_queues        = $::os_service_default,
   # Deprecated
-  $identity_uri               = 'http://127.0.0.1:5000/',
+  $identity_uri               = undef,
   $database_min_pool_size     = undef,
+  $admin_user                 = undef,
+  $admin_password             = undef,
+  $admin_tenant_name          = undef,
+  $www_authenticate_uri       = undef,
+  $user_domain_name           = undef,
+  $project_domain_name        = undef,
+  $memcached_servers          = undef,
 ) inherits murano::params {
 
   include murano::deps
@@ -386,15 +385,20 @@ class murano(
     'engine/packages_service': value => $packages_service,
   }
 
-  keystone::resource::authtoken { 'murano_config':
-    www_authenticate_uri => $www_authenticate_uri,
-    auth_url             => $identity_uri,
-    username             => $admin_user,
-    password             => $admin_password,
-    project_name         => $admin_tenant_name,
-    user_domain_name     => $user_domain_name,
-    project_domain_name  => $project_domain_name,
-    memcached_servers    => $memcached_servers,
+  [
+    'www_authenticate_uri',
+    'identity_uri',
+    'admin_user',
+    'admin_password',
+    'admin_domain_name',
+    'user_domain_name',
+    'project_domain_name',
+    'memcached_servers'
+  ].each |String $opt| {
+    if getvar($opt) != undef {
+      warning("The ${opt} parameter is deprecated. Use the murano::keystone::authtoken class instead")
+      include murano::keystone::authtoken
+    }
   }
 
   oslo::messaging::rabbit { 'murano_config':

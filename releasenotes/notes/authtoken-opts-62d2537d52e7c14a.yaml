@@ -1,0 +1,19 @@
+---
+features:
+  - |
+    The new ``murano::keystone::authtoken`` class has been added.
+
+deprecations:
+  - |
+    The following parameters of the ``murano`` class have been deprecated and
+    will be removed in a future release. The ``murano::keystone::authtoken``
+    should be used instead.
+
+    - ``www_authenticate_uri``
+    - ``identity_uri``
+    - ``admin_user``
+    - ``admin_password``
+    - ``admin_tenant_name``
+    - ``user_domain_name``
+    - ``project_domain_name``
+    - ``memcached_servers``
