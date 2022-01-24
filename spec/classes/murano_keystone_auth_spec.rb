@@ -1,89 +1,80 @@
+#
+# Unit tests for murano::keystone::auth
+#
+
 require 'spec_helper'
 
 describe 'murano::keystone::auth' do
-
-  shared_examples_for 'murano keystone auth' do
-
-    describe 'with default class parameters' do
+  shared_examples_for 'murano::keystone::auth' do
+    context 'with default class parameters' do
       let :params do
-        { :password => 'murano_password',
-          :tenant   => 'foobar' }
+        { :password => 'murano_password' }
       end
 
-      it { is_expected.to contain_keystone_user('murano').with(
-                              :ensure   => 'present',
-                              :password => 'murano_password',
-                          ) }
-
-      it { is_expected.to contain_keystone_user_role('murano@foobar').with(
-                              :ensure  => 'present',
-                              :roles   => ['admin']
-                          )}
-
-      it { is_expected.to contain_keystone_service('murano::application-catalog').with(
-                              :ensure      => 'present',
-                              :description => 'Murano Application Catalog'
-                          ) }
-
-      it { is_expected.to contain_keystone_endpoint('RegionOne/murano::application-catalog').with(
-                              :ensure       => 'present',
-                              :public_url   => "http://127.0.0.1:8082",
-                              :admin_url    => "http://127.0.0.1:8082",
-                              :internal_url => "http://127.0.0.1:8082"
-                          ) }
+      it { is_expected.to contain_keystone__resource__service_identity('murano').with(
+        :configure_user      => true,
+        :configure_user_role => true,
+        :configure_endpoint  => true,
+        :service_name        => 'murano',
+        :service_type        => 'application-catalog',
+        :service_description => 'Murano Application Catalog',
+        :region              => 'RegionOne',
+        :auth_name           => 'murano',
+        :password            => 'murano_password',
+        :email               => 'murano@localhost',
+        :tenant              => 'services',
+        :public_url          => 'http://127.0.0.1:8082',
+        :internal_url        => 'http://127.0.0.1:8082',
+        :admin_url           => 'http://127.0.0.1:8082',
+      ) }
     end
 
-    describe 'with endpoint parameters' do
+    context 'when overriding parameters' do
       let :params do
-        { :password     => 'murano_password',
-          :public_url   => 'https://10.10.10.10:80',
-          :internal_url => 'http://10.10.10.11:81',
-          :admin_url    => 'http://10.10.10.12:81' }
+        { :password            => 'murano_password',
+          :auth_name           => 'alt_murano',
+          :email               => 'alt_murano@alt_localhost',
+          :tenant              => 'alt_service',
+          :configure_endpoint  => false,
+          :configure_user      => false,
+          :configure_user_role => false,
+          :service_description => 'Alternative Murano Application Catalog',
+          :service_name        => 'alt_service',
+          :service_type        => 'alt_application-catalog',
+          :region              => 'RegionTwo',
+          :public_url          => 'https://10.10.10.10:80',
+          :internal_url        => 'http://10.10.10.11:81',
+          :admin_url           => 'http://10.10.10.12:81' }
       end
 
-      it { is_expected.to contain_keystone_endpoint('RegionOne/murano::application-catalog').with(
-                              :ensure       => 'present',
-                              :public_url   => 'https://10.10.10.10:80',
-                              :internal_url => 'http://10.10.10.11:81',
-                              :admin_url    => 'http://10.10.10.12:81'
-                          ) }
-    end
-
-    describe 'when overriding auth and service name' do
-      let :params do
-        { :password => 'foo',
-          :service_name => 'muranoy',
-          :auth_name => 'muranoy' }
-      end
-
-      it { is_expected.to contain_keystone_user('muranoy') }
-      it { is_expected.to contain_keystone_user_role('muranoy@services') }
-      it { is_expected.to contain_keystone_service('muranoy::application-catalog') }
-      it { is_expected.to contain_keystone_endpoint('RegionOne/muranoy::application-catalog') }
-    end
-
-    describe 'when not configuring user and role' do
-      let :params do
-        { :password => 'foo',
-          :configure_user => false,
-          :configure_user_role => false }
-      end
-
-      it { is_expected.to_not contain_keystone_user('murano') }
-      it { is_expected.to_not contain_keystone_user_role('murano@services') }
+      it { is_expected.to contain_keystone__resource__service_identity('murano').with(
+        :configure_user      => false,
+        :configure_user_role => false,
+        :configure_endpoint  => false,
+        :service_name        => 'alt_service',
+        :service_type        => 'alt_application-catalog',
+        :service_description => 'Alternative Murano Application Catalog',
+        :region              => 'RegionTwo',
+        :auth_name           => 'alt_murano',
+        :password            => 'murano_password',
+        :email               => 'alt_murano@alt_localhost',
+        :tenant              => 'alt_service',
+        :public_url          => 'https://10.10.10.10:80',
+        :internal_url        => 'http://10.10.10.11:81',
+        :admin_url           => 'http://10.10.10.12:81',
+      ) }
     end
   end
 
   on_supported_os({
-    :supported_os   => OSDefaults.get_supported_os
+    :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'murano keystone auth'
+      it_behaves_like 'murano::keystone::auth'
     end
   end
-
 end
