@@ -43,12 +43,6 @@
 #   before error is raised. Set to -1 to specify an infinite retry count.
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*database_min_pool_size*]
-#   (optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
 class murano::db (
   $database_connection              = 'mysql+pymysql://murano:secrete@localhost:3306/murano',
   $database_connection_recycle_time = $::os_service_default,
@@ -59,15 +53,9 @@ class murano::db (
   $database_pool_timeout            = $::os_service_default,
   $mysql_enable_ndb                 = $::os_service_default,
   $database_db_max_retries          = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $database_min_pool_size           = undef,
 ) {
 
   include murano::deps
-
-  if $::murano::database_min_pool_size or $database_min_pool_size {
-    warning('The database_min_pool_size parameter is deprecated, and will be removed in a future release.')
-  }
 
   # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
   # to use murano::<myparam> if murano::db::<myparam> isn't specified.
