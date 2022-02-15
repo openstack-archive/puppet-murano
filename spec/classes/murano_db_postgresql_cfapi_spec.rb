@@ -37,7 +37,10 @@ describe 'murano::db::postgresql_cfapi' do
         }))
       end
 
-      it_configures 'murano::db::postgresql_cfapi'
+      # TODO(tkajinam): Remove this once puppet-postgresql supports CentOS 9
+      unless facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i >= 9
+        it_configures 'murano::db::postgresql_cfapi'
+      end
     end
   end
 
