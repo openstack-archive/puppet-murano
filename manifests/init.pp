@@ -213,10 +213,6 @@
 #  (Optional) Admin identity endpoint
 #  Defaults to undef.
 #
-# [*database_min_pool_size*]
-#   (optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
 # [*admin_user*]
 #  (Optional) Username for murano credentials
 #  Defaults to undef.
@@ -295,7 +291,6 @@ class murano(
   $amqp_durable_queues        = $::os_service_default,
   # Deprecated
   $identity_uri               = undef,
-  $database_min_pool_size     = undef,
   $admin_user                 = undef,
   $admin_password             = undef,
   $admin_tenant_name          = undef,
