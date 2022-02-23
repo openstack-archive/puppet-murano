@@ -13,7 +13,7 @@
 #   Set to -1 to specify an infinite retry count.
 #   Defaults to $::os_service_default.
 #
-# [*database_idle_timeout*]
+# [*database_connection_recycle_time*]
 #   (Optional) Timeout before idle SQL connections are reaped.
 #   Defaults to $::os_service_default.
 #
@@ -34,28 +34,39 @@
 #   before error is raised. Set to -1 to specify an infinite retry count.
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*database_idle_timeout*]
+#   (Optional) Timeout before idle SQL connections are reaped.
+#   Defaults to undef
+#
 class murano::db_cfapi (
-  $database_connection       = $::os_service_default,
-  $database_idle_timeout     = $::os_service_default,
-  $database_max_pool_size    = $::os_service_default,
-  $database_max_retries      = $::os_service_default,
-  $database_retry_interval   = $::os_service_default,
-  $database_max_overflow     = $::os_service_default,
-  $database_db_max_retries   = $::os_service_default,
+  $database_connection              = $::os_service_default,
+  $database_connection_recycle_time = $::os_service_default,
+  $database_max_pool_size           = $::os_service_default,
+  $database_max_retries             = $::os_service_default,
+  $database_retry_interval          = $::os_service_default,
+  $database_max_overflow            = $::os_service_default,
+  $database_db_max_retries          = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $database_idle_timeout            = undef,
 ) {
 
   include murano::deps
 
-  if !is_service_default($database_connection) {
+  if $database_idle_timeout != undef {
+    warning('The database_idle_timeout parameter is deprecated and has no effect.')
+  }
 
+  if !is_service_default($database_connection) {
     oslo::db { 'murano_cfapi_config':
-      connection     => $database_connection,
-      idle_timeout   => $database_idle_timeout,
-      max_pool_size  => $database_max_pool_size,
-      max_retries    => $database_max_retries,
-      retry_interval => $database_retry_interval,
-      max_overflow   => $database_max_overflow,
-      db_max_retries => $database_db_max_retries,
+      connection              => $database_connection,
+      connection_recycle_time => $database_connection_recycle_time,
+      max_pool_size           => $database_max_pool_size,
+      max_retries             => $database_max_retries,
+      retry_interval          => $database_retry_interval,
+      max_overflow            => $database_max_overflow,
+      db_max_retries          => $database_db_max_retries,
     }
   }
 
