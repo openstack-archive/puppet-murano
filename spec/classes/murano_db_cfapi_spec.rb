@@ -10,24 +10,24 @@ describe 'murano::db_cfapi' do
 
     context 'with specific parameters' do
       let :params do
-        { :database_connection       => 'mysql+pymysql://murano_cfapi:murano_cfapi@localhost/murano_cfapi',
-          :database_idle_timeout     => '3601',
-          :database_max_retries      => '11',
-          :database_retry_interval   => '11',
-          :database_max_pool_size    => '11',
-          :database_max_overflow     => '21',
-          :database_db_max_retries   => '-1',
+        { :database_connection              => 'mysql+pymysql://murano_cfapi:murano_cfapi@localhost/murano_cfapi',
+          :database_connection_recycle_time => '3601',
+          :database_max_retries             => '11',
+          :database_retry_interval          => '11',
+          :database_max_pool_size           => '11',
+          :database_max_overflow            => '21',
+          :database_db_max_retries          => '-1',
         }
       end
 
       it { should contain_oslo__db('murano_cfapi_config').with(
-        :connection     => 'mysql+pymysql://murano_cfapi:murano_cfapi@localhost/murano_cfapi',
-        :idle_timeout   => '3601',
-        :max_pool_size  => '11',
-        :max_retries    => '11',
-        :retry_interval => '11',
-        :max_overflow   => '21',
-        :db_max_retries => '-1',
+        :connection              => 'mysql+pymysql://murano_cfapi:murano_cfapi@localhost/murano_cfapi',
+        :connection_recycle_time => '3601',
+        :max_pool_size           => '11',
+        :max_retries             => '11',
+        :retry_interval          => '11',
+        :max_overflow            => '21',
+        :db_max_retries          => '-1',
       )}
     end
 
