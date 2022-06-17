@@ -19,7 +19,7 @@ describe 'murano::db::mysql' do
   shared_examples_for 'murano mysql database' do
     it { is_expected.to contain_class('murano::deps') }
 
-    context 'when omiting the required parameter password' do
+    context 'when omitting the required parameter password' do
       before { params.delete(:password) }
       it { expect { is_expected.to raise_error(Puppet::Error) } }
     end

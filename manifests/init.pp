@@ -132,7 +132,7 @@
 #   Defaults to false
 #
 # [*cert_file*]
-#   (optinal) Certificate file to use when starting API server securely
+#   (optional) Certificate file to use when starting API server securely
 #   Defaults to $::os_service_default
 #
 # [*key_file*]
@@ -238,7 +238,7 @@
 #   Defaults to undef.
 #
 # [*memcached_servers*]
-#   (optinal) a list of memcached server(s) to use for caching. If left
+#   (optional) a list of memcached server(s) to use for caching. If left
 #   undefined, tokens will instead be cached in-process.
 #   Defaults to undef.
 #
