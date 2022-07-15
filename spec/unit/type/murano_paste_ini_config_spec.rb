@@ -33,7 +33,7 @@ describe 'Puppet::Type.type(:murano_paste_ini_config)' do
     expect(@murano_paste_ini_config[:value]).to eq('bar')
   end
 
-  it 'should not accept a value with whitespace' do
+  it 'should accept a value with whitespace' do
     @murano_paste_ini_config[:value] = 'b ar'
     expect(@murano_paste_ini_config[:value]).to eq('b ar')
   end
