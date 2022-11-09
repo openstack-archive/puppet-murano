@@ -30,7 +30,7 @@ class murano::deps {
 
   # policy config should occur in the config block also.
   Anchor['murano::config::begin']
-  -> Openstacklib::Policy::Base<||>
+  -> Openstacklib::Policy<||>
   ~> Anchor['murano::config::end']
 
   # Installation or config changes will always restart services.
