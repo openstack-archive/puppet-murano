@@ -191,7 +191,7 @@
 #  Defaults to $::os_service_default.
 #
 class murano::keystone::authtoken(
-  $password                       = $::os_service_default,
+  $password,
   $username                       = 'murano',
   $auth_url                       = 'http://localhost:5000',
   $project_name                   = 'services',
@@ -232,30 +232,17 @@ class murano::keystone::authtoken(
 
   include murano::deps
 
-  $www_authenticate_uri_real = pick($::murano::www_authenticate_uri, $www_authenticate_uri)
-  $auth_url_real             = pick($::murano::identity_uri, $auth_url)
-  $username_real             = pick($::murano::admin_user, $username)
-  $password_real             = pick($::murano::admin_password, $password)
-  $project_name_real         = pick($::murano::admin_tenant_name, $project_name)
-  $user_domain_name_real     = pick($::murano::user_domain_name, $user_domain_name)
-  $project_domain_name_real  = pick($::murano::project_domain_name, $project_domain_name)
-  $memcached_servers_real    = pick($::murano::memcached_servers, $memcached_servers)
-
-  if is_service_default($password_real) {
-    fail('The password parameter should be set')
-  }
-
   keystone::resource::authtoken { 'murano_config':
-    username                       => $username_real,
-    password                       => $password_real,
-    project_name                   => $project_name_real,
-    auth_url                       => $auth_url_real,
-    www_authenticate_uri           => $www_authenticate_uri_real,
+    username                       => $username,
+    password                       => $password,
+    project_name                   => $project_name,
+    auth_url                       => $auth_url,
+    www_authenticate_uri           => $www_authenticate_uri,
     auth_version                   => $auth_version,
     auth_type                      => $auth_type,
     auth_section                   => $auth_section,
-    user_domain_name               => $user_domain_name_real,
-    project_domain_name            => $project_domain_name_real,
+    user_domain_name               => $user_domain_name,
+    project_domain_name            => $project_domain_name,
     system_scope                   => $system_scope,
     insecure                       => $insecure,
     cache                          => $cache,
@@ -275,7 +262,7 @@ class murano::keystone::authtoken(
     memcache_security_strategy     => $memcache_security_strategy,
     memcache_use_advanced_pool     => $memcache_use_advanced_pool,
     memcache_pool_unused_timeout   => $memcache_pool_unused_timeout,
-    memcached_servers              => $memcached_servers_real,
+    memcached_servers              => $memcached_servers,
     manage_memcache_package        => $manage_memcache_package,
     region_name                    => $region_name,
     token_cache_time               => $token_cache_time,
