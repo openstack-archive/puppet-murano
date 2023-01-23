@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``murano::keystone::cfapi_authtoken`` class has been added.
