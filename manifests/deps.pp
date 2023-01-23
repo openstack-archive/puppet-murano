@@ -28,6 +28,10 @@ class murano::deps {
   # before dbsync starts
   Oslo::Db<||> -> Anchor['murano::dbsync::begin']
 
+  Anchor['murano::config::begin'] -> Murano_paste_ini_config<||> ~> Anchor['murano::config::end']
+  Anchor['murano::config::begin'] -> Murano_cfapi_config<||> ~> Anchor['murano::config::end']
+  Anchor['murano::config::begin'] -> Murano_cfapi_paste_ini_config<||> ~> Anchor['murano::config::end']
+
   # policy config should occur in the config block also.
   Anchor['murano::config::begin']
   -> Openstacklib::Policy::Base<||>
