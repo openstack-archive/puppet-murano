@@ -304,7 +304,9 @@ class murano(
   include murano::policy
   include murano::db
 
-  validate_legacy(String, 'validate_string', $admin_password)
+  if $admin_password != undef {
+    validate_legacy(String, 'validate_string', $admin_password)
+  }
 
   package { 'murano-common':
     ensure => $package_ensure,
