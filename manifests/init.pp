@@ -207,41 +207,6 @@
 #   in the murano config.
 #   Defaults to false.
 #
-# === Deprecated Parameters
-#
-# [*identity_uri*]
-#  (Optional) Admin identity endpoint
-#  Defaults to undef.
-#
-# [*admin_user*]
-#  (Optional) Username for murano credentials
-#  Defaults to undef.
-#
-# [*admin_password*]
-#  (Optional) Password for murano credentials
-#  Defaults to undef.
-#
-# [*admin_tenant_name*]
-#  (Optional) Tenant for admin_username
-#  Defaults to undef.
-#
-# [*www_authenticate_uri*]
-#  (Optional) Public identity endpoint
-#  Defaults to undef.
-#
-# [*user_domain_name*]
-#   (Optional) Name of domain for $username
-#   Defaults to undef.
-#
-# [*project_domain_name*]
-#   (Optional) Name of domain for $project_name
-#   Defaults to undef.
-#
-# [*memcached_servers*]
-#   (optional) a list of memcached server(s) to use for caching. If left
-#   undefined, tokens will instead be cached in-process.
-#   Defaults to undef.
-#
 class murano(
   $package_ensure             = 'present',
   $data_dir                   = '/var/cache/murano',
@@ -289,24 +254,11 @@ class murano(
   $sync_db                    = true,
   $purge_config               = false,
   $amqp_durable_queues        = $::os_service_default,
-  # Deprecated
-  $identity_uri               = undef,
-  $admin_user                 = undef,
-  $admin_password             = undef,
-  $admin_tenant_name          = undef,
-  $www_authenticate_uri       = undef,
-  $user_domain_name           = undef,
-  $project_domain_name        = undef,
-  $memcached_servers          = undef,
 ) inherits murano::params {
 
   include murano::deps
   include murano::policy
   include murano::db
-
-  if $admin_password != undef {
-    validate_legacy(String, 'validate_string', $admin_password)
-  }
 
   package { 'murano-common':
     ensure => $package_ensure,
@@ -380,22 +332,6 @@ class murano(
     'networking/default_dns': value => $default_nameservers;
 
     'engine/packages_service': value => $packages_service,
-  }
-
-  [
-    'www_authenticate_uri',
-    'identity_uri',
-    'admin_user',
-    'admin_password',
-    'admin_domain_name',
-    'user_domain_name',
-    'project_domain_name',
-    'memcached_servers'
-  ].each |String $opt| {
-    if getvar($opt) != undef {
-      warning("The ${opt} parameter is deprecated. Use the murano::keystone::authtoken class instead")
-      include murano::keystone::authtoken
-    }
   }
 
   oslo::messaging::rabbit { 'murano_config':

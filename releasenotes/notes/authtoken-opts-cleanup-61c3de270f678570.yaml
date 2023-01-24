@@ -1,0 +1,14 @@
+---
+upgrade:
+  - |
+    The following parameters of the ``murano`` class have been removed.
+
+    - ``www_authenticate_uri``
+    - ``identity_uri``
+    - ``admin_user``
+    - ``admin_password``
+    - ``admin_tenant_name``
+    - ``user_domain_name``
+    - ``project_domain_name``
+    - ``memcached_servers``
+
