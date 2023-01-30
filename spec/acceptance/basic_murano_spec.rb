@@ -13,19 +13,7 @@ describe 'basic murano' do
       include openstack_integration::mysql
       include openstack_integration::keystone
 
-      # Murano resources
-      # NOTE(aderyugin): Workaround to fix acceptance tests till murano is not in RDO
-      case $::osfamily {
-        'Debian': {
-          include openstack_integration::murano
-        }
-        'Redhat': {
-          warning('Workaround to fix acceptance tests till murano is not in RDO')
-        }
-        default: {
-          fail("Unsupported osfamily (${::osfamily})")
-        }
-      }
+      include openstack_integration::murano
       EOS
 
 
@@ -34,7 +22,7 @@ describe 'basic murano' do
       apply_manifest(pp, :catch_changes => true)
     end
 
-    describe port(8082), :if => os[:family] == 'debian' do
+    describe port(8082) do
       it { is_expected.to be_listening.with('tcp') }
     end
 
