@@ -85,4 +85,7 @@ Puppet::Type.newtype(:murano_application) do
     raise ArgumentError, 'Name and package path must be set' unless self[:name] and self[:package_path]
   end
 
+  autorequire(:anchor) do
+    ['murano::service::end']
+  end
 end
