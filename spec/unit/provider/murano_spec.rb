@@ -33,7 +33,7 @@ describe Puppet::Provider::Murano do
 
     it 'should fail if config is empty' do
       conf = {}
-      klass.expects(:murano_conf).returns(conf)
+      expect(klass).to receive(:murano_conf).and_return(conf)
       expect do
         klass.murano_credentials
       end.to raise_error(Puppet::Error, credential_error)
@@ -41,7 +41,7 @@ describe Puppet::Provider::Murano do
 
     it 'should fail if config does not have keystone_authtoken section.' do
       conf = {'foo' => 'bar'}
-      klass.expects(:murano_conf).returns(conf)
+      expect(klass).to receive(:murano_conf).and_return(conf)
       expect do
         klass.murano_credentials
       end.to raise_error(Puppet::Error, credential_error)
@@ -49,7 +49,7 @@ describe Puppet::Provider::Murano do
 
     it 'should fail if config does not contain all auth params' do
       conf = {'keystone_authtoken' => {'invalid_value' => 'foo'}}
-      klass.expects(:murano_conf).returns(conf)
+      expect(klass).to receive(:murano_conf).and_return(conf)
       expect do
         klass.murano_credentials
       end.to raise_error(Puppet::Error, credential_error)
@@ -70,8 +70,8 @@ describe Puppet::Provider::Murano do
         :OS_USER_DOMAIN_NAME    => credential_hash['user_domain_name'],
 
       }
-      klass.expects(:get_murano_credentials).with().returns(credential_hash)
-      klass.expects(:withenv).with(authenv)
+      expect(klass).to receive(:get_murano_credentials).with(no_args).and_return(credential_hash)
+      expect(klass).to receive(:withenv).with(authenv)
       klass.auth_murano('test_retries')
     end
 
@@ -96,8 +96,8 @@ describe Puppet::Provider::Murano do
          'project_domain_name' => 'Default',
          'user_domain_name'    => 'Default',
       }
-      Puppet::Util::IniConfig::File.expects(:new).returns(mock)
-      mock.expects(:read).with('/etc/murano/murano.conf')
+      expect(Puppet::Util::IniConfig::File).to receive(:new).and_return(mock)
+      expect(mock).to receive(:read).with('/etc/murano/murano.conf')
       expect(klass.murano_credentials).to eq(creds)
     end
 
@@ -121,18 +121,20 @@ describe Puppet::Provider::Murano do
         :OS_PROJECT_DOMAIN_NAME  => creds['project_domain_name'],
         :OS_USER_DOMAIN_NAME     => creds['user_domain_name'],
       }
-      klass.expects(:get_murano_credentials).with().returns(creds)
-      klass.expects(:withenv).with(authenv)
+      expect(klass).to receive(:get_murano_credentials).with(no_args).and_return(creds)
+      expect(klass).to receive(:withenv).with(authenv)
       klass.auth_murano('test_retries')
     end
 
     ['[Errno 111] Connection refused',
      '(HTTP 400)'].reverse.each do |valid_message|
       it "should retry when murano cli returns with error #{valid_message}" do
-        klass.expects(:get_murano_credentials).with().returns({})
-        klass.expects(:sleep).with(10).returns(nil)
-        klass.expects(:murano).twice.with(['test_retries']).raises(
-          Exception, valid_message).then.returns('')
+        expect(klass).to receive(:get_murano_credentials).with(no_args).and_return({})
+        expect(klass).to receive(:sleep).with(10).and_return(nil)
+        expect(klass).to receive(:murano).with(['test_retries']).and_invoke(
+          lambda { |*args| raise Exception, valid_message},
+          lambda { |*args| return '' }
+        )
         klass.auth_murano('test_retries')
       end
     end

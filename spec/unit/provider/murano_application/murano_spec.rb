@@ -27,16 +27,16 @@ describe provider_class do
   shared_examples 'murano_application' do
     describe '#create' do
       it 'should create application' do
-        provider.expects(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public'] )
-          .returns('')
+        expect(provider).to receive(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public'] )
+          .and_return('')
         provider.create
       end
     end
 
     describe '#flush' do
       it 'should flush application' do
-        provider.expects(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public', '--exists-action', 'u'] )
-          .returns('')
+        expect(provider).to receive(:auth_murano).with("package-import", ['/tmp/io.murano.zip', '--is-public', '--exists-action', 'u'] )
+          .and_return('')
         provider.flush
       end
     end
@@ -44,16 +44,16 @@ describe provider_class do
     describe '#destroy' do
       it 'should destroy application' do
         resource[:ensure] = :absent
-        provider.expects(:auth_murano).with("package-delete", 'io.murano')
-          .returns('')
+        expect(provider).to receive(:auth_murano).with("package-delete", 'io.murano')
+          .and_return('')
         provider.destroy
       end
     end
 
     describe '#instances' do
       it 'finds packages' do
-        provider.class.expects(:auth_murano).with("package-list")
-          .returns("+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| ID                               | Name               | FQN                                    | Author        | Is Public |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| 9a23e4aea548462d82b66f2aee0f196e | Core library       | io.murano                              | murano.io     | True      |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n")
+        expect(provider.class).to receive(:auth_murano).with("package-list")
+          .and_return("+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| ID                               | Name               | FQN                                    | Author        | Is Public |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n| 9a23e4aea548462d82b66f2aee0f196e | Core library       | io.murano                              | murano.io     | True      |\n+----------------------------------+--------------------+----------------------------------------+---------------+-----------+\n")
         instances = provider_class.instances
         expect(instances.count).to eq(1)
         expect(instances[0].name).to eq('io.murano')
