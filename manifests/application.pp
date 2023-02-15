@@ -37,6 +37,9 @@ define murano::application (
 
   include murano::deps
 
+  warning("The murano::application defined type is deprecated. \
+Use the murano_application resource type instead.")
+
   $package_path="/var/cache/murano/meta/${package_name}.zip"
 
   murano_application { $package_name:

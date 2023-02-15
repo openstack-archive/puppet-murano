@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The ``murano::application`` defined resource type has been deprecated and
+    will be removed in a future release. Use the ``murano_application``
+    resource type instead.
