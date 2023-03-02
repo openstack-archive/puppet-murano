@@ -18,23 +18,23 @@
 #
 # [*host*]
 #  (Optional) Host on which murano api should listen
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*port*]
 #  (Optional) Port on which murano api should listen
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*workers*]
 #  (Optional) Number of workers for Murano Api
-#  Defaults to $::os_workers
+#  Defaults to $facts['os_workers']
 #
 class murano::api(
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
-  $host           = $::os_service_default,
-  $port           = $::os_service_default,
-  $workers        = $::os_workers,
+  $host           = $facts['os_service_default'],
+  $port           = $facts['os_service_default'],
+  $workers        = $facts['os_workers'],
 ) {
 
   include murano::deps

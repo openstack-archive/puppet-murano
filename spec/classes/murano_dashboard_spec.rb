@@ -32,7 +32,7 @@ describe 'murano::dashboard' do
 
   shared_examples 'with default class parameters' do
     let(:collect_static_command) {
-      if facts[:operatingsystem] == 'Ubuntu'
+      if facts[:os]['name'] == 'Ubuntu'
         "/usr/share/openstack-dashboard/manage.py collectstatic --noinput"
       else
         "/usr/share/openstack-dashboard/manage.py collectstatic --noinput --clear"
@@ -86,7 +86,7 @@ describe 'murano::dashboard' do
 
   shared_examples 'with parameters override' do
     let(:collect_static_command) {
-      if facts[:operatingsystem] == 'Ubuntu'
+      if facts[:os]['name'] == 'Ubuntu'
         "/bin/openstack-dashboard/manage.py collectstatic --noinput"
       else
         "/bin/openstack-dashboard/manage.py collectstatic --noinput --clear"
@@ -142,13 +142,11 @@ describe 'murano::dashboard' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({
-          :concat_basedir  => '/var/lib/puppet/concat',
-        }))
+        facts.merge!(OSDefaults.get_facts())
       end
 
       let (:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           {
             :dashboard_package_name => 'python3-murano-dashboard',

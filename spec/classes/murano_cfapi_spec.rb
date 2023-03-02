@@ -56,7 +56,7 @@ describe 'murano::cfapi' do
       it_behaves_like 'with default parameters'
       it_behaves_like 'with parameters override'
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'RedHat'
         it_behaves_like 'generic murano service', {
             :name         => 'murano-cfapi',

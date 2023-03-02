@@ -14,7 +14,7 @@ class murano::params {
   $pythonclient_package_name = 'python3-muranoclient'
   $group                     = 'murano'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       # package names
       $api_package_name          = 'openstack-murano-api'
@@ -40,7 +40,7 @@ class murano::params {
       $local_settings_path       = '/etc/openstack-dashboard/local_settings.py'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}")
+      fail("Unsupported osfamily: ${facts['os']['family']}")
     }
   }
 }

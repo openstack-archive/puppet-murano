@@ -33,7 +33,7 @@ describe 'murano::api' do
         }))
       end
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'Debian'
         it_behaves_like 'generic murano service', {
             :name         => 'murano-api',

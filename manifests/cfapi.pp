@@ -22,11 +22,11 @@
 #
 # [*bind_host*]
 #  (Optional) Host on which murano cloudfoundry api should listen
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*bind_port*]
 #  (Optional) Port on which murano cloudfoundry api should listen
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*auth_url*]
 #  (Optional) Public identity endpoint
@@ -35,23 +35,23 @@
 # [*user_domain_name*]
 #  (Optional) User Domain name for connecting to Murano CFAPI services in
 #  admin context through the OpenStack Identity service.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*project_domain_name*]
 #  (Optional) Project Domain name for connecting to Murano CFAPI services in
 #  admin context through the OpenStack Identity service.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 class murano::cfapi(
   $tenant              = 'admin',
   $manage_service      = true,
   $enabled             = true,
   $package_ensure      = 'present',
-  $bind_host           = $::os_service_default,
-  $bind_port           = $::os_service_default,
+  $bind_host           = $facts['os_service_default'],
+  $bind_port           = $facts['os_service_default'],
   $auth_url            = 'http://127.0.0.1:5000',
-  $user_domain_name    = $::os_service_default,
-  $project_domain_name = $::os_service_default,
+  $user_domain_name    = $facts['os_service_default'],
+  $project_domain_name = $facts['os_service_default'],
 ) {
 
   include murano::deps

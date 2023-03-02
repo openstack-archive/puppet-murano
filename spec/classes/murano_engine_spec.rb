@@ -22,12 +22,10 @@ describe 'murano::engine' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({
-          :concat_basedir => '/var/lib/puppet/concat'
-        }))
+        facts.merge!(OSDefaults.get_facts())
       end
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'Debian'
         it_behaves_like 'generic murano service', {
             :name         => 'murano-engine',
