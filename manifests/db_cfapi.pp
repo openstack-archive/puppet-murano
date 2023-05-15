@@ -34,12 +34,6 @@
 #   before error is raised. Set to -1 to specify an infinite retry count.
 #   Defaults to $facts['os_service_default']
 #
-# DEPRECATED PARAMETERS
-#
-# [*database_idle_timeout*]
-#   (Optional) Timeout before idle SQL connections are reaped.
-#   Defaults to undef
-#
 class murano::db_cfapi (
   $database_connection              = $facts['os_service_default'],
   $database_connection_recycle_time = $facts['os_service_default'],
@@ -48,15 +42,9 @@ class murano::db_cfapi (
   $database_retry_interval          = $facts['os_service_default'],
   $database_max_overflow            = $facts['os_service_default'],
   $database_db_max_retries          = $facts['os_service_default'],
-  # DEPRECATED PARAMETERS
-  $database_idle_timeout            = undef,
 ) {
 
   include murano::deps
-
-  if $database_idle_timeout != undef {
-    warning('The database_idle_timeout parameter is deprecated and has no effect.')
-  }
 
   if !is_service_default($database_connection) {
     oslo::db { 'murano_cfapi_config':
