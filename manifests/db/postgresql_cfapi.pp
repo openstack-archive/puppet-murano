@@ -25,7 +25,7 @@
 #    Default to 'ALL'
 #
 class murano::db::postgresql_cfapi(
-  $password,
+  String[1] $password,
   $dbname     = 'murano_cfapi',
   $user       = 'murano_cfapi',
   $encoding   = undef,
@@ -33,8 +33,6 @@ class murano::db::postgresql_cfapi(
 ) {
 
   include murano::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::postgresql { 'murano_cfapi':
     password   => $password,

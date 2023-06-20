@@ -25,7 +25,7 @@
 #    Default to 'ALL'
 #
 class murano::db::postgresql(
-  $password,
+  String[1] $password,
   $dbname     = 'murano',
   $user       = 'murano',
   $encoding   = undef,
@@ -33,8 +33,6 @@ class murano::db::postgresql(
 ) {
 
   include murano::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::postgresql { 'murano':
     password   => $password,

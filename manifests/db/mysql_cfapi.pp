@@ -33,7 +33,7 @@
 #    Defaults to 'utf8_general_ci'.
 #
 class murano::db::mysql_cfapi(
-  $password,
+  String[1] $password,
   $dbname        = 'murano_cfapi',
   $user          = 'murano_cfapi',
   $host          = '127.0.0.1',
@@ -43,8 +43,6 @@ class murano::db::mysql_cfapi(
 ) {
 
   include murano::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql{ 'murano_cfapi':
     user          => $user,
