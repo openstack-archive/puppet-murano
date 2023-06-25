@@ -33,6 +33,7 @@ describe 'murano::policy' do
           :file_group   => 'murano',
           :file_format  => 'yaml',
           :purge_config => false,
+          :tag          => 'murano',
         )
         is_expected.to contain_oslo__policy('murano_config').with(
           :enforce_scope        => false,
@@ -63,6 +64,7 @@ describe 'murano::policy' do
           :file_group   => 'murano',
           :file_format  => 'yaml',
           :purge_config => true,
+          :tag          => 'murano',
         )
         is_expected.to contain_oslo__policy('murano_config').with(
           :enforce_scope        => false,
