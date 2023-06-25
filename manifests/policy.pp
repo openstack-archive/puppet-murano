@@ -65,6 +65,7 @@ class murano::policy (
     file_group   => $::murano::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
+    tag          => 'murano',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
