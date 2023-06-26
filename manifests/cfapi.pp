@@ -64,6 +64,13 @@ class murano::cfapi(
     } else {
       $service_ensure = 'stopped'
     }
+
+    service { 'murano-cfapi':
+      ensure => $service_ensure,
+      name   => $::murano::params::cfapi_service_name,
+      enable => $enabled,
+      tag    => 'murano-service',
+    }
   }
 
   murano_cfapi_config {
@@ -80,12 +87,4 @@ class murano::cfapi(
     name   => $::murano::params::cfapi_package_name,
     tag    => ['openstack', 'murano-package'],
   }
-
-  service { 'murano-cfapi':
-    ensure => $service_ensure,
-    name   => $::murano::params::cfapi_service_name,
-    enable => $enabled,
-    tag    => 'murano-service',
-  }
-
 }

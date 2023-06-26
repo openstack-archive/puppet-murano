@@ -53,8 +53,7 @@ shared_examples 'generic murano service' do |service|
 
   context 'while not managing service state' do
     let :context_params do
-      { :enabled        => false,
-        :manage_service => false }
+      { :manage_service => false }
     end
 
     let :params do
@@ -62,7 +61,7 @@ shared_examples 'generic murano service' do |service|
     end
 
     it 'does not control service state' do
-      is_expected.to contain_service(service[:name]).without_ensure
+      is_expected.to_not contain_service(service[:name])
     end
   end
 end
