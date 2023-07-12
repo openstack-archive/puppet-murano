@@ -191,7 +191,7 @@
 #  Defaults to $facts['os_service_default'].
 #
 class murano::keystone::authtoken(
-  $password,
+  String[1] $password,
   $username                       = 'murano',
   $auth_url                       = 'http://localhost:5000',
   $project_name                   = 'services',

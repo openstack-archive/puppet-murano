@@ -191,7 +191,7 @@
 #  Defaults to $facts['os_service_default'].
 #
 class murano::keystone::cfapi_authtoken(
-  $password,
+  String[1] $password,
   $username                       = 'murano-cfapi',
   $auth_url                       = 'http://localhost:5000',
   $project_name                   = 'services',
