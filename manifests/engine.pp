@@ -21,10 +21,10 @@
 #  Defaults to $facts['os_workers']
 #
 class murano::engine(
-  $manage_service = true,
-  $enabled        = true,
-  $package_ensure = 'present',
-  $workers        = $facts['os_workers'],
+  Boolean $manage_service = true,
+  Boolean $enabled        = true,
+  $package_ensure         = 'present',
+  $workers                = $facts['os_workers'],
 ) {
 
   include murano::deps

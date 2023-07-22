@@ -25,16 +25,16 @@
 #  Defaults to $facts['os_service_default'].
 #
 # [*workers*]
-#  (Optional) Number of workers for Murano Api
-#  Defaults to $facts['os_workers']
+#  (optional) number of workers for Murano Api
+#  defaults to $facts['os_workers']
 #
 class murano::api(
-  $manage_service = true,
-  $enabled        = true,
-  $package_ensure = 'present',
-  $host           = $facts['os_service_default'],
-  $port           = $facts['os_service_default'],
-  $workers        = $facts['os_workers'],
+  Boolean $manage_service = true,
+  Boolean $enabled        = true,
+  $package_ensure         = 'present',
+  $host                   = $facts['os_service_default'],
+  $port                   = $facts['os_service_default'],
+  $workers                = $facts['os_workers'],
 ) {
 
   include murano::deps
