@@ -252,7 +252,7 @@ class murano(
   $database_retry_interval    = undef,
   $database_max_overflow      = undef,
   $sync_db                    = true,
-  $purge_config               = false,
+  Boolean $purge_config       = false,
   $amqp_durable_queues        = $facts['os_service_default'],
 ) inherits murano::params {
 
