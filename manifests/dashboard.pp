@@ -71,6 +71,8 @@ class murano::dashboard(
   include murano::deps
   include murano::params
 
+  include apache::params
+
   package { 'murano-dashboard':
     ensure => $package_ensure,
     name   => $::murano::params::dashboard_package_name,
