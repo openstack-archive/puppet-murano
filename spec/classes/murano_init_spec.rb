@@ -51,7 +51,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>') }
 
       it { is_expected.to contain_murano_config('rabbitmq/login').with_value('guest') }
-      it { is_expected.to contain_murano_config('rabbitmq/password').with_value('guest') }
+      it { is_expected.to contain_murano_config('rabbitmq/password').with_value('guest').with_secret(true) }
       it { is_expected.to contain_murano_config('rabbitmq/host').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('rabbitmq/port').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_murano_config('rabbitmq/virtual_host').with_value('murano') }
@@ -138,7 +138,7 @@ describe 'murano' do
       it { is_expected.to contain_murano_config('oslo_messaging_rabbit/amqp_durable_queues').with_value(true) }
 
       it { is_expected.to contain_murano_config('rabbitmq/login').with_value('murano') }
-      it { is_expected.to contain_murano_config('rabbitmq/password').with_value('secrete') }
+      it { is_expected.to contain_murano_config('rabbitmq/password').with_value('secrete').with_secret(true) }
       it { is_expected.to contain_murano_config('rabbitmq/host').with_value('10.255.0.2') }
       it { is_expected.to contain_murano_config('rabbitmq/port').with_value('5674') }
       it { is_expected.to contain_murano_config('rabbitmq/virtual_host').with_value('murano_vhost') }

@@ -322,7 +322,7 @@ class murano(
     'engine/use_trusts' :     value => $use_trusts;
 
     'rabbitmq/login' :        value => $rabbit_own_user;
-    'rabbitmq/password' :     value => $rabbit_own_password;
+    'rabbitmq/password' :     value => $rabbit_own_password, secret => true;
     'rabbitmq/host' :         value => $rabbit_own_host;
     'rabbitmq/port' :         value => $rabbit_own_port;
     'rabbitmq/virtual_host' : value => $rabbit_own_vhost;
