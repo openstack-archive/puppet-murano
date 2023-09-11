@@ -173,6 +173,17 @@
 #
 # == database configuration options
 #
+# [*sync_db*]
+#   (Optional) Enable dbsync
+#   Defaults to true.
+#
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the murano config.
+#   Defaults to false.
+#
+# DEPRECATED PARAMETERS
+#
 # [*database_connection*]
 #   (Optional) Database URI for murano
 #   Defaults to undef.
@@ -198,15 +209,6 @@
 #   (optional) If set, use this value for max_overflow with sqlalchemy.
 #   Defaults to undef.
 #
-# [*sync_db*]
-#   (Optional) Enable dbsync
-#   Defaults to true.
-#
-# [*purge_config*]
-#   (optional) Whether to set only the specified config options
-#   in the murano config.
-#   Defaults to false.
-#
 class murano(
   $package_ensure             = 'present',
   $data_dir                   = '/var/cache/murano',
@@ -225,6 +227,7 @@ class murano(
   $kombu_failover_strategy    = $facts['os_service_default'],
   $kombu_compression          = $facts['os_service_default'],
   $rabbit_ha_queues           = $facts['os_service_default'],
+  $amqp_durable_queues        = $facts['os_service_default'],
   $rabbit_own_host            = $facts['os_service_default'],
   $rabbit_own_port            = $facts['os_service_default'],
   $rabbit_own_user            = 'guest',
@@ -245,20 +248,34 @@ class murano(
   $default_nameservers        = $facts['os_service_default'],
   $use_trusts                 = $facts['os_service_default'],
   $packages_service           = $facts['os_service_default'],
+  Boolean $sync_db            = true,
+  Boolean $purge_config       = false,
+  # DEPRECATED PARAMETERS
   $database_connection        = undef,
   $database_idle_timeout      = undef,
   $database_max_pool_size     = undef,
   $database_max_retries       = undef,
   $database_retry_interval    = undef,
   $database_max_overflow      = undef,
-  Boolean $sync_db            = true,
-  Boolean $purge_config       = false,
-  $amqp_durable_queues        = $facts['os_service_default'],
 ) inherits murano::params {
 
   include murano::deps
   include murano::policy
   include murano::db
+
+  [
+    'database_connection',
+    'database_idle_timeout',
+    'database_max_pool_size',
+    'database_max_retries',
+    'database_retry_interval',
+    'database_max_overflow'
+  ].each |$db_opt| {
+    if getvar($db_opt) != undef {
+      warning("The murano::${db_opt} parameter has been deprecated. Use \
+the murano::db class parameters.")
+    }
+  }
 
   package { 'murano-common':
     ensure => $package_ensure,
