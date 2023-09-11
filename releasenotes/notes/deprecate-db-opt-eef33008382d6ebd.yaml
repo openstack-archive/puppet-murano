@@ -1,0 +1,12 @@
+---
+deprecations:
+  - |
+    The following parameters of the ``murano`` class have been deprecate. Use
+    the ``murano::db`` class parameters.
+
+    - ``database_connection``
+    - ``database_idle_timeout``
+    - ``database_max_pool_size``
+    - ``database_max_retries``
+    - ``database_retry_interval``
+    - ``database_max_overflow``
