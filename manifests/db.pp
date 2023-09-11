@@ -57,14 +57,23 @@ class murano::db (
 
   include murano::deps
 
-  # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
-  # to use murano::<myparam> if murano::db::<myparam> isn't specified.
-  $database_connection_real              = pick($::murano::database_connection, $database_connection)
-  $database_connection_recycle_time_real = pick($::murano::database_idle_timeout, $database_connection_recycle_time)
-  $database_max_pool_size_real           = pick($::murano::database_max_pool_size, $database_max_pool_size)
-  $database_max_retries_real             = pick($::murano::database_max_retries, $database_max_retries)
-  $database_retry_interval_real          = pick($::murano::database_retry_interval, $database_retry_interval)
-  $database_max_overflow_real            = pick($::murano::database_max_overflow, $database_max_overflow)
+  if defined(Class['murano']) {
+    # NOTE(aderyugin): In order to keep backward compatibility we rely on the pick function
+    # to use murano::<myparam> if murano::db::<myparam> isn't specified.
+    $database_connection_real              = pick($::murano::database_connection, $database_connection)
+    $database_connection_recycle_time_real = pick($::murano::database_idle_timeout, $database_connection_recycle_time)
+    $database_max_pool_size_real           = pick($::murano::database_max_pool_size, $database_max_pool_size)
+    $database_max_retries_real             = pick($::murano::database_max_retries, $database_max_retries)
+    $database_retry_interval_real          = pick($::murano::database_retry_interval, $database_retry_interval)
+    $database_max_overflow_real            = pick($::murano::database_max_overflow, $database_max_overflow)
+  } else {
+    $database_connection_real              = $database_connection
+    $database_connection_recycle_time_real = $database_connection_recycle_time
+    $database_max_pool_size_real           = $database_max_pool_size
+    $database_max_retries_real             = $database_max_retries
+    $database_retry_interval_real          = $database_retry_interval
+    $database_max_overflow_real            = $database_max_overflow
+  }
 
   oslo::db { 'murano_config':
     connection              => $database_connection_real,
