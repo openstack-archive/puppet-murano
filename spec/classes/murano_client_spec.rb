@@ -11,7 +11,7 @@ describe 'murano::client' do
       is_expected.to contain_package('python-muranoclient').with(
         :ensure => 'present',
         :name   => platform_params[:pythonclient_package_name],
-        :tag    => ['openstack', 'murano-packages']
+        :tag    => ['openstack', 'openstackclient', 'murano-package']
       )
     end
   end

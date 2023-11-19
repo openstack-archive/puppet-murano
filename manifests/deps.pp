@@ -37,6 +37,15 @@ class murano::deps {
   -> Openstacklib::Policy<| tag == 'murano' |>
   -> Anchor['murano::config::end']
 
+  # We need openstackclient installed before marking service end so that murano
+  # will have clients available to create resources. This tag handles the
+  # openstackclient but indirectly since the client is not available in
+  # all catalogs that don't need the client class (like many spec tests).
+  # Once the openstackclient is installed we will setup the datastores and
+  # datastore_versions. Datastore_versions must come after datastores.
+  Package<| tag == 'openstackclient'|>
+  -> Anchor['murano::service::end']
+
   # Installation or config changes will always restart services.
   Anchor['murano::install::end'] ~> Anchor['murano::service::begin']
   Anchor['murano::config::end']  ~> Anchor['murano::service::begin']
