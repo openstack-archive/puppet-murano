@@ -105,6 +105,8 @@ class murano::keystone::auth(
 
   include murano::deps
 
+  Keystone::Resource::Service_identity['murano'] -> Anchor['murano::service::end']
+
   keystone::resource::service_identity { 'murano':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,

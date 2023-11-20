@@ -105,6 +105,8 @@ class murano::keystone::cfapi_auth(
 
   include murano::deps
 
+  Keystone::Resource::Service_identity['murano-cfapi'] -> Anchor['murano::service::end']
+
   keystone::resource::service_identity { 'murano-cfapi':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,

@@ -76,7 +76,7 @@ class murano::dashboard(
   package { 'murano-dashboard':
     ensure => $package_ensure,
     name   => $::murano::params::dashboard_package_name,
-    tag    => ['openstack', 'murano-packages'],
+    tag    => ['openstack', 'murano-package'],
   }
 
   concat { $::murano::params::local_settings_path: }

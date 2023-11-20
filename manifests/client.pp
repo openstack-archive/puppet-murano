@@ -15,10 +15,12 @@ class murano::client(
   include murano::deps
   include murano::params
 
+  # NOTE(tkajinam): murano-package tag is used because muranoclient is required
+  #                 by murano
   package { 'python-muranoclient':
     ensure => $package_ensure,
     name   => $::murano::params::pythonclient_package_name,
-    tag    => ['openstack', 'murano-packages'],
+    tag    => ['openstack', 'openstackclient', 'murano-package'],
   }
 
 }
