@@ -1,5 +1,0 @@
----
-features:
-  - Add new parameter "service_url" to override the murano-api url setting.
-    Because when loadbalancer in front of murano-api terminates SSL, the murano
-    api url should be with https while use_ssl is false.

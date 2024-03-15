@@ -1,4 +1,0 @@
----
-features:
-  - Add ability to set configure_user and configure_user_role
-    parameters in murano::keystone::auth and murano::keystone::cfapi_auth

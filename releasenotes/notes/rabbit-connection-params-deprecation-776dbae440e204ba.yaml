@@ -1,6 +1,0 @@
----
-deprecations:
-  - murano::rabbit_os_host, murano::rabbit_os_hosts, murano::rabbit_os_password,
-    murano::rabbit_os_port, murano::rabbit_os_userid and
-    murano::rabbit_os_virtual_host are deprecated.
-    murano::default_transport_url should be used instead.

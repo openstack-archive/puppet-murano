@@ -1,4 +1,0 @@
----
-upgrade:
-  - |
-    The ``murano::db_cfapi::database_idle_timeout`` parameter has been removed.

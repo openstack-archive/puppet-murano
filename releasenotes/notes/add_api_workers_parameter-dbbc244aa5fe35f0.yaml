@@ -1,3 +1,0 @@
----
-features:
-  - Add new parameter "workers" for api, the number of murano-api workers.

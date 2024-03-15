@@ -1,6 +1,0 @@
----
-upgrade:
-  - |
-    The deprecated parameters rabbit_os_host, rabbit_os_hosts, rabbit_os_password,
-    rabbit_os_port, rabbit_os_userid and rabbit_os_virtual_host in ::murano has been removed.
-    Please use the murano::default_transport_url parameter instead.

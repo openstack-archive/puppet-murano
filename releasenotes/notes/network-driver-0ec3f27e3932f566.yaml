@@ -1,3 +1,0 @@
----
-features:
-  - Networking driver now explicitly set based on $use_neutron setting.

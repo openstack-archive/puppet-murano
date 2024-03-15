@@ -1,5 +1,0 @@
----
-features:
-  - |
-    The new ``murano::policy::enforce_new_defaults`` parameter has been
-    added.

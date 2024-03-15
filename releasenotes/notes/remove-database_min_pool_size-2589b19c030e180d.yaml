@@ -1,8 +1,0 @@
----
-features:
-  - |
-    The following three parameters have been removed.
-
-    - ``murano::database_min_pool_size``
-    - ``murano::db::database_min_pool_size``
-    - ``murano::db_cfapi::database_min_pool_size``

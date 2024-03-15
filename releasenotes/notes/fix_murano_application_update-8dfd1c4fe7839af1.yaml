@@ -1,8 +1,0 @@
----
-fixes:
-  - Murano application provider has problem with
-    updating murano package importing, when new version
-    is released. That was because of incorrect handling of
-    'exists-action' option. Now, it has been moved into
-    separate property, that will allow properly handle update
-    if needed.

@@ -1,3 +1,0 @@
----
-features:
-  - Use Keystone endpoint with version-less, to use Keystone v3 when available.
